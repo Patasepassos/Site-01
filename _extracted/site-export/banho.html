@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Banho & Tosa · Cantinho do AuAu</title>
+<link rel="icon" type="image/png" href="mascot/logo-face.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="site.css" />
+<style>
+  .banho-hero-blob{ position:absolute; width:520px; height:500px; right:-30px; top:0; z-index:0;
+    background:radial-gradient(circle at 50% 42%, #C9DDFA, #A7C9F6); filter:blur(.3px);
+    border-radius:46% 54% 57% 43% / 52% 46% 54% 48%; animation:blobMorph 16s ease-in-out infinite; }
+  @keyframes blobMorph{ 0%,100%{ border-radius:46% 54% 57% 43% / 52% 46% 54% 48%; } 50%{ border-radius:54% 46% 44% 56% / 46% 56% 44% 54%; } }
+  /* bubbles */
+  .bubbles i{ position:absolute; bottom:-30px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #fff, #BBD3F6);
+    opacity:.5; animation:rise linear infinite; }
+  @keyframes rise{ to{ transform:translateY(-560px); opacity:0; } }
+  .taxi-band{ position:relative; overflow:hidden; border-radius:36px; padding:50px 52px;
+    background:#fff; box-shadow:var(--shadow-md); display:grid; grid-template-columns:1fr 1.1fr; gap:36px; align-items:center; }
+  @media (max-width:980px){ .taxi-band{ grid-template-columns:1fr; text-align:center; padding:36px 26px; } }
+</style>
+</head>
+<body data-screen-label="Banho">
+<div class="wrap">
+  <div class="topbar-outer">
+    <div class="topbar">
+      <a class="tb-brand" href="index.html" aria-label="Cantinho do AuAu">
+        <span class="tb-badge"><img class="tb-dog" src="mascot/dog-cutout.png" alt="" /></span>
+        <span class="tb-words">
+          <span class="tb-small">Cantinho do</span>
+          <span class="tb-big">Au<span>Au</span></span>
+        </span>
+      </a>
+      <ul class="tb-nav">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="creche.html">Creche</a></li>
+        <li><a href="hotel.html">Hotel</a></li>
+        <li><a href="banho.html" class="active">Banho</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <a class="tb-cta" href="https://wa.me/" target="_blank" rel="noopener">Agendar visita</a>
+    </div>
+  </div>
+
+  <!-- PAGE HERO -->
+  <section class="phero">
+    <div class="banho-hero-blob"></div>
+    <div class="reveal in" style="position:relative; z-index:2;">
+      <span class="eyebrow">🛁 Banho & Tosa</span>
+      <h1 class="h-xl">Cheirosinho, macio e <span class="hl">feliz</span></h1>
+      <p class="lead">Banho, tosa e hidratação com produtos de qualidade e mãos cuidadosas. Sem pressa, sem stress — só aquele dog lindo e relaxado no final.</p>
+      <div class="cta-row" style="display:flex; gap:16px; margin-top:30px; flex-wrap:wrap;">
+        <a class="btn btn-wa btn-lg" href="https://wa.me/" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor"><path d="M16 4C9.9 4 5 8.9 5 15c0 2.1.6 4.1 1.7 5.8L5 27l6.4-1.7c1.6.9 3.5 1.4 5.4 1.4 6.1 0 11-4.9 11-11S22.1 4 16 4zm0 20c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.8 1 1-3.7-.2-.4C7 18.7 6.5 16.9 6.5 15 6.5 9.8 10.8 5.5 16 5.5S25.5 9.8 25.5 15 21.2 24 16 24zm5.3-6.9c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.8-2.8-1.5-3.9-3.4-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6 2 .8 2.7.9 3.7.8.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>
+          Agendar banho
+        </a>
+        <a class="btn btn-white btn-lg" href="#servicos">Ver os serviços</a>
+      </div>
+    </div>
+    <div class="reveal in" style="position:relative; z-index:2;">
+      <div class="ph" data-label="Foto: dog cheiroso depois do banho">
+        <div class="bubbles" aria-hidden="true"></div>
+        <svg class="pawmark" width="120" height="120" viewBox="0 0 64 64" fill="#fff" style="position:relative; z-index:2;"><g><ellipse cx="32" cy="42" rx="18" ry="15"/><ellipse cx="14" cy="26" rx="7.5" ry="10"/><ellipse cx="28" cy="17" rx="7.5" ry="10.5"/><ellipse cx="44" cy="18" rx="7.5" ry="10.5"/><ellipse cx="55" cy="29" rx="7" ry="9.5"/></g></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section" id="servicos">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Nossos serviços</span>
+      <h2 class="h-lg">Tudo pro seu dog ficar <span class="hl">impecável</span></h2>
+      <p class="lead">Cada pelagem pede um cuidado. A gente adapta o serviço pro porte, a raça e a necessidade do seu melhor amigo.</p>
+    </div>
+    <div class="cards c3">
+      <div class="card reveal">
+        <div class="ico ico-blue"><svg width="30" height="30" viewBox="0 0 32 32" fill="#2F74E6"><path d="M16 3c-1 6-7 8-7 14a7 7 0 0014 0c0-6-6-8-7-14z"/></svg></div>
+        <h3 class="h-md">Banho relaxante</h3>
+        <p>Água na temperatura certa, produtos suaves e secagem caprichada. Pelo limpo, brilhante e cheirosinho de longe.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico ico-coral"><svg width="30" height="30" viewBox="0 0 32 32" fill="#FF8A5B"><path d="M7 7l9 9m0 0l9-9m-9 9v10" stroke="#FF8A5B" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="7" cy="7" r="3"/><circle cx="25" cy="7" r="3"/></svg></div>
+        <h3 class="h-md">Tosa higiênica & estética</h3>
+        <p>Da tosa higiênica ao acabamento bonito, respeitando o padrão e o conforto da raça — sempre com paciência.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico ico-green"><svg width="30" height="30" viewBox="0 0 32 32" fill="#34B27B"><path d="M16 4C9 4 6 9 6 15c0 8 10 13 10 13s10-5 10-13c0-6-3-11-10-11z"/><circle cx="16" cy="14" r="3.5" fill="#fff"/></svg></div>
+        <h3 class="h-md">Hidratação da pelagem</h3>
+        <p>Tratamento que nutre os fios, reduz o nó e deixa o pelo macio e saudável. Ideal pra quem tem pelagem longa.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico ico-amber"><svg width="30" height="30" viewBox="0 0 32 32" fill="#F4B740"><path d="M8 18c0-5 3.6-9 8-9s8 4 8 9" fill="none" stroke="#F4B740" stroke-width="3" stroke-linecap="round"/><circle cx="11" cy="22" r="2.5"/><circle cx="16" cy="24" r="2.5"/><circle cx="21" cy="22" r="2.5"/></svg></div>
+        <h3 class="h-md">Cuidados que importam</h3>
+        <p>Limpeza de orelhas, corte de unhas e finalização. Os detalhes que mantêm o bem-estar além da beleza.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico ico-lilac"><svg width="30" height="30" viewBox="0 0 32 32" fill="#9C8CF0"><path d="M16 3l3.5 7.5L27 12l-5.5 5 1.5 8L16 21l-7 4 1.5-8L5 12l7.5-1.5z"/></svg></div>
+        <h3 class="h-md">Sem stress, com carinho</h3>
+        <p>Manejo tranquilo e respeitoso, no tempo do dog. Pra hora do banho deixar de ser drama e virar momento gostoso.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico ico-blue"><svg width="30" height="30" viewBox="0 0 32 32" fill="#2F74E6"><path d="M6 20l5-5 4 4 8-9 3 3v9a2 2 0 01-2 2H8a2 2 0 01-2-2z"/><circle cx="11" cy="11" r="2.5"/></svg></div>
+        <h3 class="h-md">Leva & traz com Taxi Dog</h3>
+        <p>Buscamos seu dog, deixamos lindo e devolvemos em casa. Praticidade total pra sua rotina corrida.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS / TAXI DOG -->
+  <section class="section" id="taxidog">
+    <div class="taxi-band reveal">
+      <div class="ph wide" data-label="Foto: Taxi Dog na porta de casa" style="min-height:240px;">
+        <svg class="pawmark" width="96" height="96" viewBox="0 0 64 64" fill="#fff"><g><ellipse cx="32" cy="42" rx="18" ry="15"/><ellipse cx="14" cy="26" rx="7.5" ry="10"/><ellipse cx="28" cy="17" rx="7.5" ry="10.5"/><ellipse cx="44" cy="18" rx="7.5" ry="10.5"/><ellipse cx="55" cy="29" rx="7" ry="9.5"/></g></svg>
+      </div>
+      <div>
+        <span class="eyebrow">Como funciona · Taxi Dog</span>
+        <h2 class="h-lg" style="margin-top:14px;">Você nem precisa sair de casa</h2>
+        <p class="lead" style="margin-bottom:22px;">Agende pelo WhatsApp, a gente busca, cuida de tudo com carinho e devolve seu dog cheiroso na porta. Simples assim.</p>
+        <div class="steps">
+          <div class="step"><div class="num">1</div><div><h3>Agende no WhatsApp</h3><p>Escolha o dia e o serviço. A gente combina o melhor horário pra buscar.</p></div></div>
+          <div class="step"><div class="num">2</div><div><h3>A gente busca</h3><p>Transporte seguro e tranquilo até o Cantinho — sem stress no caminho.</p></div></div>
+          <div class="step"><div class="num">3</div><div><h3>Banho, tosa & devolução</h3><p>Cuidamos de tudo com calma e levamos seu dog lindo de volta pra casa.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section" id="depoimentos">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Aprovado pelos dogs</span>
+      <h2 class="h-lg">Quem experimentou, <span class="hl">voltou</span></h2>
+    </div>
+    <div class="quotes">
+      <div class="quote reveal">
+        <div class="stars">★★★★★</div>
+        <p>"A tosa da minha Maya ficou perfeita e ela voltou super tranquila. Dá pra ver que foi tratada com paciência. Cheiro que dura dias!"</p>
+        <div class="who"><div class="av">B</div><div><b>Bianca T.</b><span>tutora da Maya</span></div></div>
+      </div>
+      <div class="quote reveal">
+        <div class="stars">★★★★★</div>
+        <p>"O Taxi Dog salvou minha rotina. Buscam o Fred, deixam lindo e trazem de volta. Atendimento nota mil do começo ao fim."</p>
+        <div class="who"><div class="av">D</div><div><b>Diego F.</b><span>tutor do Fred</span></div></div>
+      </div>
+      <div class="quote reveal">
+        <div class="stars">★★★★★</div>
+        <p>"Meu dog tinha medo de banho e aqui ele fica calminho. A hidratação deixou o pelo dele macio demais. Virou cliente fixo."</p>
+        <div class="who"><div class="av">L</div><div><b>Letícia A.</b><span>tutora do Pingo</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" id="contato" style="padding-top:20px;">
+    <div class="cta-band reveal">
+      <svg class="paw-bg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" fill="#fff"><g opacity=".5"><ellipse cx="60" cy="150" rx="20" ry="16"/><ellipse cx="40" cy="125" rx="8" ry="11"/><ellipse cx="58" cy="116" rx="8" ry="11"/><ellipse cx="78" cy="120" rx="8" ry="11"/></g><g opacity=".5"><ellipse cx="330" cy="60" rx="20" ry="16"/><ellipse cx="310" cy="35" rx="8" ry="11"/><ellipse cx="328" cy="26" rx="8" ry="11"/><ellipse cx="348" cy="30" rx="8" ry="11"/></g></svg>
+      <div style="position:relative; z-index:2;">
+        <h2>Bora deixar esse dog cheiroso? 🛁</h2>
+        <p>Agende o banho, a tosa e o Taxi Dog pelo WhatsApp. É rapidinho.</p>
+      </div>
+      <a class="btn btn-white btn-lg" style="position:relative; z-index:2;" href="https://wa.me/" target="_blank" rel="noopener">Agendar agora</a>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <div class="fbrand"><img src="mascot/logo-face.png" alt="" /><b>Cantinho do AuAu</b></div>
+      <p>Creche, hotel e banho com muito amor em São Caetano do Sul. Um cantinho feito pra fazer o rabo do seu melhor amigo balançar.</p>
+    </div>
+    <div>
+      <h4>Serviços</h4>
+      <a href="creche.html">Creche</a>
+      <a href="hotel.html">Hotel</a>
+      <a href="banho.html">Banho & Tosa</a>
+      <a href="#">Taxi Dog</a>
+    </div>
+    <div>
+      <h4>O Cantinho</h4>
+      <a href="index.html">Início</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#contato">Contato</a>
+    </div>
+    <div>
+      <h4>Fale com a gente</h4>
+      <a href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="#">São Caetano do Sul · SP</a>
+      <p style="margin-top:10px;">Seg a Sáb · horário comercial</p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Cantinho do AuAu · Feito com 🐾 e muito carinho</div>
+</footer>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal:not(.in)');
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+      }, { threshold:.12, rootMargin:'0px 0px -8% 0px' });
+      els.forEach(function(e){ io.observe(e); });
+    } else { els.forEach(function(e){ e.classList.add('in'); }); }
+
+    // floating bubbles in the hero placeholder
+    var box = document.querySelector('.bubbles');
+    if(box && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+      for(var i=0;i<14;i++){
+        var b=document.createElement('i');
+        var s=8+Math.random()*22;
+        b.style.width=s+'px'; b.style.height=s+'px';
+        b.style.left=(Math.random()*100)+'%';
+        b.style.animationDuration=(5+Math.random()*6)+'s';
+        b.style.animationDelay=(Math.random()*6)+'s';
+        box.appendChild(b);
+      }
+    }
+  })();
+</script>
+</body>
+</html>

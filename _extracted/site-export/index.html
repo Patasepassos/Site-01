@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cantinho do AuAu</title>
+<link rel="icon" type="image/png" href="mascot/logo-face.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg1:#EAF3FF; --bg2:#D7E7FD;
+    --blue:#2F74E6; --blue-deep:#1E55B8; --blue-soft:#AFCDF6; --blue-tile:#3B82F6;
+    --ink:#1F2E4D; --ink-soft:#5C6B89;
+    --coral:#FF8A5B;
+    --white:#fff;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; }
+  body{
+    font-family:'Nunito',sans-serif; color:var(--ink);
+    background:linear-gradient(165deg,var(--bg1) 0%, var(--bg2) 100%);
+    min-height:100vh; overflow-x:hidden;
+  }
+  a{ text-decoration:none; color:inherit; }
+
+  .wrap{ max-width:1280px; margin:0 auto; padding:0 48px; position:relative; z-index:5; }
+
+  /* ---------- top bar (extensão do logo) ---------- */
+  .topbar-outer{ padding:18px 0 4px; }
+  .topbar{ position:relative; display:flex; align-items:center; gap:22px;
+    background:linear-gradient(100deg,#2C5BD6 0%, #2049B0 100%);
+    border-radius:999px; padding:11px 14px 11px 22px; min-height:76px;
+    box-shadow:0 16px 36px rgba(28,63,160,.30), inset 0 1px 0 rgba(255,255,255,.12); }
+  .tb-brand{ display:flex; align-items:center; gap:14px; flex:none; }
+  .tb-badge{ position:relative; width:58px; height:58px; flex:none; border-radius:17px;
+    background:linear-gradient(150deg,#4C8DF5 0%, #2A60D8 100%);
+    box-shadow:inset 0 1.5px 0 rgba(255,255,255,.28), 0 9px 18px rgba(8,24,70,.38);
+    border:1.5px solid rgba(255,255,255,.30); }
+  .tb-dog{ position:absolute; left:50%; bottom:7px; width:82px; transform:translateX(-50%);
+    display:block; pointer-events:none; filter:drop-shadow(0 6px 8px rgba(0,0,0,.30));
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1); }
+  .tb-brand:hover .tb-dog{ transform:translateX(-50%) translateY(-6px) rotate(-4deg); }
+  .tb-words{ display:flex; flex-direction:column; line-height:.88; }
+  .tb-small{ font-weight:800; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:#A9C6F7; }
+  .tb-big{ font-family:'Baloo 2',cursive; font-weight:800; font-size:27px; color:#fff; letter-spacing:.01em; }
+  .tb-big span{ color:#A9C6F7; }
+  .tb-nav{ display:flex; gap:30px; list-style:none; margin:0 auto; padding:0; }
+  .tb-nav a{ font-weight:700; font-size:16px; color:#E7F0FF; position:relative; padding:6px 2px; }
+  .tb-nav a::after{ content:""; position:absolute; left:0; right:100%; bottom:-3px; height:3px; border-radius:3px; background:#fff; transition:right .25s ease; }
+  .tb-nav a:hover{ color:#fff; }
+  .tb-nav a:hover::after{ right:0; }
+  .tb-cta{ flex:none; margin-left:auto; display:inline-flex; align-items:center; justify-content:center; font-family:'Nunito',sans-serif;
+    font-weight:800; font-size:15px; color:#1E47B4; background:#fff; border-radius:999px; padding:14px 26px;
+    box-shadow:0 8px 18px rgba(13,32,90,.22); transition:transform .18s ease, box-shadow .18s ease; }
+  .tb-cta:hover{ transform:translateY(-3px); box-shadow:0 12px 24px rgba(13,32,90,.30); }
+
+  .btn{ display:inline-flex; align-items:center; justify-content:center; gap:9px; font-family:'Nunito',sans-serif; font-weight:800; border:none; cursor:pointer; border-radius:999px; transition:transform .18s ease, box-shadow .18s ease; }
+  .btn:hover{ transform:translateY(-3px); }
+  .btn-blue{ background:var(--blue); color:#fff; padding:13px 24px; font-size:15px; box-shadow:0 12px 24px rgba(47,116,230,.34); }
+  .btn-blue:hover{ box-shadow:0 16px 30px rgba(47,116,230,.44); }
+  .btn-white{ background:#fff; color:var(--blue-deep); padding:13px 24px; font-size:15px; box-shadow:0 8px 20px rgba(31,46,77,.08); }
+  .btn-lg{ font-size:18px; padding:17px 32px; }
+
+  /* ---------- hero ---------- */
+  .hero{ position:relative; display:grid; grid-template-columns:1.02fr .98fr; align-items:center; gap:30px; min-height:calc(100vh - 100px); padding-bottom:40px; }
+
+  .eyebrow{ display:inline-flex; align-items:center; gap:9px; background:#fff; color:var(--blue-deep);
+    font-weight:800; font-size:14px; letter-spacing:.02em; padding:9px 17px; border-radius:999px;
+    box-shadow:0 6px 16px rgba(47,116,230,.14); margin-bottom:24px; }
+  h1{ font-family:'Baloo 2',cursive; font-weight:800; font-size:62px; line-height:1.04; letter-spacing:-.01em; margin:0 0 20px; }
+  .hl{ color:var(--blue); position:relative; white-space:nowrap; }
+  .hl::after{ content:""; position:absolute; left:-2%; right:-2%; bottom:5px; height:15px; background:var(--blue-soft); opacity:.7; border-radius:8px; z-index:-1; }
+  .lead{ font-weight:600; font-size:20px; line-height:1.55; color:var(--ink-soft); margin:0 0 32px; max-width:520px; }
+  .cta-row{ display:flex; align-items:center; gap:16px; margin-bottom:34px; flex-wrap:wrap; }
+  .trust-row{ display:flex; gap:26px; flex-wrap:wrap; }
+  .trust-item{ display:flex; align-items:center; gap:9px; font-weight:700; font-size:15px; color:#46557a; }
+  .trust-item svg{ flex:none; }
+
+  /* ---------- interactive dog ---------- */
+  .dog-zone{ position:relative; display:grid; place-items:center; height:100%; min-height:560px; }
+  .blob{ position:absolute; width:560px; height:540px; z-index:1;
+    background:radial-gradient(circle at 50% 42%, #BFD8FA 0%, #A7C9F6 55%, #93BCF3 100%);
+    border-radius:46% 54% 57% 43% / 52% 46% 54% 48%;
+    animation:blobMorph 14s ease-in-out infinite; filter:blur(.3px); }
+  @keyframes blobMorph{ 0%,100%{ border-radius:46% 54% 57% 43% / 52% 46% 54% 48%; transform:rotate(0deg);} 50%{ border-radius:54% 46% 44% 56% / 46% 56% 44% 54%; transform:rotate(6deg);} }
+
+  .dog-stage{ position:relative; width:470px; height:496px; z-index:3; display:grid; place-items:center; }
+
+  /* ===== MascotAuau (rig em camadas, pacote oficial) ===== */
+  .m-dog{
+    position:relative; width:var(--m-w, clamp(220px,60vw,380px));
+    aspect-ratio:360 / 380; overflow:visible; cursor:pointer;
+    -webkit-user-select:none; user-select:none;
+    filter:drop-shadow(0 26px 22px rgba(40,62,110,.18));
+    animation:m-float 6s ease-in-out infinite;
+    transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+  }
+  .m-dog.happy{ transform:scale(1.035); }
+  .m-layer{ position:absolute; height:auto; display:block; pointer-events:none; will-change:transform; -webkit-user-drag:none; }
+  .m-head{ position:absolute; inset:0; will-change:transform; }
+  .m-tail{ transform-origin:26% 82%; animation:m-wag var(--m-wag,.5s) ease-in-out infinite; }
+  .m-body{ transform-origin:50% 100%; animation:m-breathe 4s ease-in-out infinite; }
+  .m-ears{ transform-origin:50% 92%; animation:m-ears 5.5s ease-in-out infinite; }
+  .m-tongue{ transform-origin:50% 0%; animation:m-tongue 2s ease-in-out infinite; }
+  .m-eyes{ position:absolute; transform-origin:50% 60%; }
+  .m-eyes-scale{ position:absolute; inset:0; transition:transform .35s cubic-bezier(.34,1.56,.64,1); }
+  .m-dog.happy .m-eyes-scale{ transform:none; }
+  .m-eyelid{ position:absolute; inset:0; transform-origin:50% 55%; transition:transform 60ms ease-in; will-change:transform; }
+  .m-eyelid.blink{ transform:scaleY(.08); }
+  .m-pupils{ position:absolute; inset:0; will-change:transform; }
+  .m-fill{ position:absolute; left:0; top:0; width:100%; display:block; pointer-events:none; -webkit-user-drag:none; }
+  .m-dog.happy .m-tail{ animation-name:m-wagBig; animation-duration:.22s; }
+  @keyframes m-wag    { 0%,100%{ transform:rotate(-18deg);} 50%{ transform:rotate(18deg);} }
+  @keyframes m-wagBig { 0%,100%{ transform:rotate(-24deg);} 50%{ transform:rotate(24deg);} }
+  @keyframes m-breathe{ 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.02);} }
+  @keyframes m-ears   { 0%,100%{ transform:rotate(-3deg);} 50%{ transform:rotate(3deg);} }
+  @keyframes m-tongue { 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(3px);} }
+  @keyframes m-float  { 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-8px);} }
+  @media (prefers-reduced-motion: reduce){
+    .m-dog,.m-tail,.m-body,.m-ears,.m-tongue{ animation:none !important; }
+    .m-eyes-scale,.m-eyelid,.m-dog{ transition:none !important; }
+  }
+  /* ---------- decorations ---------- */
+  .deco{ position:absolute; z-index:2; }
+  .d-circle{ width:120px; height:120px; border-radius:50%; background:var(--blue); opacity:.9; }
+  .d-ring{ width:80px; height:80px; border-radius:50%; border:7px solid var(--blue-soft); }
+  .d-dot{ width:10px; height:10px; border-radius:50%; }
+  .d-tile{ width:78px; height:78px; border-radius:20px; background:var(--blue-tile); display:grid; place-items:center;
+    box-shadow:0 12px 24px rgba(47,116,230,.3); }
+  .dotgrid{ display:grid; grid-template-columns:repeat(5,12px); gap:11px; }
+  .dotgrid i{ width:7px; height:7px; border-radius:50%; background:var(--blue); opacity:.5; }
+
+  .float-a{ animation:floatA 6s ease-in-out infinite; }
+  .float-b{ animation:floatB 7.5s ease-in-out infinite; }
+  .spin-s{ animation:spinS 18s linear infinite; }
+  @keyframes floatA{ 0%,100%{ transform:translateY(0) rotate(0);} 50%{ transform:translateY(-18px) rotate(6deg);} }
+  @keyframes floatB{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(16px);} }
+  @keyframes spinS{ from{ transform:rotate(0);} to{ transform:rotate(360deg);} }
+
+  /* floating tag */
+  .gratis{ position:absolute; z-index:6; top:6%; right:2%; width:104px; height:104px; border-radius:50%;
+    background:var(--coral); color:#fff; display:grid; place-items:center; text-align:center;
+    font-family:'Baloo 2',cursive; font-weight:800; font-size:17px; line-height:1.05;
+    box-shadow:0 14px 26px rgba(255,138,91,.4); animation:tagWiggle 3s ease-in-out infinite; }
+  @keyframes tagWiggle{ 0%,100%{ transform:rotate(-7deg);} 50%{ transform:rotate(7deg);} }
+
+  @media (max-width:980px){
+    .hero{ grid-template-columns:1fr; text-align:center; }
+    .lead{ margin-left:auto; margin-right:auto; }
+    .cta-row,.trust-row{ justify-content:center; }
+    .tb-nav{ display:none; }
+    h1{ font-size:46px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar-outer">
+    <div class="topbar">
+      <a class="tb-brand" href="#" aria-label="Cantinho do AuAu">
+        <span class="tb-badge"><img class="tb-dog" src="mascot/dog-cutout.png" alt="" /></span>
+        <span class="tb-words">
+          <span class="tb-small">Cantinho do</span>
+          <span class="tb-big">Au<span>Au</span></span>
+        </span>
+      </a>
+      <ul class="tb-nav">
+        <li><a href="index.html" class="active">Início</a></li>
+        <li><a href="creche.html">Creche</a></li>
+        <li><a href="hotel.html">Hotel</a></li>
+        <li><a href="banho.html">Banho</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <a class="tb-cta" href="https://wa.me/" target="_blank" rel="noopener">Agendar visita</a>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="hero-text">
+      <span class="eyebrow">
+        <svg width="18" height="18" viewBox="0 0 64 64" aria-hidden="true"><g fill="#2F74E6"><ellipse cx="32" cy="42" rx="18" ry="15"/><ellipse cx="14" cy="26" rx="7.5" ry="10"/><ellipse cx="28" cy="17" rx="7.5" ry="10.5"/><ellipse cx="44" cy="18" rx="7.5" ry="10.5"/><ellipse cx="55" cy="29" rx="7" ry="9.5"/></g></svg>
+        São Caetano do Sul · SP
+      </span>
+      <h1>Um cantinho feito de <span class="hl">amor</span> pro seu melhor AUmigo</h1>
+      <p class="lead">Creche, hotel e banho com muito carinho. Mais socialização, menos ansiedade — e um doguinho feliz te esperando em casa.</p>
+      <div class="cta-row">
+        <a class="btn btn-blue btn-lg" href="https://wa.me/" target="_blank" rel="noopener">Quero 2 dias grátis</a>
+        <a class="btn btn-white btn-lg" href="creche.html">Conhecer a creche</a>
+      </div>
+      <div class="trust-row">
+        <div class="trust-item"><svg width="16" height="16" viewBox="0 0 64 64"><g fill="#2F74E6"><ellipse cx="32" cy="42" rx="18" ry="15"/><ellipse cx="14" cy="26" rx="7.5" ry="10"/><ellipse cx="28" cy="17" rx="7.5" ry="10.5"/><ellipse cx="44" cy="18" rx="7.5" ry="10.5"/><ellipse cx="55" cy="29" rx="7" ry="9.5"/></g></svg> Avaliação grátis</div>
+        <div class="trust-item"><svg width="16" height="16" viewBox="0 0 64 64"><g fill="#2F74E6"><ellipse cx="32" cy="42" rx="18" ry="15"/><ellipse cx="14" cy="26" rx="7.5" ry="10"/><ellipse cx="28" cy="17" rx="7.5" ry="10.5"/><ellipse cx="44" cy="18" rx="7.5" ry="10.5"/><ellipse cx="55" cy="29" rx="7" ry="9.5"/></g></svg> Taxi Dog</div>
+        <div class="trust-item"><svg width="16" height="16" viewBox="0 0 64 64"><g fill="#2F74E6"><ellipse cx="32" cy="42" rx="18" ry="15"/><ellipse cx="14" cy="26" rx="7.5" ry="10"/><ellipse cx="28" cy="17" rx="7.5" ry="10.5"/><ellipse cx="44" cy="18" rx="7.5" ry="10.5"/><ellipse cx="55" cy="29" rx="7" ry="9.5"/></g></svg> Equipe apaixonada</div>
+      </div>
+    </div>
+
+    <div class="dog-zone">
+      <!-- decorations echoing the mascot artwork -->
+      <div class="deco d-circle float-a" style="top:2%; right:4%;"></div>
+      <div class="deco d-ring float-b" style="top:20%; right:0%;"></div>
+      <div class="deco dotgrid float-b" style="top:6%; left:2%;"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="deco dotgrid float-a" style="bottom:8%; right:6%;"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="deco d-tile float-a" style="left:0%; top:46%;">
+        <svg width="38" height="34" viewBox="0 0 32 30" aria-hidden="true"><path d="M16 28 C 2 18 0 9 6 4 c 4 -3 8 -1 10 3 c 2 -4 6 -6 10 -3 c 6 5 4 14 -10 24 Z" fill="#fff"/></svg>
+      </div>
+      <svg class="deco float-b" style="bottom:16%; left:8%;" width="120" height="34" viewBox="0 0 120 34" aria-hidden="true"><path d="M4 22 Q20 4 38 18 T74 18 T110 16" fill="none" stroke="#2F74E6" stroke-width="6" stroke-linecap="round"/></svg>
+
+      <div class="gratis">2 dias<br>GRÁTIS</div>
+      <div class="blob"></div>
+
+      <div class="dog-stage">
+        <div id="mascot"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ===== Porte fiel de MascotAuau.tsx (pacote oficial do mascote) para JS puro ===== */
+(function(){
+  var DEFAULT_LAYOUT = {
+    canvas:{ w:360, h:380 },
+    pieces:{
+      tail:        { x:208, y:232, w:53,  z:1, on:true },
+      body:        { x:70,  y:175, w:175, z:2, on:true },
+      body_notail: { x:94,  y:150, w:175, z:2, on:false },
+      head:        { x:43,  y:49,  w:185, z:3, on:true },
+      ears:        { x:70,  y:8,   w:174, z:4, on:false },
+      eyes:        { x:87,  y:94,  w:96,  z:5, on:true },
+      mouth:       { x:98,  y:139, w:75,  z:6, on:true },
+      tongue:      { x:123, y:171, w:26,  z:7, on:true }
+    }
+  };
+  var FILES = {
+    tail:'tail_edit.png', body:'body_edit.png', body_notail:'body_notail.png',
+    head:'02_head.png', ears:'04_ears.png', eyes:['eyes_base.png','eyes_pupils.png'],
+    mouth:'mouth_edit.png', tongue:'06_tongue.png'
+  };
+  var NAT = { tail:[76,104], body:[175,150], body_notail:[175,150], head:[185,149],
+    ears:[174,100], eyes:[123,54], mouth:[130,84], tongue:[60,47] };
+  var HEAD_GROUP = ['ears','head','eyes','mouth','tongue'];
+  var ANIM = { tail:'m-tail', body:'m-body', body_notail:'m-body', ears:'m-ears', tongue:'m-tongue' };
+
+  function buildMascot(mountEl, opts){
+    opts = opts || {};
+    var layout = opts.layout || DEFAULT_LAYOUT;
+    var base = (opts.basePath || 'mascot/').replace(/\/?$/, '/');
+    var C = layout.canvas || { w:360, h:380 };
+    var url = function(f){ return base + f; };
+    var pct = function(v,t){ return (v/t*100) + '%'; };
+
+    var on = Object.keys(layout.pieces).map(function(k){ return [k, layout.pieces[k]]; })
+      .filter(function(e){ return e[1].on; }).sort(function(a,b){ return a[1].z-b[1].z; });
+    var free = on.filter(function(e){ return HEAD_GROUP.indexOf(e[0])<0; });
+    var headPieces = on.filter(function(e){ return HEAD_GROUP.indexOf(e[0])>=0; });
+    var maxFree = Math.max.apply(null, [0].concat(free.map(function(e){ return e[1].z; })));
+
+    var hp = layout.pieces.head;
+    var Nx = hp ? hp.x + hp.w/2 : C.w/2;
+    var Ny = hp ? hp.y + (hp.w*NAT.head[1]/NAT.head[0])*0.95 : C.h*0.52;
+
+    var dog = document.createElement('div');
+    dog.className = 'm-dog';
+    dog.setAttribute('role','img');
+    dog.setAttribute('aria-label','Auau, o mascote do Cantinho do AUAU');
+    if(opts.width) dog.style.setProperty('--m-w', opts.width);
+
+    var lidEl=null, pupilsEl=null;
+    function posStyle(el,p){ el.style.left=pct(p.x,C.w); el.style.top=pct(p.y,C.h); el.style.width=pct(p.w,C.w); el.style.zIndex=p.z; }
+
+    function renderPiece(key,p,parent){
+      if(key==='eyes'){
+        var b=FILES.eyes[0], pup=FILES.eyes[1];
+        var wrap=document.createElement('div'); wrap.className='m-eyes';
+        posStyle(wrap,p); wrap.style.aspectRatio = NAT.eyes[0]+' / '+NAT.eyes[1];
+        var sc=document.createElement('div'); sc.className='m-eyes-scale';
+        var lid=document.createElement('div'); lid.className='m-eyelid'; lidEl=lid;
+        var ib=document.createElement('img'); ib.className='m-fill'; ib.src=url(b); ib.alt=''; ib.draggable=false;
+        var pupils=document.createElement('div'); pupils.className='m-pupils'; pupilsEl=pupils;
+        var ip=document.createElement('img'); ip.className='m-fill'; ip.src=url(pup); ip.alt=''; ip.draggable=false;
+        pupils.appendChild(ip); lid.appendChild(ib); lid.appendChild(pupils); sc.appendChild(lid); wrap.appendChild(sc);
+        parent.appendChild(wrap); return;
+      }
+      var file=FILES[key]; if(!file) return;
+      var img=document.createElement('img');
+      img.className='m-layer '+(ANIM[key]||''); img.src=url(file); img.alt=''; img.draggable=false;
+      posStyle(img,p); parent.appendChild(img);
+    }
+
+    free.forEach(function(e){ renderPiece(e[0],e[1],dog); });
+    var head=document.createElement('div'); head.className='m-head';
+    head.style.transformOrigin = pct(Nx,C.w)+' '+pct(Ny,C.h);
+    head.style.zIndex = maxFree+1;
+    headPieces.forEach(function(e){ renderPiece(e[0],e[1],head); });
+    dog.appendChild(head);
+    mountEl.appendChild(dog);
+
+    dog.addEventListener('mouseenter',function(){ dog.classList.add('happy'); });
+    dog.addEventListener('mouseleave',function(){ dog.classList.remove('happy'); });
+
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var MAXH=8, MAXP=6, EASE=0.12, TILT=5;
+    var tH=0,cH=0,cT=0,tx=0,cx=0,ty=0,cy=0;
+    var cX=innerWidth/2, cY=innerHeight/2, scl=1;
+    var clamp=function(v,a,b){ return v<a?a : v>b?b : v; };
+    function measure(){ var r=dog.getBoundingClientRect(); cX=r.left+r.width/2; cY=r.top+r.height/2; scl=r.width/C.w; }
+    measure();
+    function onMove(e){
+      var nx=clamp((e.clientX-cX)/(innerWidth*0.5),-1,1);
+      var ny=clamp((e.clientY-cY)/(innerHeight*0.5),-1,1);
+      tH=nx*MAXH; tx=nx*MAXP; ty=ny*MAXP;
+      var dist=Math.hypot(e.clientX-cX,e.clientY-cY);
+      var near=clamp(1-dist/(innerWidth*0.55),0,1);
+      dog.style.setProperty('--m-wag',(0.6-near*0.36).toFixed(3)+'s');
+    }
+    var raf=0;
+    function tick(){
+      var tT = dog.classList.contains('happy') ? -TILT : 0;
+      cH+=(tH-cH)*EASE; cT+=(tT-cT)*EASE; cx+=(tx-cx)*EASE; cy+=(ty-cy)*EASE;
+      head.style.transform='rotate('+(cH+cT).toFixed(3)+'deg)';
+      if(pupilsEl) pupilsEl.style.transform='translate('+(cx*scl).toFixed(2)+'px,'+(cy*scl).toFixed(2)+'px)';
+      raf=requestAnimationFrame(tick);
+    }
+    var blinkT;
+    function blink(){
+      if(lidEl){ lidEl.classList.add('blink'); setTimeout(function(){ lidEl.classList.remove('blink'); },120); }
+      blinkT=setTimeout(blink, 3000+Math.random()*4000);
+    }
+    if(!reduce){
+      addEventListener('mousemove',onMove,{passive:true});
+      addEventListener('resize',measure);
+      addEventListener('scroll',measure,{passive:true});
+      raf=requestAnimationFrame(tick);
+      blinkT=setTimeout(blink, 2000+Math.random()*3000);
+    }
+  }
+
+  buildMascot(document.getElementById('mascot'), { width:'clamp(280px, 30vw, 430px)' });
+})();
+</script>
+</body>
+</html>

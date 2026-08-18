@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hotel · Cantinho do AuAu</title>
+<link rel="icon" type="image/png" href="mascot/logo-face.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="site.css" />
+<style>
+  .hotel-hero-blob{ position:absolute; width:520px; height:500px; right:-30px; top:0; z-index:0;
+    background:radial-gradient(circle at 50% 42%, #C9DDFA, #A7C9F6); filter:blur(.3px);
+    border-radius:46% 54% 57% 43% / 52% 46% 54% 48%; animation:blobMorph 16s ease-in-out infinite; }
+  @keyframes blobMorph{ 0%,100%{ border-radius:46% 54% 57% 43% / 52% 46% 54% 48%; } 50%{ border-radius:54% 46% 44% 56% / 46% 56% 44% 54%; } }
+  .gallery{ display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:170px; gap:18px; }
+  .gallery .ph{ width:100%; height:100%; }
+  .gallery .span2{ grid-row:span 2; }
+  @media (max-width:980px){ .gallery{ grid-template-columns:1fr 1fr; } .gallery .span2{ grid-row:auto; } }
+</style>
+</head>
+<body data-screen-label="Hotel">
+<div class="wrap">
+  <div class="topbar-outer">
+    <div class="topbar">
+      <a class="tb-brand" href="index.html" aria-label="Cantinho do AuAu">
+        <span class="tb-badge"><img class="tb-dog" src="mascot/dog-cutout.png" alt="" /></span>
+        <span class="tb-words">
+          <span class="tb-small">Cantinho do</span>
+          <span class="tb-big">Au<span>Au</span></span>
+        </span>
+      </a>
+      <ul class="tb-nav">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="creche.html">Creche</a></li>
+        <li><a href="hotel.html" class="active">Hotel</a></li>
+        <li><a href="banho.html">Banho</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <a class="tb-cta" href="https://wa.me/" target="_blank" rel="noopener">Agendar visita</a>
+    </div>
+  </div>
+
+  <!-- PAGE HERO -->
+  <section class="phero">
+    <div class="hotel-hero-blob"></div>
+    <div class="reveal in" style="position:relative; z-index:2;">
+      <span class="eyebrow">🏠 Hotel para cães</span>
+      <h1 class="h-xl">Viaje tranquilo. Ele fica em <span class="hl">boas patas</span></h1>
+      <p class="lead">Hospedagem com a sensação de casa: rotina, conforto e companhia o tempo todo. Seu melhor amigo dorme em paz e você recebe notícias dele.</p>
+      <div class="cta-row" style="display:flex; gap:16px; margin-top:30px; flex-wrap:wrap;">
+        <a class="btn btn-wa btn-lg" href="https://wa.me/" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor"><path d="M16 4C9.9 4 5 8.9 5 15c0 2.1.6 4.1 1.7 5.8L5 27l6.4-1.7c1.6.9 3.5 1.4 5.4 1.4 6.1 0 11-4.9 11-11S22.1 4 16 4zm0 20c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.8 1 1-3.7-.2-.4C7 18.7 6.5 16.9 6.5 15 6.5 9.8 10.8 5.5 16 5.5S25.5 9.8 25.5 15 21.2 24 16 24zm5.3-6.9c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.7-.8-2.8-1.5-3.9-3.4-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6 2 .8 2.7.9 3.7.8.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>
+          Reservar pelo WhatsApp
+        </a>
+        <a class="btn btn-white btn-lg" href="#estrutura">Ver a estrutura</a>
+      </div>
+    </div>
+    <div class="reveal in" style="position:relative; z-index:2;">
+      <div class="ph" data-label="Foto: dog descansando confortável no hotel">
+        <svg class="pawmark" width="120" height="120" viewBox="0 0 64 64" fill="#fff"><g><ellipse cx="32" cy="42" rx="18" ry="15"/><ellipse cx="14" cy="26" rx="7.5" ry="10"/><ellipse cx="28" cy="17" rx="7.5" ry="10.5"/><ellipse cx="44" cy="18" rx="7.5" ry="10.5"/><ellipse cx="55" cy="29" rx="7" ry="9.5"/></g></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="como-funciona">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Como funciona a hospedagem</span>
+      <h2 class="h-lg">Da reserva ao reencontro, <span class="hl">sem stress</span></h2>
+      <p class="lead">Um processo simples e transparente pra você deixar seu dog com a gente e viajar leve.</p>
+    </div>
+    <div class="steps" style="max-width:820px; margin:0 auto;">
+      <div class="step reveal"><div class="num">1</div><div><h3>Conversa & reserva</h3><p>A gente entende a rotina, a alimentação e o jeitinho do seu dog. Você reserva as diárias pelo WhatsApp.</p></div></div>
+      <div class="step reveal"><div class="num">2</div><div><h3>Check-in tranquilo</h3><p>Chegada acolhedora (ou buscamos com o Taxi Dog). Levamos a caminha, o brinquedo e a ração de casa pra manter o conforto.</p></div></div>
+      <div class="step reveal"><div class="num">3</div><div><h3>Dias cheios de companhia</h3><p>Rotina parecida com a de casa: passeios, brincadeira, alimentação no horário e muito carinho. Nunca sozinho.</p></div></div>
+      <div class="step reveal"><div class="num">4</div><div><h3>Notícias pra você</h3><p>Enviamos fotos e atualizações durante a estadia. Você acompanha cada dia tranquilo, de onde estiver.</p></div></div>
+      <div class="step reveal"><div class="num">5</div><div><h3>Reencontro feliz</h3><p>No check-out, seu melhor amigo volta saudável, bem cuidado e com aquela festa gostosa de quem foi muito bem tratado.</p></div></div>
+    </div>
+  </section>
+
+  <!-- STRUCTURE -->
+  <section class="section" id="estrutura">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Estrutura & acomodações</span>
+      <h2 class="h-lg">Um cantinho confortável de verdade</h2>
+    </div>
+    <div class="cards c3" style="margin-bottom:28px;">
+      <div class="card reveal">
+        <div class="ico ico-blue"><svg width="30" height="30" viewBox="0 0 32 32" fill="#2F74E6"><path d="M4 16L16 6l12 10v10a2 2 0 01-2 2H6a2 2 0 01-2-2z"/></svg></div>
+        <h3 class="h-md">Ambiente climatizado</h3>
+        <p>Espaços arejados e na temperatura ideal, pensados pro descanso seguro em qualquer estação do ano.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico ico-green"><svg width="30" height="30" viewBox="0 0 32 32" fill="#34B27B"><path d="M16 3C9 3 6 8 6 14c0 8 10 15 10 15s10-7 10-15c0-6-3-11-10-11z"/></svg></div>
+        <h3 class="h-md">Área pra gastar energia</h3>
+        <p>Espaço para passeios e brincadeiras supervisionadas todos os dias — corpo ativo, mente tranquila.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico ico-amber"><svg width="30" height="30" viewBox="0 0 32 32" fill="#F4B740"><circle cx="16" cy="16" r="13"/><path d="M16 8v8l5 3" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></div>
+        <h3 class="h-md">Rotina no horário</h3>
+        <p>Alimentação, passeios e descanso sempre nos mesmos horários, mantendo o relógio biológico do seu dog em paz.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico ico-coral"><svg width="30" height="30" viewBox="0 0 32 32" fill="#FF8A5B"><path d="M16 28S4 20.5 4 12.5C4 8.4 7.1 5.5 11 5.5c2.3 0 4.1 1.2 5 2.7.9-1.5 2.7-2.7 5-2.7 3.9 0 7 2.9 7 7C28 20.5 16 28 16 28z"/></svg></div>
+        <h3 class="h-md">Cuidado individual</h3>
+        <p>Cada hóspede tem seu espaço de descanso. Cães se hospedam respeitando o porte, a energia e a personalidade.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico ico-lilac"><svg width="30" height="30" viewBox="0 0 32 32" fill="#9C8CF0"><rect x="6" y="9" width="20" height="14" rx="3"/><circle cx="16" cy="16" r="3.5" fill="#fff"/></svg></div>
+        <h3 class="h-md">Olho atento o tempo todo</h3>
+        <p>Equipe presente e monitoramento durante o dia. Qualquer mudança no comportamento é percebida na hora.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico ico-blue"><svg width="30" height="30" viewBox="0 0 32 32" fill="#2F74E6"><path d="M6 20l5-5 4 4 8-9 3 3v9a2 2 0 01-2 2H8a2 2 0 01-2-2z"/><circle cx="11" cy="11" r="2.5"/></svg></div>
+        <h3 class="h-md">Taxi Dog incluso na conversa</h3>
+        <p>Sem tempo de levar e buscar? A gente vai até você com todo o cuidado no transporte, na ida e na volta.</p>
+      </div>
+    </div>
+    <div class="gallery reveal">
+      <div class="ph span2" data-label="Área de descanso"></div>
+      <div class="ph" data-label="Passeio"></div>
+      <div class="ph" data-label="Brincadeira"></div>
+      <div class="ph" data-label="Soneca"></div>
+      <div class="ph" data-label="Hora do petisco"></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section" id="depoimentos">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Tutores que viajaram tranquilos</span>
+      <h2 class="h-lg">Histórias de quem <span class="hl">confiou</span></h2>
+    </div>
+    <div class="quotes">
+      <div class="quote reveal">
+        <div class="stars">★★★★★</div>
+        <p>"Viajei 10 dias e recebi foto do Bento todo dia. Voltei e ele estava ótimo, parecia que tinha ido pra colônia de férias!"</p>
+        <div class="who"><div class="av">A</div><div><b>Amanda L.</b><span>tutora do Bento</span></div></div>
+      </div>
+      <div class="quote reveal">
+        <div class="stars">★★★★★</div>
+        <p>"Tenho pavor de deixar a Lola em qualquer lugar, mas aqui foi diferente. Cuidaram da rotina e da ração dela certinho. Confiança total."</p>
+        <div class="who"><div class="av">M</div><div><b>Marcos V.</b><span>tutor da Lola</span></div></div>
+      </div>
+      <div class="quote reveal">
+        <div class="stars">★★★★★</div>
+        <p>"O Taxi Dog buscou e trouxe o Simba em casa. Praticidade e carinho num lugar só. Já é o hotel oficial dele."</p>
+        <div class="who"><div class="av">P</div><div><b>Patrícia R.</b><span>tutora do Simba</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" id="contato" style="padding-top:20px;">
+    <div class="cta-band reveal">
+      <svg class="paw-bg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" fill="#fff"><g opacity=".5"><ellipse cx="60" cy="150" rx="20" ry="16"/><ellipse cx="40" cy="125" rx="8" ry="11"/><ellipse cx="58" cy="116" rx="8" ry="11"/><ellipse cx="78" cy="120" rx="8" ry="11"/></g><g opacity=".5"><ellipse cx="330" cy="60" rx="20" ry="16"/><ellipse cx="310" cy="35" rx="8" ry="11"/><ellipse cx="328" cy="26" rx="8" ry="11"/><ellipse cx="348" cy="30" rx="8" ry="11"/></g></svg>
+      <div style="position:relative; z-index:2;">
+        <h2>Vai viajar? Garanta o cantinho dele 🧳</h2>
+        <p>Consulte disponibilidade de diárias e tire suas dúvidas com a gente pelo WhatsApp.</p>
+      </div>
+      <a class="btn btn-white btn-lg" style="position:relative; z-index:2;" href="https://wa.me/" target="_blank" rel="noopener">Reservar hospedagem</a>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <div class="fbrand"><img src="mascot/logo-face.png" alt="" /><b>Cantinho do AuAu</b></div>
+      <p>Creche, hotel e banho com muito amor em São Caetano do Sul. Um cantinho feito pra fazer o rabo do seu melhor amigo balançar.</p>
+    </div>
+    <div>
+      <h4>Serviços</h4>
+      <a href="creche.html">Creche</a>
+      <a href="hotel.html">Hotel</a>
+      <a href="banho.html">Banho & Tosa</a>
+      <a href="#">Taxi Dog</a>
+    </div>
+    <div>
+      <h4>O Cantinho</h4>
+      <a href="index.html">Início</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#contato">Contato</a>
+    </div>
+    <div>
+      <h4>Fale com a gente</h4>
+      <a href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="#">São Caetano do Sul · SP</a>
+      <p style="margin-top:10px;">Seg a Sáb · horário comercial</p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Cantinho do AuAu · Feito com 🐾 e muito carinho</div>
+</footer>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal:not(.in)');
+    if(!('IntersectionObserver' in window)){ els.forEach(function(e){ e.classList.add('in'); }); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold:.12, rootMargin:'0px 0px -8% 0px' });
+    els.forEach(function(e){ io.observe(e); });
+  })();
+</script>
+</body>
+</html>

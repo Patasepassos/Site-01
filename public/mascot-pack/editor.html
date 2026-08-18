@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AUAU — Editor de posições</title>
+  <link rel="stylesheet" href="editor.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- ===================== ÁREA DE EDIÇÃO ===================== -->
+    <section class="board">
+      <div id="stage" class="stage">
+        <div class="guides"></div>
+        <!-- as peças são injetadas pelo editor.js -->
+      </div>
+      <p class="tip">
+        <b>Arraste</b> as peças · <b>clique</b> para selecionar · <b>setas</b> = mover 1px
+        (Shift = 10) · <b>scroll</b> = redimensionar · <b>[</b> / <b>]</b> = ordem de camada
+      </p>
+    </section>
+
+    <!-- ===================== PAINEL ===================== -->
+    <aside class="panel">
+      <h1>🐾 Editor de posições</h1>
+      <p class="sub">Posicione cada peça. Os valores abaixo atualizam em tempo real —
+        quando terminar, clique <b>Copiar</b> e me mande, ou me diga “pronto” que eu leio direto.</p>
+
+      <div class="row toolbar hide-on-cut">
+        <button id="sim" class="primary wide">▶ Simular movimento</button>
+      </div>
+      <div class="row toolbar hide-on-cut">
+        <button id="cut" class="wide">✂️ Recortar peça (desenho)</button>
+      </div>
+      <div class="row toolbar hide-on-cut">
+        <button id="front" title="Trazer a peça selecionada uma camada para frente ( ] )">⬆ Frente</button>
+        <button id="back"  title="Mandar a peça selecionada uma camada para trás ( [ )">⬇ Trás</button>
+        <button id="reset">↺ Resetar</button>
+        <button id="copy">⧉ Copiar JSON</button>
+      </div>
+      <div class="row toolbar hide-on-cut">
+        <button id="export" class="primary wide">💾 Salvar recortes + layout no projeto</button>
+      </div>
+      <p id="simhint" class="simhint hide-on-cut" hidden>🐾 Simulando — mexa o mouse na tela que o Auau te segue. Clique em <b>Parar</b> pra continuar editando.</p>
+
+      <!-- ferramentas de recorte à mão livre (aparecem só no modo recorte) -->
+      <div id="cutbar" class="cutbar">
+        <div class="cuttools">
+          <button class="cuttool active" data-tool="lasso">🪢 Laço</button>
+          <button class="cuttool" data-tool="erase">🩹 Borracha</button>
+          <button class="cuttool" data-tool="restore">↩︎ Restaurar</button>
+        </div>
+        <label class="cutrow">Pincel <input id="brush" type="range" min="4" max="70" value="22"><span id="brushv">22</span></label>
+        <div class="cutrow">
+          <button id="undo">↶ Desfazer</button>
+          <button id="cutorig">⟲ Original</button>
+          <button id="dlpng">⬇ Baixar PNG</button>
+        </div>
+        <div class="cutrow">
+          <button id="cutdone" class="primary">✓ Concluir</button>
+          <button id="cutcancel">✕ Cancelar</button>
+        </div>
+        <p id="cuthint" class="cuthint"></p>
+      </div>
+
+      <ul id="list" class="list hide-on-cut"><!-- linhas por peça --></ul>
+
+      <label class="lbl hide-on-cut">JSON (base 360×380, origem = canto sup. esquerdo)</label>
+      <textarea id="json" class="hide-on-cut" spellcheck="false" readonly></textarea>
+
+      <div class="row hide-on-cut">
+        <a href="index.html" class="link">← ver versão animada</a>
+        <span id="saved" class="saved"></span>
+      </div>
+    </aside>
+  </div>
+
+  <script src="editor.js"></script>
+</body>
+</html>

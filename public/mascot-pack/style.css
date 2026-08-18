@@ -1,0 +1,171 @@
+/* ============================================================
+   Cantinho do AUAU — Mascote interativo
+   Layout: every part is absolutely positioned in % of a 360x380
+   stage, so the whole mascot scales with one width (responsive).
+   Animation: only `transform` (GPU-composited) -> stays at 60fps.
+   ============================================================ */
+
+:root {
+  --wag: 0.5s;          /* tail wag period — JS shortens it on proximity/hover */
+  --sky-1: #eaf1fb;
+  --sky-2: #d6e6fb;
+  --ink:   #21314d;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: ui-rounded, "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(120% 90% at 50% 8%, #ffffff 0%, var(--sky-1) 45%, var(--sky-2) 100%);
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, 2vw, 18px);
+  padding: 24px 16px 40px;
+  text-align: center;
+}
+
+.copy .badge {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #fff;
+  color: #3b6fd6;
+  box-shadow: 0 6px 18px rgba(59, 111, 214, 0.18);
+}
+.copy h1 {
+  margin: 14px 0 6px;
+  font-size: clamp(1.7rem, 5vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.copy h1 span { color: #3b6fd6; }
+.copy p {
+  margin: 0 auto;
+  max-width: 36ch;
+  font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+  opacity: 0.78;
+  line-height: 1.5;
+}
+.hint { font-size: 0.8rem; opacity: 0.45; margin: 4px 0 0; }
+
+/* ---------------- Stage / mascot box ---------------- */
+.dog {
+  position: relative;
+  width: clamp(230px, 64vw, 380px);
+  aspect-ratio: 360 / 380;
+  margin-top: 4px;
+  cursor: pointer;
+  overflow: visible;                 /* ears can swing past the box */
+  -webkit-user-select: none;
+  user-select: none;
+  /* gentle ground shadow */
+  filter: drop-shadow(0 26px 22px rgba(40, 62, 110, 0.18));
+  /* soft idle float of the whole dog */
+  animation: float 6s ease-in-out infinite;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.dog.happy { transform: scale(1.035); }
+
+/* Every cutout: absolutely placed by its top-left % + width %.
+   height:auto keeps each PNG's native aspect ratio. */
+.layer {
+  position: absolute;
+  height: auto;
+  display: block;
+  pointer-events: none;              /* hover is handled by #dog */
+  will-change: transform;
+  -webkit-user-drag: none;
+}
+
+/* ---- z-order (back -> front): tail, body, head, ears, eyes, mouth, tongue ---- */
+#tail   { left: 58.333%; top: 35.263%; width: 21.111%; z-index: 1;
+          transform-origin: 26% 82%;
+          animation: wag var(--wag) ease-in-out infinite; }
+#body   { left: 19.444%; top: 46.053%; width: 48.611%; z-index: 2;
+          transform-origin: 50% 100%;
+          animation: breathe 4s ease-in-out infinite; }
+
+#head-container {
+  position: absolute;
+  inset: 0;                          /* full stage; rotates around the neck */
+  z-index: 3;
+  transform-origin: 43.75% 50.5%;
+  will-change: transform;
+}
+
+#ears   { left: 19.444%; top: 2.105%;  width: 48.333%; z-index: 4;
+          transform-origin: 50% 92%;
+          animation: ears 5.5s ease-in-out infinite; }
+#head   { left: 18.056%; top: 13.421%; width: 51.389%; z-index: 3; }
+
+#eyes {                               /* happy-scale wrapper */
+  position: absolute;
+  left: 26.667%; top: 25%;
+  width: 34.167%;
+  aspect-ratio: 123 / 54;
+  z-index: 5;
+  transform-origin: 50% 60%;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.dog.happy #eyes { transform: scale(1.1); }
+
+#eye-lid {                            /* blink — scaleY toward the eye line */
+  position: absolute; inset: 0;
+  transform-origin: 50% 55%;
+  transition: transform 60ms ease-in;
+  will-change: transform;
+}
+#eye-lid.blink { transform: scaleY(0.08); }
+
+#eyes-base { left: 0; top: 0; width: 100%; }
+#pupils    { position: absolute; inset: 0; will-change: transform; } /* JS translate */
+#pupils-img{ left: 0; top: 0; width: 100%; }
+
+#mouth  { left: 25.833%; top: 31.579%; width: 36.111%; z-index: 6; }
+#tongue { left: 35.556%; top: 39.474%; width: 16.667%; z-index: 7;
+          transform-origin: 50% 0%;
+          animation: tongue 2s ease-in-out infinite; }
+
+/* ============================================================
+   Keyframes — idle life
+   ============================================================ */
+@keyframes wag      { 0%,100% { transform: rotate(-18deg); }
+                      50%     { transform: rotate(18deg);  } }
+@keyframes breathe  { 0%,100% { transform: scale(1);    }
+                      50%     { transform: scale(1.02); } }
+@keyframes ears     { 0%,100% { transform: rotate(-3deg); }
+                      50%     { transform: rotate(3deg);  } }
+@keyframes tongue   { 0%,100% { transform: translateY(0);   }
+                      50%     { transform: translateY(3px);  } }
+@keyframes float    { 0%,100% { transform: translateY(0);    }
+                      50%     { transform: translateY(-8px);  } }
+
+/* hover: tail wags noticeably faster + wider */
+.dog.happy #tail { animation-duration: 0.22s; }
+.dog.happy #tail { animation-name: wagBig; }
+@keyframes wagBig   { 0%,100% { transform: rotate(-24deg); }
+                      50%     { transform: rotate(24deg);  } }
+
+/* ---------------- Accessibility ---------------- */
+@media (prefers-reduced-motion: reduce) {
+  .dog, #tail, #body, #ears, #tongue { animation: none !important; }
+  #eyes, #eye-lid, .dog { transition: none !important; }
+}

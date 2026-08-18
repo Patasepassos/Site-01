@@ -1,0 +1,16 @@
+{
+  "_comment": "Montagem final do Auau definida pelo Henry no editor (não alterar sem pedir). base 360x380, origem = canto superior esquerdo. body e mouth têm recorte à mão (parts/body_edit.png, parts/mouth_edit.png). Orelhas (04) off: já fazem parte de parts/02_head.png.",
+  "canvas": { "w": 360, "h": 380 },
+  "origin": "top-left",
+  "active": ["tail", "body", "head", "eyes", "mouth", "tongue"],
+  "pieces": {
+    "tail":        { "x": 208, "y": 232, "w": 53,  "z": 1, "on": true,  "src": "parts/tail_edit.png", "edited": true },
+    "body":        { "x": 70,  "y": 175, "w": 175, "z": 2, "on": true,  "src": "parts/body_edit.png", "edited": true },
+    "body_notail": { "x": 94,  "y": 150, "w": 175, "z": 2, "on": false, "src": "parts/body_notail.png" },
+    "head":        { "x": 43,  "y": 49,  "w": 185, "z": 3, "on": true,  "src": "parts/02_head.png" },
+    "ears":        { "x": 70,  "y": 8,   "w": 174, "z": 4, "on": false, "src": "parts/04_ears.png" },
+    "eyes":        { "x": 87,  "y": 94,  "w": 96,  "z": 5, "on": true,  "src": ["parts/eyes_base.png", "parts/eyes_pupils.png"] },
+    "mouth":       { "x": 98,  "y": 139, "w": 75,  "z": 6, "on": true,  "src": "parts/mouth_edit.png", "edited": true },
+    "tongue":      { "x": 123, "y": 171, "w": 26,  "z": 7, "on": true,  "src": "parts/06_tongue.png" }
+  }
+}

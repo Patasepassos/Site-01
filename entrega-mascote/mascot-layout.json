@@ -1,0 +1,16 @@
+{
+  "_comment": "Montagem final do Auau (base 360x380, origem = canto superior esquerdo, valores em px). Mesmo formato do botão 'Copiar JSON' do editor. Orelhas (04) ficam off: já fazem parte do PNG da cabeça (02_head.png).",
+  "canvas": { "w": 360, "h": 380 },
+  "origin": "top-left",
+  "active": ["tail", "body", "head", "eyes", "mouth", "tongue"],
+  "pieces": {
+    "tail":        { "x": 208, "y": 232, "w": 53,  "z": 1, "on": true },
+    "body":        { "x": 70,  "y": 175, "w": 175, "z": 2, "on": true },
+    "body_notail": { "x": 94,  "y": 150, "w": 175, "z": 2, "on": false },
+    "head":        { "x": 43,  "y": 49,  "w": 185, "z": 3, "on": true },
+    "ears":        { "x": 70,  "y": 8,   "w": 174, "z": 4, "on": false },
+    "eyes":        { "x": 87,  "y": 94,  "w": 96,  "z": 5, "on": true },
+    "mouth":       { "x": 98,  "y": 139, "w": 75,  "z": 6, "on": true },
+    "tongue":      { "x": 123, "y": 171, "w": 26,  "z": 7, "on": true }
+  }
+}

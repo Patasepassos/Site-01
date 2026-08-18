@@ -1,0 +1,59 @@
+/* MascotAuau — estilos do mascote interativo.
+   Só `transform` é animado (composição na GPU) -> 60fps.
+   As posições das peças vêm inline do componente (em % da base 360x380). */
+
+.m-dog {
+  position: relative;
+  width: var(--m-w, clamp(220px, 60vw, 380px));
+  aspect-ratio: 360 / 380;
+  overflow: visible;                 /* nada é cortado ao girar/abanar */
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  filter: drop-shadow(0 26px 22px rgba(40, 62, 110, 0.18));
+  animation: m-float 6s ease-in-out infinite;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.m-dog.happy { transform: scale(1.035); }
+
+.m-layer {
+  position: absolute;
+  height: auto;                      /* mantém o aspect nativo de cada PNG */
+  display: block;
+  pointer-events: none;
+  will-change: transform;
+  -webkit-user-drag: none;
+}
+
+/* container da cabeça: ocupa o palco todo e gira no pivô do pescoço.
+   Recebe z-index (inline) acima do corpo para nunca ser coberto. */
+.m-head { position: absolute; inset: 0; will-change: transform; }
+
+.m-tail   { transform-origin: 26% 82%; animation: m-wag var(--m-wag, 0.5s) ease-in-out infinite; }
+.m-body   { transform-origin: 50% 100%; animation: m-breathe 4s ease-in-out infinite; }
+.m-ears   { transform-origin: 50% 92%;  animation: m-ears 5.5s ease-in-out infinite; }
+.m-tongue { transform-origin: 50% 0%;   animation: m-tongue 2s ease-in-out infinite; }
+
+/* olhos: wrapper posicionado > escala (hover) > pálpebra (piscar) > base + pupilas */
+.m-eyes        { position: absolute; transform-origin: 50% 60%; }
+.m-eyes-scale  { position: absolute; inset: 0; transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.m-dog.happy .m-eyes-scale { transform: scale(1.1); }
+.m-eyelid      { position: absolute; inset: 0; transform-origin: 50% 55%; transition: transform 60ms ease-in; will-change: transform; }
+.m-eyelid.blink{ transform: scaleY(0.08); }
+.m-pupils      { position: absolute; inset: 0; will-change: transform; }   /* JS faz o translate */
+.m-fill        { position: absolute; left: 0; top: 0; width: 100%; display: block; pointer-events: none; -webkit-user-drag: none; }
+
+/* hover: rabo abana mais rápido e mais aberto */
+.m-dog.happy .m-tail { animation-name: m-wagBig; animation-duration: 0.22s; }
+
+@keyframes m-wag    { 0%,100% { transform: rotate(-18deg); } 50% { transform: rotate(18deg);  } }
+@keyframes m-wagBig { 0%,100% { transform: rotate(-24deg); } 50% { transform: rotate(24deg);  } }
+@keyframes m-breathe{ 0%,100% { transform: scale(1);      } 50% { transform: scale(1.02);    } }
+@keyframes m-ears   { 0%,100% { transform: rotate(-3deg);  } 50% { transform: rotate(3deg);   } }
+@keyframes m-tongue { 0%,100% { transform: translateY(0);  } 50% { transform: translateY(3px);} }
+@keyframes m-float  { 0%,100% { transform: translateY(0);  } 50% { transform: translateY(-8px);} }
+
+@media (prefers-reduced-motion: reduce) {
+  .m-dog, .m-tail, .m-body, .m-ears, .m-tongue { animation: none !important; }
+  .m-eyes-scale, .m-eyelid, .m-dog { transition: none !important; }
+}

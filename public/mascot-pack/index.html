@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cantinho do AUAU — Mascote Interativo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="stage">
+    <header class="copy">
+      <span class="badge">🐾 Cantinho do AUAU</span>
+      <h1>Oi! Eu sou o <span>Auau</span></h1>
+      <p>Mexa o mouse — eu sigo você com o olhar. Passe por cima pra me deixar feliz!</p>
+    </header>
+
+    <!-- ============ MASCOTE ============ -->
+    <!-- Layers are real PNG cutouts isolated from the reference pack. -->
+    <!-- The asset pack ships combined ears / combined eyes (no separate     -->
+    <!-- left+right ear or pupil files), so #ears is one layer and the       -->
+    <!-- pupils were programmatically split from the eyes into eyes_base +    -->
+    <!-- eyes_pupils so they can still track the cursor independently.        -->
+    <div id="dog" class="dog" aria-label="Cachorro mascote interativo" role="img">
+      <img id="tail"      class="layer" src="parts/07_tail.png"    alt="" />
+      <img id="body"      class="layer" src="parts/01_body.png"    alt="" />
+
+      <div id="head-container">
+        <img id="ears"    class="layer" src="parts/04_ears.png"    alt="" />
+        <img id="head"    class="layer" src="parts/02_head.png"    alt="" />
+
+        <!-- #eyes = happy-scale wrapper · #eye-lid = blink · #pupils = track -->
+        <div id="eyes">
+          <div id="eye-lid">
+            <img id="eyes-base" class="layer" src="parts/eyes_base.png" alt="" />
+            <div id="pupils">
+              <img id="pupils-img" class="layer" src="parts/eyes_pupils.png" alt="" />
+            </div>
+          </div>
+        </div>
+
+        <img id="mouth"   class="layer" src="parts/05_mouth.png"   alt="" />
+        <img id="tongue"  class="layer" src="parts/06_tongue.png"  alt="" />
+      </div>
+    </div>
+    <!-- ================================== -->
+
+    <p class="hint">Vanilla HTML · CSS · JS — 60&nbsp;fps, sem bibliotecas.</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
