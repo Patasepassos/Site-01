@@ -8,6 +8,8 @@ export default function RevealInit() {
   const pathname = usePathname();
 
   useEffect(() => {
+    if ("scrollRestoration" in window.history) window.history.scrollRestoration = "manual";
+    const frame = window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }));
     const els = Array.from(document.querySelectorAll<HTMLElement>(".reveal:not(.in)"));
     if (els.length === 0) return;
 
@@ -27,7 +29,10 @@ export default function RevealInit() {
       { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
     );
     els.forEach((e) => io.observe(e));
-    return () => io.disconnect();
+    return () => {
+      window.cancelAnimationFrame(frame);
+      io.disconnect();
+    };
   }, [pathname]);
 
   return null;
