@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     type: "website",
   },
-  icons: { icon: "/mascot/logo-face.png" },
+  icons: { icon: "/favicon-logo.png" },
 };
 
 const GTM_ID = "GTM-MCCHLJ6Q";
