@@ -130,9 +130,9 @@ export default function HotelPage() {
         <div className="gallery reveal">
           <img className="photo span2" src="/photos/hotel-rest-1.jpg" alt="Área de descanso do hotel" />
           <img className="photo" src="/photos/hotel-rest-2.jpg" alt="Dog em passeio" />
-          <img className="photo" src="/photos/creche-play-2.jpg" alt="Dogs brincando" />
+          <img className="photo" src="/photos/hotel-gallery-real-1.jpg" alt="Hóspedes brincando na sala do hotel" />
           <img className="photo" src="/photos/hotel-rest-3.jpg" alt="Soneca gostosa" />
-          <img className="photo" src="/photos/creche-play-3.jpg" alt="Hora da brincadeira" />
+          <img className="photo" src="/photos/hotel-gallery-real-2.jpg" alt="Dog descansando com seu brinquedo na caminha" />
         </div>
       </section>
 

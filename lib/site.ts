@@ -28,6 +28,8 @@ export const waMessages = {
     "Olá! Vim pelo site da Patas & Passos e gostaria de saber mais sobre a creche (day care) para cães.",
   visita:
     "Olá! 🐾 Vim pelo site da Patas & Passos e gostaria de agendar um atendimento para o meu pet. Quando vocês têm disponibilidade?",
+  promoPasseios:
+    "Olá! 🐾 Vi a oferta especial no site da Patas & Passos e quero saber como usar o cupom 1CLIENTE nos passeios (dog walker)!",
 } as const;
 
 export function waLink(message: string): string {

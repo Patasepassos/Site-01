@@ -44,6 +44,7 @@ const ICO = { blue: "#71402F", green: "#7A8A54", amber: "#F5C13D", coral: "#A36C
 
 export default function PasseiosPage() {
   const wa = waLink(waMessages.passeios);
+  const waPromo = waLink(waMessages.promoPasseios);
   return (
     <div className="wrap">
       {/* HERO */}
@@ -69,8 +70,42 @@ export default function PasseiosPage() {
           </div>
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
-          {/* TODO: substituir por foto real de passeio (aguardando envio) */}
-          <img className="photo" src="/photos/passeios-hero.jpg" alt="Dog walker passeando com cães na rua — Patas & Passos" />
+          <img className="photo" src="/photos/passeios-hero.jpg" alt="Cão farejando o caminho durante o passeio — Patas & Passos" />
+        </div>
+      </section>
+
+      {/* OFERTA ESPECIAL */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="cta-band reveal">
+          <svg className="paw-bg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" fill="#fff" aria-hidden="true">
+            <g opacity=".5">
+              <ellipse cx="60" cy="150" rx="20" ry="16" />
+              <ellipse cx="40" cy="125" rx="8" ry="11" />
+              <ellipse cx="58" cy="116" rx="8" ry="11" />
+              <ellipse cx="78" cy="120" rx="8" ry="11" />
+            </g>
+            <g opacity=".5">
+              <ellipse cx="330" cy="60" rx="20" ry="16" />
+              <ellipse cx="310" cy="35" rx="8" ry="11" />
+              <ellipse cx="328" cy="26" rx="8" ry="11" />
+              <ellipse cx="348" cy="30" rx="8" ry="11" />
+            </g>
+          </svg>
+          <div style={{ position: "relative", zIndex: 2 }}>
+            <span className="eyebrow" style={{ color: "#F5C13D" }}>🐾 Oferta especial pra você começar</span>
+            <h2 style={{ margin: "10px 0 6px" }}>
+              <span style={{ fontSize: 44, fontWeight: 800, display: "block", lineHeight: 1 }}>77,53% OFF</span>
+              no plano de Dog Walker
+            </h2>
+            <p>
+              Sabemos que decidir começar é mais fácil quando o preço faz sentido. Fale com a gente
+              no WhatsApp e use o cupom <b>1CLIENTE</b> pra saber como funciona o desconto — mensal
+              ou anual. Aceitamos cartão de crédito ou débito de qualquer bandeira, com parcelamento.
+            </p>
+          </div>
+          <a className="btn btn-white btn-lg" style={{ position: "relative", zIndex: 2 }} href={waPromo} target="_blank" rel="noopener">
+            Quero meu desconto
+          </a>
         </div>
       </section>
 
@@ -103,6 +138,14 @@ export default function PasseiosPage() {
               <p>{p}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* GALERIA */}
+      <section className="section">
+        <div className="cards c2 reveal" style={{ gap: 24 }}>
+          <img className="photo" style={{ aspectRatio: "3/4", objectFit: "cover" }} src="/photos/passeios-gallery-1.jpg" alt="Dog walker passeando com cão pela cidade" />
+          <img className="photo" style={{ aspectRatio: "3/4", objectFit: "cover" }} src="/photos/passeios-gallery-2.jpg" alt="Tutor caminhando com o cão na coleira" />
         </div>
       </section>
 
