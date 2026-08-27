@@ -127,7 +127,7 @@ h1,h2,h3{ font-family:var(--font-heading),'Cormorant Garamond',serif; letter-spa
 img.photo{ display:block; width:100%; border-radius:24px; box-shadow:var(--shadow-md); object-fit:cover; }
 img.photo.wide{ aspect-ratio:16/11; }
 .phero img.photo{ aspect-ratio:5/4; height:auto; }
-.phero video.photo{ aspect-ratio:1/1; border-radius:50%; height:auto; width:100%; max-width:440px; margin:0 auto; display:block; object-fit:cover; box-shadow:var(--shadow-lg); }
+.phero video.photo, .phero img.photo.photo-circle{ aspect-ratio:1/1; border-radius:50%; height:auto; width:100%; max-width:440px; margin:0 auto; display:block; object-fit:cover; box-shadow:var(--shadow-lg); }
 .video-card{ position:relative; }
 .video-card video{ display:block; width:100%; border-radius:20px; box-shadow:var(--shadow-md); object-fit:cover; aspect-ratio:478/850; max-width:280px; margin:0 auto; }
 .video-card .video-caption{ text-align:center; font-size:13px; font-weight:600; color:var(--ink-soft); margin-top:12px; }

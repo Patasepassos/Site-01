@@ -69,16 +69,7 @@ export default function PetSitterPage() {
           </div>
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
-          <video
-            className="photo"
-            src="/videos/pet-sitter-cuidado.mp4"
-            poster="/videos/pet-sitter-cuidado-poster.jpg"
-            autoPlay
-            muted
-            loop
-            playsInline
-            aria-label="Pet recebendo carinho e cuidado em casa durante o atendimento do pet sitter — Patas & Passos"
-          />
+          <img className="photo photo-circle" src="/photos/pet-sitter-hero.jpg" alt="Pet recebendo carinho e cuidado em casa durante o atendimento do pet sitter — Patas & Passos" />
         </div>
       </section>
 
