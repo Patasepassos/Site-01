@@ -1,10 +1,25 @@
 import type { Metadata } from "next";
 import { waLink, waMessages } from "@/lib/site";
+import { testimonials } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
-  title: "Passeios · Dog Walker · Patas & Passos",
+  title: "Passeios com Dog Walker em São Caetano do Sul e Santo André · Patas & Passos",
   description:
-    "Dog walker em São Caetano e Santo André: passeios seguros e personalizados. Energia gasta, menos ansiedade e uma rotina de bem-estar.",
+    "Dog walker em São Caetano do Sul e Santo André — SP: passeios seguros e personalizados. Energia gasta, menos ansiedade e uma rotina de bem-estar.",
+  keywords: [
+    "dog walker São Caetano do Sul",
+    "passeador de cães Santo André",
+    "passeio com cachorro",
+    "dog walker SP",
+    "Patas & Passos",
+  ],
+  openGraph: {
+    title: "Passeios com Dog Walker · Patas & Passos",
+    description:
+      "Passeios seguros e personalizados em São Caetano do Sul e Santo André. Energia gasta, menos ansiedade.",
+    locale: "pt_BR",
+    type: "website",
+  },
 };
 
 const WaIcon = () => (
@@ -54,6 +69,7 @@ export default function PasseiosPage() {
           </div>
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
+          {/* TODO: substituir por foto real de passeio (aguardando envio) */}
           <img className="photo" src="/photos/passeios-hero.jpg" alt="Dog walker passeando com cães na rua — Patas & Passos" />
         </div>
       </section>
@@ -127,19 +143,15 @@ export default function PasseiosPage() {
           </h2>
         </div>
         <div className="quotes">
-          {[
-            ['"O Thor passou a chegar muito mais calmo em casa depois dos passeios diários. A diferença no humor dele foi enorme."', "R", "Rafael S.", "tutor do Thor"],
-            ['"Recebo foto de cada passeio e fico tranquila no trabalho. Dá pra ver que a Mel adora e confia neles."', "C", "Carla M.", "tutora da Mel"],
-            ['"Pontualidade e cuidado de verdade. Buscam e trazem a Nina em casa com toda a segurança. Recomendo de olhos fechados."', "J", "Juliana P.", "tutora da Nina"],
-          ].map(([q, av, nome, papel], i) => (
+          {[testimonials[0], testimonials[2], testimonials[5]].map((t, i) => (
             <div className="quote reveal" key={i}>
               <div className="stars">★★★★★</div>
-              <p>{q}</p>
+              <p>&quot;{t.quote}&quot;</p>
               <div className="who">
-                <div className="av">{av}</div>
+                <div className="av">{t.initial}</div>
                 <div>
-                  <b>{nome}</b>
-                  <span>{papel}</span>
+                  <b>{t.name}</b>
+                  <span>{t.role}</span>
                 </div>
               </div>
             </div>

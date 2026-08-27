@@ -1,10 +1,25 @@
 import type { Metadata } from "next";
 import { waLink, waMessages } from "@/lib/site";
+import { testimonials } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
-  title: "Socialização · Passeios em Grupo · Patas & Passos",
+  title: "Socialização e Passeios em Grupo em São Caetano do Sul e Santo André · Patas & Passos",
   description:
-    "Passeios em grupo para cães em São Caetano do Sul: grupos pequenos e supervisionados para seu pet fazer amigos, se exercitar e se desenvolver com segurança.",
+    "Passeios em grupo para cães em São Caetano do Sul e Santo André — SP: grupos pequenos e supervisionados para seu pet fazer amigos, se exercitar e se desenvolver com segurança.",
+  keywords: [
+    "socialização canina São Caetano do Sul",
+    "passeio em grupo para cães",
+    "socialização de cães Santo André",
+    "grupo de passeio dog",
+    "Patas & Passos",
+  ],
+  openGraph: {
+    title: "Socialização e Passeios em Grupo · Patas & Passos",
+    description:
+      "Grupos pequenos e supervisionados em São Caetano do Sul e Santo André para seu pet fazer amigos com segurança.",
+    locale: "pt_BR",
+    type: "website",
+  },
 };
 
 const WaIcon = () => (
@@ -128,19 +143,15 @@ export default function SocializacaoPage() {
           </h2>
         </div>
         <div className="quotes">
-          {[
-            ['"A Mel era super arredia com outros cães. Depois de 3 semanas no grupo já chega abanando o rabo pra todo mundo. Impressionante."', "C", "Camila R.", "tutora da Mel"],
-            ['"O Thor é energético demais pra passear sozinho. Em grupo ele gasta energia, faz amizades e volta manso. Perfeito."', "R", "Rafael S.", "tutor do Thor"],
-            ['"Minha cadela idosa precisava de estimulação social leve. O grupo certo fez toda a diferença no humor dela."', "L", "Letícia M.", "tutora da Luna"],
-          ].map(([q, av, nome, papel], i) => (
+          {[testimonials[1], testimonials[4], testimonials[3]].map((t, i) => (
             <div className="quote reveal" key={i}>
               <div className="stars">★★★★★</div>
-              <p>{q}</p>
+              <p>&quot;{t.quote}&quot;</p>
               <div className="who">
-                <div className="av">{av}</div>
+                <div className="av">{t.initial}</div>
                 <div>
-                  <b>{nome}</b>
-                  <span>{papel}</span>
+                  <b>{t.name}</b>
+                  <span>{t.role}</span>
                 </div>
               </div>
             </div>

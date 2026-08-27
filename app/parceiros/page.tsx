@@ -2,9 +2,22 @@ import type { Metadata } from "next";
 import { waLink } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Parceiros · Patas & Passos",
+  title: "Parceiros em São Caetano do Sul e Santo André · Patas & Passos",
   description:
-    "Conheça os parceiros da Patas & Passos: pet shops, clínicas veterinárias e marcas que compartilham o amor pelos animais em São Caetano e Santo André.",
+    "Conheça os parceiros da Patas & Passos: pet shops, clínicas veterinárias e marcas que compartilham o amor pelos animais em São Caetano do Sul e Santo André — SP.",
+  keywords: [
+    "parceiros pet São Caetano do Sul",
+    "pet shop Santo André",
+    "clínica veterinária parceira",
+    "Patas & Passos",
+  ],
+  openGraph: {
+    title: "Parceiros · Patas & Passos",
+    description:
+      "Pet shops, clínicas veterinárias e marcas parceiras em São Caetano do Sul e Santo André.",
+    locale: "pt_BR",
+    type: "website",
+  },
 };
 
 const waPartner = waLink(

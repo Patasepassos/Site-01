@@ -1,10 +1,25 @@
 import type { Metadata } from "next";
 import { waLink, waMessages } from "@/lib/site";
+import { testimonials } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
-  title: "Hotel · Patas & Passos",
+  title: "Hotel para Cães em São Caetano do Sul e Santo André · Patas & Passos",
   description:
-    "Hotel para cães em São Caetano e Santo André: hospedagem com conforto, rotina e companhia. Receba fotos do seu dog durante toda a estadia.",
+    "Hotel para cães em São Caetano do Sul e Santo André — SP: hospedagem com conforto, rotina e companhia. Receba fotos do seu dog durante toda a estadia.",
+  keywords: [
+    "hotel para cães São Caetano do Sul",
+    "hospedagem pet Santo André",
+    "hotel para pets SP",
+    "hospedagem de cachorro",
+    "Patas & Passos",
+  ],
+  openGraph: {
+    title: "Hotel para Cães · Patas & Passos",
+    description:
+      "Hospedagem com conforto, rotina e companhia em São Caetano do Sul e Santo André.",
+    locale: "pt_BR",
+    type: "website",
+  },
 };
 
 const PawIco = ({ color }: { color: string }) => (
@@ -130,19 +145,15 @@ export default function HotelPage() {
           </h2>
         </div>
         <div className="quotes">
-          {[
-            ['"Recebi foto do Mimo todos os dias e voltei da viagem com ele calmo e feliz. Parecia que tinha ido pra férias com uma turma amiga."', "A", "Amanda L.", "tutora do Mimo"],
-            ['"A rotina da Lana foi respeitada do jeitinho que combinamos. A equipe me deixou tranquila com o cuidado e a alimentação certinha."', "M", "Marcos V.", "tutor da Lana"],
-            ['"O cuidado diário e as fotos me deixaram super tranquila. Ele ficou confortável, recebeu carinho e já virou nosso hotel de confiança."', "P", "Patrícia R.", "tutora do Simba"],
-          ].map(([q, av, nome, papel], i) => (
+          {[testimonials[0], testimonials[1], testimonials[5]].map((t, i) => (
             <div className="quote reveal" key={i}>
               <div className="stars">★★★★★</div>
-              <p>{q}</p>
+              <p>&quot;{t.quote}&quot;</p>
               <div className="who">
-                <div className="av">{av}</div>
+                <div className="av">{t.initial}</div>
                 <div>
-                  <b>{nome}</b>
-                  <span>{papel}</span>
+                  <b>{t.name}</b>
+                  <span>{t.role}</span>
                 </div>
               </div>
             </div>

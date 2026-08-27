@@ -3,20 +3,20 @@ import { waLink, waMessages } from "@/lib/site";
 import { testimonials } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
-  title: "Pet Sitter em São Caetano do Sul e Santo André · Patas & Passos",
+  title: "Creche para Cães em São Caetano do Sul e Santo André · Patas & Passos",
   description:
-    "Pet sitter em São Caetano do Sul e Santo André — SP: seu pet cuidado no conforto da própria casa, com a rotina de sempre, amor e segurança.",
+    "Creche (day care) para cães em São Caetano do Sul e Santo André — SP: o dia todo com brincadeira, socialização e supervisão, no ritmo dele.",
   keywords: [
-    "pet sitter São Caetano do Sul",
-    "pet sitter Santo André",
-    "cuidador de pet em casa",
-    "babá de cachorro",
+    "creche para cães São Caetano do Sul",
+    "day care canino Santo André",
+    "creche canina SP",
+    "day care para cachorro",
     "Patas & Passos",
   ],
   openGraph: {
-    title: "Pet Sitter em São Caetano do Sul e Santo André · Patas & Passos",
+    title: "Creche para Cães · Patas & Passos",
     description:
-      "Seu pet cuidado no conforto da própria casa, com a rotina de sempre, amor e segurança.",
+      "O dia todo com brincadeira, socialização e supervisão em São Caetano do Sul e Santo André.",
     locale: "pt_BR",
     type: "website",
   },
@@ -42,21 +42,21 @@ const PawIco = ({ color }: { color: string }) => (
 
 const ICO = { blue: "#71402F", green: "#7A8A54", amber: "#F5C13D", coral: "#A36C43", lilac: "#B99A7B" };
 
-export default function PetSitterPage() {
-  const wa = waLink(waMessages.petsitter);
+export default function CrechePage() {
+  const wa = waLink(waMessages.creche);
   return (
     <div className="wrap">
       {/* HERO */}
       <section className="phero">
         <div className="page-hero-blob" />
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
-          <span className="eyebrow">🏡 Pet Sitter</span>
+          <span className="eyebrow">🧸 Creche · Day Care</span>
           <h1 className="h-xl">
-            Cuidado no conforto da <span className="hl">própria casa</span>
+            O dia todo com <span className="hl">brincadeira e amigos</span>
           </h1>
           <p className="lead">
-            Quando você precisa se ausentar, a gente vai até o seu pet. Ele fica no ambiente que
-            conhece, com a rotina de sempre — sem o stress de mudar de lugar.
+            Enquanto você trabalha ou resolve a vida, seu pet passa o dia rodeado de estímulo,
+            companhia e supervisão. Chega em casa cansado do jeito bom — cheio de histórias pra contar.
           </p>
           <div className="cta-row" style={{ display: "flex", gap: 16, marginTop: 30, flexWrap: "wrap" }}>
             <a className="btn btn-wa btn-lg" href={wa} target="_blank" rel="noopener">
@@ -69,39 +69,30 @@ export default function PetSitterPage() {
           </div>
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
-          <video
-            className="photo"
-            src="/videos/pet-sitter-cuidado.mp4"
-            poster="/videos/pet-sitter-cuidado-poster.jpg"
-            autoPlay
-            muted
-            loop
-            playsInline
-            aria-label="Pet recebendo carinho e cuidado em casa durante o atendimento do pet sitter — Patas & Passos"
-          />
+          <img className="photo" src="/photos/creche-hero.jpg" alt="Cães brincando juntos na creche da Patas & Passos" />
         </div>
       </section>
 
       {/* BENEFITS */}
       <section className="section" id="beneficios">
         <div className="sec-head center reveal">
-          <span className="eyebrow">Por que o pet sitter faz bem</span>
+          <span className="eyebrow">Por que a creche faz bem</span>
           <h2 className="h-lg">
-            A rotina dele, <span className="hl">sem mudanças</span>
+            Estímulo, amigos e <span className="hl">rotina saudável</span>
           </h2>
           <p className="lead">
-            Pets se sentem mais seguros no próprio território. O pet sitter mantém tudo no lugar
-            enquanto você está fora.
+            Um dia cheio de atividade em grupo é diversão garantida — e menos ansiedade, tédio e
+            solidão pra quem fica sozinho em casa.
           </p>
         </div>
         <div className="cards c3">
           {[
-            ["blue", "Rotina mantida", "Mesma comida, mesmos horários, mesma caminha. O dia a dia segue como ele já conhece e gosta."],
-            ["coral", "Sem stress de mudança", "Nada de ambiente novo, cheiros estranhos ou outros animais. Menos ansiedade pra pets mais sensíveis."],
-            ["green", "Cuidado individual", "Atenção total pro seu pet, do jeitinho dele. Alimentação, água fresca, higiene e muito carinho."],
-            ["amber", "Sua casa de olho", "De quebra, a casa não fica totalmente sozinha: luzes, plantas e aquela sensação de movimento."],
-            ["lilac", "Ideal pra tímidos e idosos", "Perfeito pra pets que não se adaptam a hotel, filhotes, idosos ou quem precisa de medicação na hora certa."],
-            ["blue", "Atualizações pra você", "Fotos e novidades a cada visita. Você viaja tranquilo sabendo que está tudo bem em casa."],
+            ["blue", "Nunca sozinho", "Seu pet passa o dia acompanhado, sem o stress e a ansiedade de ficar sozinho em casa por horas."],
+            ["coral", "Muita energia gasta", "Brincadeira o dia inteiro com outros cães cansa do jeito bom — chega em casa tranquilo pra descansar."],
+            ["green", "Socialização constante", "Convívio diário com outros cães desenvolve comportamento social e ajuda no equilíbrio emocional."],
+            ["amber", "Supervisão o tempo todo", "Equipe presente durante toda a estadia, atenta ao comportamento e ao bem-estar de cada dog."],
+            ["lilac", "Rotina no horário certo", "Alimentação, descanso e brincadeira sempre nos mesmos horários, do jeito que faz bem pra ele."],
+            ["blue", "Flexível pra sua semana", "Leve e busque nos dias que precisar — diária avulsa ou pacote fixo, você escolhe."],
           ].map(([color, t, p], i) => (
             <div className="card reveal" key={i}>
               <div className={`ico ico-${color}`}>
@@ -119,17 +110,17 @@ export default function PetSitterPage() {
         <div className="sec-head center reveal">
           <span className="eyebrow">Como funciona</span>
           <h2 className="h-lg">
-            Da conversa ao <span className="hl">seu retorno</span>
+            Deixa com a gente, <span className="hl">busca feliz</span>
           </h2>
-          <p className="lead">Um processo simples e transparente pra você se ausentar tranquilo.</p>
+          <p className="lead">Do check-in ao reencontro, um dia tranquilo pra vocês dois.</p>
         </div>
         <div className="steps" style={{ maxWidth: 820, margin: "0 auto" }}>
           {[
-            ["Conversa pelo WhatsApp", "Conte a rotina, a alimentação, a medicação (se houver) e o jeitinho do seu pet. Combinamos as visitas."],
-            ["A gente conhece o pet", "Um primeiro encontro pra criar vínculo e alinhar tudo: onde fica a ração, os brinquedos e os cantos favoritos."],
-            ["Visitas com cuidado", "Nas datas combinadas, vamos até sua casa: alimentação, água, higiene, passeio (se fizer parte) e companhia."],
-            ["Relatório a cada visita", "Você recebe fotos e um resumo de como foi. Acompanha tudo de onde estiver."],
-            ["Reencontro tranquilo", "Você volta pra um pet calmo, bem cuidado e uma casa em ordem."],
+            ["Combine pelo WhatsApp", "A gente entende a rotina, o jeitinho e o nível de sociabilidade do seu dog antes do primeiro dia."],
+            ["Deixe pela manhã", "Você traz seu pet no horário combinado, com toda a tranquilidade de saber que ele está em boas mãos."],
+            ["Dia cheio de atividade", "Brincadeira supervisionada com outros cães, descanso e muito carinho, do jeito certo pra ele."],
+            ["Fotos e novidades", "Você recebe fotos e atualizações do dia, acompanhando de pertinho mesmo estando longe."],
+            ["Busca no fim do dia", "Seu melhor amigo volta pra casa cansado, feliz e pronto pra uma boa noite de sono."],
           ].map(([t, p], i) => (
             <div className="step reveal" key={i}>
               <div className="num">{i + 1}</div>
@@ -142,16 +133,29 @@ export default function PetSitterPage() {
         </div>
       </section>
 
+      {/* GALLERY */}
+      <section className="section" id="galeria">
+        <div className="sec-head center reveal">
+          <span className="eyebrow">Um dia na creche</span>
+          <h2 className="h-lg">Muita <span className="hl">brincadeira e amizade</span></h2>
+        </div>
+        <div className="gallery reveal">
+          <img className="photo span2" src="/photos/creche-play-1.jpg" alt="Cães brincando juntos na creche" />
+          <img className="photo" src="/photos/creche-play-2.jpg" alt="Cães interagindo na creche" />
+          <img className="photo" src="/photos/creche-play-3.jpg" alt="Hora da brincadeira na creche" />
+        </div>
+      </section>
+
       {/* TESTIMONIALS */}
       <section className="section" id="depoimentos">
         <div className="sec-head center reveal">
-          <span className="eyebrow">Quem confiou, indicou</span>
+          <span className="eyebrow">Quem confia, recomenda</span>
           <h2 className="h-lg">
-            Tutores que viajaram <span className="hl">tranquilos</span>
+            Tutores (e dogs) <span className="hl">apaixonados</span>
           </h2>
         </div>
         <div className="quotes">
-          {[testimonials[0], testimonials[4], testimonials[2]].map((t, i) => (
+          {[testimonials[1], testimonials[2], testimonials[5]].map((t, i) => (
             <div className="quote reveal" key={i}>
               <div className="stars">★★★★★</div>
               <p>&quot;{t.quote}&quot;</p>
@@ -185,11 +189,11 @@ export default function PetSitterPage() {
             </g>
           </svg>
           <div style={{ position: "relative", zIndex: 2 }}>
-            <h2>Vai viajar? Deixe seu pet em casa, bem cuidado 🏡</h2>
-            <p>Combine as visitas do pet sitter pelo WhatsApp e se ausente tranquilo.</p>
+            <h2>Bora matricular ele na creche? 🧸</h2>
+            <p>Combine os dias da semana pelo WhatsApp. É rapidinho.</p>
           </div>
           <a className="btn btn-white btn-lg" style={{ position: "relative", zIndex: 2 }} href={wa} target="_blank" rel="noopener">
-            Contratar pet sitter
+            Agendar creche
           </a>
         </div>
       </section>

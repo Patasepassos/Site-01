@@ -20,21 +20,6 @@ const WaIcon = () => (
   </svg>
 );
 
-const PLANS = [
-  {
-    id: "dia", label: "Dia", price: "50", promo: "7 primeiros dias por R$30", featured: false,
-    items: ["30 min de passeio", "Com outros pets (preferência do dono)", "5 fotos do seu pet", "Relatório simples"],
-  },
-  {
-    id: "mes", label: "Mês", price: "890", promo: "Primeiro mês por R$790", featured: true,
-    items: ["30 min de passeio", "Com outros pets (preferência do dono)", "5 fotos + 5 gravações", "Relatório completo de atividade"],
-  },
-  {
-    id: "anual", label: "Anual", price: "3.800", promo: "Primeiro ano por R$2.500", featured: false,
-    items: ["Até 8 passeios por mês", "1h de passeio (amigos ou solo)", "10 fotos + 10 gravações", "Relatório completo + preferência de horários"],
-  },
-];
-
 export default function Home() {
   const wa = waLink(waMessages.default);
   const waVisita = waLink(waMessages.visita);
@@ -87,44 +72,6 @@ export default function Home() {
           <div className="blob" />
           <div className="dog-stage"><MascotAuau /></div>
         </div>
-      </section>
-
-      {/* ── PLANOS ───────────────────────────────────── */}
-      <section className="section" id="planos">
-        <div className="sec-head center reveal">
-          <span className="eyebrow">Investimento</span>
-          <h2 className="h-lg">Planos para <span className="hl">cada rotina</span></h2>
-          <p className="lead">Todos incluem busca na sua casa e muito carinho!</p>
-        </div>
-        <div className="cards c3" style={{ alignItems: "stretch" }}>
-          {PLANS.map(({ id, label, price, promo, items, featured }) => (
-            <div key={id} className="card reveal" style={{ display: "flex", flexDirection: "column", position: "relative" }}>
-              {featured && (
-                <span style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "var(--blue)", color: "#fff", fontSize: 11, fontWeight: 600, padding: "3px 14px", borderRadius: 20, whiteSpace: "nowrap", letterSpacing: ".06em" }}>
-                  MAIS POPULAR
-                </span>
-              )}
-              <p style={{ fontSize: 13, color: "var(--ink-soft)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".06em", margin: "0 0 6px" }}>{label}</p>
-              <p style={{ fontSize: 36, fontWeight: 700, color: "var(--blue)", margin: "0 0 4px", lineHeight: 1 }}>
-                R${price}<span style={{ fontSize: 15, fontWeight: 400, color: "var(--ink-soft)" }}>/{id}</span>
-              </p>
-              <p style={{ fontSize: 12, color: "var(--ink-soft)", margin: "0 0 16px" }}>{promo}</p>
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", flex: 1 }}>
-                {items.map((item, i) => (
-                  <li key={i} style={{ fontSize: 14, padding: "6px 0", borderBottom: "0.5px solid var(--blue-soft)", display: "flex", gap: 8 }}>
-                    <span style={{ color: "#2D8C5F", flexShrink: 0 }}>✓</span> {item}
-                  </li>
-                ))}
-              </ul>
-              <a className={`btn btn-lg${featured ? " btn-blue" : " btn-white"}`} href={waVisita} target="_blank" rel="noopener" style={{ textAlign: "center" }}>
-                Escolher este plano
-              </a>
-            </div>
-          ))}
-        </div>
-        <p style={{ textAlign: "center", fontSize: 13, color: "var(--ink-soft)", marginTop: 20 }}>
-          WhatsApp: (11) 92171-2012 · Agendando os 7 primeiros dias, você paga valor reduzido!
-        </p>
       </section>
 
       {/* ── SOBRE ────────────────────────────────────── */}
