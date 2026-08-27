@@ -146,6 +146,34 @@ export default function CrechePage() {
         </div>
       </section>
 
+      {/* VIDEO REAL */}
+      <section className="section" id="video">
+        <div className="cards c2" style={{ alignItems: "center", gap: 40 }}>
+          <div className="video-card reveal">
+            <video
+              src="/videos/creche-dia.mp4"
+              poster="/videos/creche-dia-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="Cães brincando e interagindo durante um dia na creche da Patas & Passos"
+            />
+            <p className="video-caption">Um dia de verdade na nossa creche</p>
+          </div>
+          <div className="reveal">
+            <span className="eyebrow">Direto da nossa creche</span>
+            <h2 className="h-lg">
+              Cada dia é <span className="hl">brincadeira, amizade e movimento</span>
+            </h2>
+            <p className="lead">
+              Nada de vídeo posado: esse é um dia real de creche, com os cães à vontade,
+              interagindo entre eles e se divertindo sob supervisão o tempo todo.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* TESTIMONIALS */}
       <section className="section" id="depoimentos">
         <div className="sec-head center reveal">

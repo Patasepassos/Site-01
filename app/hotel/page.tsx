@@ -136,6 +136,34 @@ export default function HotelPage() {
         </div>
       </section>
 
+      {/* VIDEO REAL */}
+      <section className="section" id="video">
+        <div className="cards c2" style={{ alignItems: "center", gap: 40 }}>
+          <div className="video-card reveal">
+            <video
+              src="/videos/hotel-dia.mp4"
+              poster="/videos/hotel-dia-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="Hóspede do Hotel Pet passeando, brincando e se alimentando durante a estadia — Patas & Passos"
+            />
+            <p className="video-caption">Um dia de hóspede no nosso Hotel Pet</p>
+          </div>
+          <div className="reveal">
+            <span className="eyebrow">Direto do nosso hotel</span>
+            <h2 className="h-lg">
+              Passeio, estímulo e <span className="hl">muito carinho</span>, todos os dias
+            </h2>
+            <p className="lead">
+              Cada hóspede tem sua rotina de passeios, brincadeiras e alimentação no horário
+              certo — este é um vídeo real de um dia de estadia, sem cenas posadas.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* TESTIMONIALS */}
       <section className="section" id="depoimentos">
         <div className="sec-head center reveal">
