@@ -24,8 +24,12 @@ export const waMessages = {
     "Olá! Vim pelo site da Patas & Passos e gostaria de saber mais sobre vacinas a domicílio.",
   socializacao:
     "Olá! Vim pelo site da Patas & Passos e gostaria de saber mais sobre os passeios em grupo (socialização).",
+  creche:
+    "Olá! Vim pelo site da Patas & Passos e gostaria de saber mais sobre a creche (day care) para cães.",
   visita:
     "Olá! 🐾 Vim pelo site da Patas & Passos e gostaria de agendar um atendimento para o meu pet. Quando vocês têm disponibilidade?",
+  promoPasseios:
+    "Olá! 🐾 Vi a oferta especial no site da Patas & Passos e quero saber como usar o cupom 1CLIENTE nos passeios (dog walker)!",
 } as const;
 
 export function waLink(message: string): string {
@@ -36,6 +40,7 @@ export const nav = [
   { href: "/passeios", label: "Passeios" },
   { href: "/socializacao", label: "Socialização" },
   { href: "/pet-sitter", label: "Pet Sitter" },
+  { href: "/creche", label: "Creche" },
   { href: "/hotel", label: "Hotel" },
   { href: "/vacinas", label: "Vacinas" },
   { href: "/parceiros", label: "Parceiros" },
@@ -51,6 +56,7 @@ export function pageWaMessage(pathname: string): string {
   if (pathname.startsWith("/passeios")) return waMessages.passeios;
   if (pathname.startsWith("/socializacao")) return waMessages.socializacao;
   if (pathname.startsWith("/pet-sitter")) return waMessages.petsitter;
+  if (pathname.startsWith("/creche")) return waMessages.creche;
   if (pathname.startsWith("/hotel")) return waMessages.hotel;
   if (pathname.startsWith("/vacinas")) return waMessages.vacinas;
   return waMessages.default;

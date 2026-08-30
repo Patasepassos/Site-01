@@ -1,10 +1,25 @@
 import type { Metadata } from "next";
 import { waLink, waMessages } from "@/lib/site";
+import { testimonials } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
-  title: "Passeios · Dog Walker · Patas & Passos",
+  title: "Passeios com Dog Walker em São Caetano do Sul e Santo André · Patas & Passos",
   description:
-    "Dog walker em São Caetano e Santo André: passeios seguros e personalizados. Energia gasta, menos ansiedade e uma rotina de bem-estar.",
+    "Dog walker em São Caetano do Sul e Santo André — SP: passeios seguros e personalizados. Energia gasta, menos ansiedade e uma rotina de bem-estar.",
+  keywords: [
+    "dog walker São Caetano do Sul",
+    "passeador de cães Santo André",
+    "passeio com cachorro",
+    "dog walker SP",
+    "Patas & Passos",
+  ],
+  openGraph: {
+    title: "Passeios com Dog Walker · Patas & Passos",
+    description:
+      "Passeios seguros e personalizados em São Caetano do Sul e Santo André. Energia gasta, menos ansiedade.",
+    locale: "pt_BR",
+    type: "website",
+  },
 };
 
 const WaIcon = () => (
@@ -29,6 +44,7 @@ const ICO = { blue: "#71402F", green: "#7A8A54", amber: "#F5C13D", coral: "#A36C
 
 export default function PasseiosPage() {
   const wa = waLink(waMessages.passeios);
+  const waPromo = waLink(waMessages.promoPasseios);
   return (
     <div className="wrap">
       {/* HERO */}
@@ -54,7 +70,42 @@ export default function PasseiosPage() {
           </div>
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
-          <img className="photo" src="/photos/passeios-hero.jpg" alt="Dog walker passeando com cães na rua — Patas & Passos" />
+          <img className="photo" src="/photos/passeios-hero.jpg" alt="Cão farejando o caminho durante o passeio — Patas & Passos" />
+        </div>
+      </section>
+
+      {/* OFERTA ESPECIAL */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="cta-band reveal">
+          <svg className="paw-bg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" fill="#fff" aria-hidden="true">
+            <g opacity=".5">
+              <ellipse cx="60" cy="150" rx="20" ry="16" />
+              <ellipse cx="40" cy="125" rx="8" ry="11" />
+              <ellipse cx="58" cy="116" rx="8" ry="11" />
+              <ellipse cx="78" cy="120" rx="8" ry="11" />
+            </g>
+            <g opacity=".5">
+              <ellipse cx="330" cy="60" rx="20" ry="16" />
+              <ellipse cx="310" cy="35" rx="8" ry="11" />
+              <ellipse cx="328" cy="26" rx="8" ry="11" />
+              <ellipse cx="348" cy="30" rx="8" ry="11" />
+            </g>
+          </svg>
+          <div style={{ position: "relative", zIndex: 2 }}>
+            <span className="eyebrow" style={{ color: "#F5C13D" }}>🐾 Oferta especial pra você começar</span>
+            <h2 style={{ margin: "10px 0 6px" }}>
+              <span style={{ fontSize: "clamp(30px, 9vw, 44px)", fontWeight: 800, display: "block", lineHeight: 1 }}>77,53% OFF</span>
+              no plano de Dog Walker
+            </h2>
+            <p>
+              Sabemos que decidir começar é mais fácil quando o preço faz sentido. Fale com a gente
+              no WhatsApp e use o cupom <b>1CLIENTE</b> pra saber como funciona o desconto — mensal
+              ou anual. Aceitamos cartão de crédito ou débito de qualquer bandeira, com parcelamento.
+            </p>
+          </div>
+          <a className="btn btn-white btn-lg" style={{ position: "relative", zIndex: 2 }} href={waPromo} target="_blank" rel="noopener">
+            Quero meu desconto
+          </a>
         </div>
       </section>
 
@@ -90,6 +141,14 @@ export default function PasseiosPage() {
         </div>
       </section>
 
+      {/* GALERIA */}
+      <section className="section">
+        <div className="cards c2 reveal" style={{ gap: 24 }}>
+          <img className="photo" style={{ aspectRatio: "3/4", objectFit: "cover" }} src="/photos/passeios-gallery-1.jpg" alt="Dog walker passeando com cão pela cidade" />
+          <img className="photo" style={{ aspectRatio: "3/4", objectFit: "cover" }} src="/photos/passeios-gallery-2.jpg" alt="Tutor caminhando com o cão na coleira" />
+        </div>
+      </section>
+
       {/* HOW IT WORKS */}
       <section className="section" id="como-funciona">
         <div className="sec-head center reveal">
@@ -118,6 +177,34 @@ export default function PasseiosPage() {
         </div>
       </section>
 
+      {/* VIDEO REAL */}
+      <section className="section" id="video">
+        <div className="cards c2" style={{ alignItems: "center", gap: 40 }}>
+          <div className="video-card reveal">
+            <video
+              src="/videos/passeios-caminhada.mp4"
+              poster="/videos/passeios-caminhada-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="Passeio real com dois cães pela vizinhança — Patas & Passos"
+            />
+            <p className="video-caption">Um passeio de verdade, sem cenas posadas</p>
+          </div>
+          <div className="reveal">
+            <span className="eyebrow">Direto da rua</span>
+            <h2 className="h-lg">
+              Cada passeio é <span className="hl">único</span>, do jeito que o seu dog merece
+            </h2>
+            <p className="lead">
+              Aqui não tem cena posada: é o passeio de verdade, no ritmo de cada dog, explorando o
+              bairro com segurança e toda a atenção do dog walker.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* TESTIMONIALS */}
       <section className="section" id="depoimentos">
         <div className="sec-head center reveal">
@@ -127,19 +214,15 @@ export default function PasseiosPage() {
           </h2>
         </div>
         <div className="quotes">
-          {[
-            ['"O Thor passou a chegar muito mais calmo em casa depois dos passeios diários. A diferença no humor dele foi enorme."', "R", "Rafael S.", "tutor do Thor"],
-            ['"Recebo foto de cada passeio e fico tranquila no trabalho. Dá pra ver que a Mel adora e confia neles."', "C", "Carla M.", "tutora da Mel"],
-            ['"Pontualidade e cuidado de verdade. Buscam e trazem a Nina em casa com toda a segurança. Recomendo de olhos fechados."', "J", "Juliana P.", "tutora da Nina"],
-          ].map(([q, av, nome, papel], i) => (
+          {[testimonials[0], testimonials[2], testimonials[5]].map((t, i) => (
             <div className="quote reveal" key={i}>
               <div className="stars">★★★★★</div>
-              <p>{q}</p>
+              <p>&quot;{t.quote}&quot;</p>
               <div className="who">
-                <div className="av">{av}</div>
+                <div className="av">{t.initial}</div>
                 <div>
-                  <b>{nome}</b>
-                  <span>{papel}</span>
+                  <b>{t.name}</b>
+                  <span>{t.role}</span>
                 </div>
               </div>
             </div>

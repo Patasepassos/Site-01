@@ -1,10 +1,25 @@
 import type { Metadata } from "next";
 import { waLink, waMessages } from "@/lib/site";
+import { testimonials } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
-  title: "Vacinas a domicílio · Patas & Passos",
+  title: "Vacinas a Domicílio em São Caetano do Sul e Santo André · Patas & Passos",
   description:
-    "Vacinação a domicílio para pets em São Caetano e Santo André: sem stress de deslocamento, no conforto de casa e no seu horário.",
+    "Vacinação a domicílio para pets em São Caetano do Sul e Santo André — SP: sem stress de deslocamento, no conforto de casa e no seu horário.",
+  keywords: [
+    "vacina a domicílio São Caetano do Sul",
+    "vacinação de cachorro Santo André",
+    "veterinário a domicílio SP",
+    "vacina para pet em casa",
+    "Patas & Passos",
+  ],
+  openGraph: {
+    title: "Vacinas a Domicílio · Patas & Passos",
+    description:
+      "Vacinação a domicílio para pets em São Caetano do Sul e Santo André, sem stress de deslocamento.",
+    locale: "pt_BR",
+    type: "website",
+  },
 };
 
 const WaIcon = () => (
@@ -54,7 +69,45 @@ export default function VacinasPage() {
           </div>
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
-          <img className="photo" src="/photos/vacinas-hero.jpg" alt="Veterinária aplicando vacina em cachorro — Patas & Passos" />
+          <video
+            className="photo"
+            src="/videos/vacina-aplicacao.mp4"
+            poster="/videos/vacina-aplicacao-poster.jpg"
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-label="Aplicação de vacina em cachorro, feita em casa pela Patas & Passos"
+          />
+        </div>
+      </section>
+
+      {/* A DOMICÍLIO */}
+      <section className="section" id="a-domicilio">
+        <div className="cards c2" style={{ alignItems: "center", gap: 40 }}>
+          <div className="video-card reveal">
+            <video
+              src="/videos/vacina-preparo.mp4"
+              poster="/videos/vacina-preparo-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="Material de vacinação preparado e higienizado antes do atendimento"
+            />
+            <p className="video-caption">Material higienizado e preparado antes de cada visita</p>
+          </div>
+          <div className="reveal">
+            <span className="eyebrow">100% a domicílio</span>
+            <h2 className="h-lg">
+              A vacina é aplicada <span className="hl">na sua casa</span>, do início ao fim
+            </h2>
+            <p className="lead">
+              Nada de deslocamento até uma clínica: a gente leva até você todo o material já
+              higienizado e preparado, e a vacina é aplicada ali, no ambiente que o seu pet já
+              conhece — com você por perto, do jeito mais tranquilo possível pra ele.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -126,19 +179,15 @@ export default function VacinasPage() {
           </h2>
         </div>
         <div className="quotes">
-          {[
-            ['"Meu filhote ainda não podia sair na rua. Vacinar em casa foi perfeito e super seguro. Tudo explicadinho."', "B", "Bianca T.", "tutora do Caco"],
-            ['"A Bela fica apavorada em clínica. Em casa ela nem percebeu. Foram pacientes e cuidadosos do começo ao fim."', "L", "Letícia A.", "tutora da Bela"],
-            ['"Praticidade total: marquei pelo WhatsApp, vieram no horário e ainda me orientaram sobre os reforços. Recomendo."', "D", "Diego F.", "tutor do Fred"],
-          ].map(([q, av, nome, papel], i) => (
+          {[testimonials[0], testimonials[4], testimonials[3]].map((t, i) => (
             <div className="quote reveal" key={i}>
               <div className="stars">★★★★★</div>
-              <p>{q}</p>
+              <p>&quot;{t.quote}&quot;</p>
               <div className="who">
-                <div className="av">{av}</div>
+                <div className="av">{t.initial}</div>
                 <div>
-                  <b>{nome}</b>
-                  <span>{papel}</span>
+                  <b>{t.name}</b>
+                  <span>{t.role}</span>
                 </div>
               </div>
             </div>
