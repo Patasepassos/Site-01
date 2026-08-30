@@ -177,6 +177,34 @@ export default function PasseiosPage() {
         </div>
       </section>
 
+      {/* VIDEO REAL */}
+      <section className="section" id="video">
+        <div className="cards c2" style={{ alignItems: "center", gap: 40 }}>
+          <div className="video-card reveal">
+            <video
+              src="/videos/passeios-caminhada.mp4"
+              poster="/videos/passeios-caminhada-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="Passeio real com dois cães pela vizinhança — Patas & Passos"
+            />
+            <p className="video-caption">Um passeio de verdade, sem cenas posadas</p>
+          </div>
+          <div className="reveal">
+            <span className="eyebrow">Direto da rua</span>
+            <h2 className="h-lg">
+              Cada passeio é <span className="hl">único</span>, do jeito que o seu dog merece
+            </h2>
+            <p className="lead">
+              Aqui não tem cena posada: é o passeio de verdade, no ritmo de cada dog, explorando o
+              bairro com segurança e toda a atenção do dog walker.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* TESTIMONIALS */}
       <section className="section" id="depoimentos">
         <div className="sec-head center reveal">
