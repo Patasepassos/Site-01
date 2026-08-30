@@ -94,7 +94,7 @@ export default function PasseiosPage() {
           <div style={{ position: "relative", zIndex: 2 }}>
             <span className="eyebrow" style={{ color: "#F5C13D" }}>🐾 Oferta especial pra você começar</span>
             <h2 style={{ margin: "10px 0 6px" }}>
-              <span style={{ fontSize: 44, fontWeight: 800, display: "block", lineHeight: 1 }}>77,53% OFF</span>
+              <span style={{ fontSize: "clamp(30px, 9vw, 44px)", fontWeight: 800, display: "block", lineHeight: 1 }}>77,53% OFF</span>
               no plano de Dog Walker
             </h2>
             <p>
