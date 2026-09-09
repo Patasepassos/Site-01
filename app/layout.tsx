@@ -5,6 +5,7 @@ import "./globals.css";
 import TopBar from "@/components/TopBar";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
+import LocationSection from "@/components/LocationSection";
 import SocialDock from "@/components/SocialDock";
 import RevealInit from "@/components/RevealInit";
 
@@ -78,6 +79,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <TopBar />
         {children}
         <div className="wrap"><ContactForm /></div>
+        <div className="wrap"><LocationSection /></div>
         <Footer />
         <SocialDock />
         <RevealInit />

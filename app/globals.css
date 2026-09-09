@@ -109,7 +109,7 @@ h1,h2,h3{ font-family:var(--font-heading),'Cormorant Garamond',serif; letter-spa
    o container pai além da viewport em telas pequenas. Sem isso, qualquer grid com texto
    longo ou mídia de largura fixa (vídeos, fotos) pode causar scroll horizontal. */
 .cards > *, .quotes > *, .steps > *, .gallery > *, .sobre-grid > *, .sobre-values > *,
-.footer-in > *, .phero > *, .cta-band > *, .contact-inner > *{ min-width:0; }
+.footer-in > *, .phero > *, .cta-band > *, .contact-inner > *, .location-inner > *{ min-width:0; }
 
 /* ---------- cards ---------- */
 .cards{ display:grid; gap:24px; }
@@ -339,6 +339,28 @@ a.ci-val:hover{ color:var(--blue); }
 @media(max-width:860px){
   .contact-inner{ grid-template-columns:1fr; gap:36px; }
   .contact-left .lead{ max-width:100%; }
+}
+
+/* ── Localização (mapa) ────────────────────────────────────────── */
+.location-section{ border-top:1px solid var(--blue-soft); }
+.location-inner{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; }
+.location-text .lead{ margin-top:14px; max-width:440px; }
+.location-address{ display:flex; align-items:center; gap:10px; margin:22px 0 28px;
+  font-weight:700; color:var(--ink); font-size:15px; }
+.location-pin{ font-size:18px; }
+.location-map-card{ position:relative; background:#fffaf3; border-radius:28px; padding:14px;
+  box-shadow:var(--shadow-lg); border:1px solid rgba(61,31,21,.08); }
+.location-map-frame{ position:relative; width:100%; aspect-ratio:4/3; border-radius:18px;
+  overflow:hidden; border:3px solid var(--blue-soft); background:var(--blue-wash); }
+.location-map-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+.location-paw{ position:absolute; z-index:2; top:-16px; right:22px; width:40px; height:40px; border-radius:50%;
+  background:var(--blue); color:#F5EFE6; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 20px rgba(61,31,21,.28); }
+
+@media(max-width:860px){
+  .location-inner{ grid-template-columns:1fr; gap:32px; }
+  .location-map-card{ order:2; padding:10px; }
+  .location-text{ order:1; }
 }
 
 /* ── Service Tabs ───────────────────────────────────────────── */
