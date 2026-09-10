@@ -42,13 +42,6 @@ export const location = {
   lng: -46.57772602488901,
   embedSrc:
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3655.4773148572053!2d-46.57772602488901!3d-23.623071378757448!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4aa8c7075488be59%3A0xd1dc7e15553ccb96!2zUGF0YXMgJiBQYXNzb3MgfCBDdWlkYWRvcyBQZXJzb25hbGl6YWRvcyB8IFBldCBTaXR0ZXIgfCBEb2cgV2Fsa2VyIHwgSG90ZWwgUGV0IHzwn5C-8J-QtvCfkLE!5e0!3m2!1spt-BR!2sbr!4v1788745350461!5m2!1spt-BR!2sbr",
-  // Nome exato do local no Google Maps (extraído do mesmo iframe oficial) para o
-  // destino do botão "Como chegar" resolver o pino correto, não apenas a coordenada bruta.
-  directionsUrl:
-    "https://www.google.com/maps/dir/?api=1&destination=" +
-    encodeURIComponent(
-      "Patas & Passos - Cuidados Personalizados - Pet Sitter - Dog Walker - Hotel Pet, São Caetano do Sul - SP"
-    ),
 } as const;
 
 export const nav = [

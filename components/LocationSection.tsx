@@ -29,9 +29,6 @@ export default function LocationSection() {
             <span className="location-pin" aria-hidden="true">📍</span>
             <span>São Caetano do Sul – SP</span>
           </div>
-          <a className="btn btn-blue btn-lg" href={location.directionsUrl} target="_blank" rel="noopener">
-            Como chegar
-          </a>
         </div>
 
         <div className="location-map-card reveal">

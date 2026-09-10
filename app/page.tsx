@@ -82,12 +82,18 @@ export default function Home() {
         </div>
         <div className="sobre-grid">
           <div className="card reveal" style={{ textAlign: "center" }}>
-            <div style={{ width: 64, height: 64, borderRadius: "50%", background: "var(--blue)", color: "#fff", fontSize: 26, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}>T</div>
+            <div style={{ width: 64, height: 64, borderRadius: "50%", overflow: "hidden", margin: "0 auto 14px" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/team/thiago.jpg" alt="Thiago" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 28%", display: "block" }} />
+            </div>
             <h3 className="h-md">Thiago</h3>
             <p style={{ fontSize: 14 }}>Apaixonado por animais, encontrou no cuidado com os pets uma forma de transformar isso em propósito. Garante passeios seguros, equilibrados e felizes.</p>
           </div>
           <div className="card reveal" style={{ textAlign: "center" }}>
-            <div style={{ width: 64, height: 64, borderRadius: "50%", background: "var(--green)", color: "#fff", fontSize: 26, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}>M</div>
+            <div style={{ width: 64, height: 64, borderRadius: "50%", overflow: "hidden", margin: "0 auto 14px" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/team/mariana.jpg" alt="Mariana" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "65% 20%", display: "block" }} />
+            </div>
             <h3 className="h-md">Mariana</h3>
             <p style={{ fontSize: 14 }}>Veterinária e esposa do Thiago, traz segurança e confiança para o trabalho. Cuida da saúde e bem-estar de cada pet com conhecimento técnico.</p>
           </div>
