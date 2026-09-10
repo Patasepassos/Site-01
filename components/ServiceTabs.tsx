@@ -18,7 +18,7 @@ const TABS = [
       "Passeios seguros e personalizados",
       "Busca e entrega em casa",
       "Fotos e relatório após cada passeio",
-      "Ter–Sex 18h–20h · Sáb–Dom 8h–12h",
+      "Atendimento 24h, todos os dias",
     ],
     benefits: [
       ["🏃", "Saúde Física", "Controle de peso e fortalecimento muscular."],
