@@ -28,13 +28,13 @@ const PARTNERS = [
   {
     logo: "/parceiros/prestipet.png",
     name: "Presti Pet",
-    category: "Pet Shop",
-    desc: "Pet shop completo com rações, acessórios, produtos de higiene e muito carinho para o seu melhor amigo.",
+    category: "Empresa de produtos para animais de estimação",
+    desc: "A Presti Pet é uma marca brasileira de produtos premium para pets, com foco em higiene, bem-estar e automação. Destacam-se suas areias de tofu para gatos e tapetes higiênicos de alta absorção.",
     color: "blue",
     link: "https://www.prestipet.com.br/",
   },
   {
-    logo: "/parceiros/dogshower.png",
+    logo: "/parceiros/dogshower.jpg",
     name: "Pet Shop Dog Shower",
     category: "Banho & Tosa",
     desc: "Banho e tosa profissional com atendimento cuidadoso e produtos de qualidade para deixar seu pet sempre lindo.",
