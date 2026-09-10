@@ -6,7 +6,7 @@ import { siteConfig, waLink } from "@/lib/site";
 const STEPS = [
   { id: "nome",    q: "Qual o nome do seu companheiro?",     placeholder: "Ex: Thor, Luna…",    field: "nome" },
   { id: "servico", q: "Qual serviço você precisa?",          placeholder: "",                   field: "servico",
-    options: ["🐾 Passeios (Dog Walker)", "🐕 Socialização", "🏡 Pet Sitter", "🏠 Hotel", "💉 Vacinas a domicílio"] },
+    options: ["🐾 Passeios (Dog Walker)", "🐕 Socialização", "🏡 Pet Sitter", "🧸 Creche", "🏠 Hotel", "💉 Vacinas a domicílio"] },
   { id: "quando",  q: "Quando você quer começar?",           placeholder: "Ex: essa semana, próximo mês…", field: "quando" },
   { id: "tutor",   q: "Qual é o seu nome?",                 placeholder: "Ex: Ana, Carlos…",   field: "tutor" },
 ];

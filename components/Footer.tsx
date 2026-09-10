@@ -20,6 +20,7 @@ export default function Footer() {
           <Link href="/passeios">Passeios (Dog Walker)</Link>
           <Link href="/socializacao">Socialização</Link>
           <Link href="/pet-sitter">Pet Sitter</Link>
+          <Link href="/creche">Creche</Link>
           <Link href="/hotel">Hotel</Link>
           <Link href="/vacinas">Vacinas a domicílio</Link>
         </div>

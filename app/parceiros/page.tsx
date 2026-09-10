@@ -2,9 +2,22 @@ import type { Metadata } from "next";
 import { waLink } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Parceiros · Patas & Passos",
+  title: "Parceiros em São Caetano do Sul e Santo André · Patas & Passos",
   description:
-    "Conheça os parceiros da Patas & Passos: pet shops, clínicas veterinárias e marcas que compartilham o amor pelos animais em São Caetano e Santo André.",
+    "Conheça os parceiros da Patas & Passos: pet shops, clínicas veterinárias e marcas que compartilham o amor pelos animais em São Caetano do Sul e Santo André — SP.",
+  keywords: [
+    "parceiros pet São Caetano do Sul",
+    "pet shop Santo André",
+    "clínica veterinária parceira",
+    "Patas & Passos",
+  ],
+  openGraph: {
+    title: "Parceiros · Patas & Passos",
+    description:
+      "Pet shops, clínicas veterinárias e marcas parceiras em São Caetano do Sul e Santo André.",
+    locale: "pt_BR",
+    type: "website",
+  },
 };
 
 const waPartner = waLink(
@@ -15,13 +28,13 @@ const PARTNERS = [
   {
     logo: "/parceiros/prestipet.png",
     name: "Presti Pet",
-    category: "Pet Shop",
-    desc: "Pet shop completo com rações, acessórios, produtos de higiene e muito carinho para o seu melhor amigo.",
+    category: "Empresa de produtos para animais de estimação",
+    desc: "A Presti Pet é uma marca brasileira de produtos premium para pets, com foco em higiene, bem-estar e automação. Destacam-se suas areias de tofu para gatos e tapetes higiênicos de alta absorção.",
     color: "blue",
     link: "https://www.prestipet.com.br/",
   },
   {
-    logo: "/parceiros/dogshower.png",
+    logo: "/parceiros/dogshower.jpg",
     name: "Pet Shop Dog Shower",
     category: "Banho & Tosa",
     desc: "Banho e tosa profissional com atendimento cuidadoso e produtos de qualidade para deixar seu pet sempre lindo.",
