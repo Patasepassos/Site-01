@@ -8,7 +8,7 @@ export const siteConfig = {
   address: "Região de São Caetano e Santo André",
   phoneDisplay: "(11) 91216-4567",
   phoneDisplayAlt: "(11) 91216-4567",
-  hours: "Aberto 24h, todos os dias · Feriados avisados no Instagram",
+  hours: "Atendimento 24h, de segunda a domingo e feriados · Folgas e dias de fechamento são comunicados no Instagram",
   whatsappPhone: "5511912164567",
   instagram: "https://www.instagram.com/patas.passos/",
 } as const;
