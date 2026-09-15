@@ -41,6 +41,14 @@ const PARTNERS = [
     color: "coral",
     link: "https://www.instagram.com/petshopdogshower",
   },
+  {
+    logo: "/parceiros/buddydog.png",
+    name: "Buddy Dog",
+    category: "Acessórios para pets",
+    desc: "Especialista em acessórios para passeio com conforto, estilo e segurança: peitorais antipuxão, guias reguláveis, cintos de segurança e coleiras feitas para durar. Alta qualidade, design moderno e preço justo. Use o cupom PATAS&PASSOS no site para desconto exclusivo.",
+    color: "green",
+    link: "https://buddydog.com.br/",
+  },
 ];
 
 const ICO: Record<string, string> = {
@@ -75,19 +83,19 @@ export default function ParceirosPage() {
           </div>
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2, display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <div style={{
-            width: "clamp(200px, 28vw, 380px)",
-            aspectRatio: "1",
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, var(--cream) 0%, var(--sand) 100%)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "clamp(80px, 12vw, 140px)",
-            boxShadow: "0 24px 64px rgba(61,31,21,.15)",
-          }}>
-            🤝
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/parceiros/parceiros-badge.jpg"
+            alt="Selo de parceria Patas & Passos"
+            style={{
+              width: "clamp(200px, 28vw, 380px)",
+              aspectRatio: "1",
+              borderRadius: "50%",
+              objectFit: "cover",
+              display: "block",
+              boxShadow: "0 24px 64px rgba(61,31,21,.15)",
+            }}
+          />
         </div>
       </section>
 
