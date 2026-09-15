@@ -2,9 +2,22 @@ import type { Metadata } from "next";
 import { waLink } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Parceiros · Patas & Passos",
+  title: "Parceiros em São Caetano do Sul e Santo André · Patas & Passos",
   description:
-    "Conheça os parceiros da Patas & Passos: pet shops, clínicas veterinárias e marcas que compartilham o amor pelos animais em São Caetano e Santo André.",
+    "Conheça os parceiros da Patas & Passos: pet shops, clínicas veterinárias e marcas que compartilham o amor pelos animais em São Caetano do Sul e Santo André — SP.",
+  keywords: [
+    "parceiros pet São Caetano do Sul",
+    "pet shop Santo André",
+    "clínica veterinária parceira",
+    "Patas & Passos",
+  ],
+  openGraph: {
+    title: "Parceiros · Patas & Passos",
+    description:
+      "Pet shops, clínicas veterinárias e marcas parceiras em São Caetano do Sul e Santo André.",
+    locale: "pt_BR",
+    type: "website",
+  },
 };
 
 const waPartner = waLink(
@@ -15,18 +28,26 @@ const PARTNERS = [
   {
     logo: "/parceiros/prestipet.png",
     name: "Presti Pet",
-    category: "Pet Shop",
-    desc: "Pet shop completo com rações, acessórios, produtos de higiene e muito carinho para o seu melhor amigo.",
+    category: "Empresa de produtos para animais de estimação",
+    desc: "A Presti Pet é uma marca brasileira de produtos premium para pets, com foco em higiene, bem-estar e automação. Destacam-se suas areias de tofu para gatos e tapetes higiênicos de alta absorção.",
     color: "blue",
     link: "https://www.prestipet.com.br/",
   },
   {
-    logo: "/parceiros/dogshower.png",
+    logo: "/parceiros/dogshower.jpg",
     name: "Pet Shop Dog Shower",
     category: "Banho & Tosa",
     desc: "Banho e tosa profissional com atendimento cuidadoso e produtos de qualidade para deixar seu pet sempre lindo.",
     color: "coral",
     link: "https://www.instagram.com/petshopdogshower",
+  },
+  {
+    logo: "/parceiros/buddydog.png",
+    name: "Buddy Dog",
+    category: "Acessórios para pets",
+    desc: "Especialista em acessórios para passeio com conforto, estilo e segurança: peitorais antipuxão, guias reguláveis, cintos de segurança e coleiras feitas para durar. Alta qualidade, design moderno e preço justo. Use o cupom PATAS&PASSOS no site para desconto exclusivo.",
+    color: "green",
+    link: "https://buddydog.com.br/",
   },
 ];
 
@@ -43,7 +64,6 @@ export default function ParceirosPage() {
     <div className="wrap">
       {/* HERO */}
       <section className="phero">
-        <div className="page-hero-blob" />
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
           <span className="eyebrow">🤝 Parceiros</span>
           <h1 className="h-xl">
@@ -63,19 +83,19 @@ export default function ParceirosPage() {
           </div>
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2, display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <div style={{
-            width: "clamp(200px, 28vw, 380px)",
-            aspectRatio: "1",
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, var(--cream) 0%, var(--sand) 100%)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "clamp(80px, 12vw, 140px)",
-            boxShadow: "0 24px 64px rgba(61,31,21,.15)",
-          }}>
-            🤝
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/parceiros/parceiros-badge.jpg"
+            alt="Selo de parceria Patas & Passos"
+            style={{
+              width: "clamp(200px, 28vw, 380px)",
+              aspectRatio: "1",
+              borderRadius: "50%",
+              objectFit: "cover",
+              display: "block",
+              boxShadow: "0 24px 64px rgba(61,31,21,.15)",
+            }}
+          />
         </div>
       </section>
 
