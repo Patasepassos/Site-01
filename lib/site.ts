@@ -3,7 +3,7 @@
 
 export const siteConfig = {
   name: "Patas & Passos",
-  tagline: "Mais do que um passeio. Uma jornada de bem-estar.",
+  tagline: "Porque pet não é apenas um animal de estimação. É família.",
   city: "São Caetano do Sul · SP",
   address: "Região de São Caetano e Santo André",
   phoneDisplay: "(11) 91216-4567",

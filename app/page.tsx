@@ -32,11 +32,12 @@ export default function Home() {
         <div className="hero-text">
           <span className="eyebrow"><Paw /> São Caetano do Sul · SP</span>
           <h1>
-            Mais do que um passeio. Uma jornada de <span className="hl">bem-estar.</span>
+            Porque pet não é apenas um animal de estimação. <span className="hl">É família.</span>
           </h1>
           <p className="lead">
-            Cuidado de verdade para quem já é da família: passeios, pet sitter, creche, hotel e
-            vacinas a domicílio, com atenção e carinho para o seu pet e tranquilidade para você.
+            Ajudamos tutores a proporcionar mais qualidade de vida, carinho e segurança para os
+            seus pets — com passeios, pet sitter, creche, hotel e vacinas a domicílio, mesmo
+            quando a rotina aperta.
           </p>
           <div className="cta-row">
             <a className="btn btn-blue btn-lg" href={wa} target="_blank" rel="noopener">
@@ -45,7 +46,7 @@ export default function Home() {
             <Link className="btn btn-white btn-lg" href="/passeios">Conhecer cuidados</Link>
           </div>
           <div className="trust-row">
-            <div className="trust-item"><Paw size={16} /> Atendimento local</div>
+            <div className="trust-item"><Paw size={16} /> Cuidado presente</div>
             <div className="trust-item"><Paw size={16} /> Rotina respeitada</div>
             <div className="trust-item"><Paw size={16} /> Amor &amp; segurança</div>
           </div>
@@ -77,18 +78,18 @@ export default function Home() {
       {/* ── PROPÓSITO ────────────────────────────────── */}
       <section className="section" id="proposito">
         <div className="sec-head center reveal">
-          <span className="eyebrow"><Paw /> Nosso propósito</span>
+          <span className="eyebrow"><Paw /> Por que existimos</span>
           <h2 className="h-lg">Cuidando de quem <span className="hl">faz parte da sua família</span></h2>
           <p className="lead">
-            A rotina aperta, o trabalho não para e às vezes não dá pra estar presente o tempo
-            todo. A Patas & Passos existe para isso: para que a correria do dia a dia nunca
-            signifique menos cuidado, menos atenção ou menos amor para o seu pet.
+            Sabemos como é difícil conciliar trabalho, compromissos e imprevistos com o cuidado
+            que o seu pet merece todos os dias. A Patas & Passos nasceu justamente para preencher
+            essa lacuna — para que a sua ausência nunca signifique menos atenção pra ele.
           </p>
         </div>
         <div className="cards c3">
           {[
-            ["🐾", "Apoio na rotina", "Passeios, visitas, creche, hospedagem e vacinação — cuidado presente todos os dias, mesmo quando você não pode estar por perto."],
-            ["💛", "Bem-estar de verdade", "Mais do que um serviço: atenção, carinho e segurança para que seu pet viva com saúde e equilíbrio."],
+            ["🐾", "Presença todos os dias", "Passeios, visitas, creche, hospedagem e vacinação — alguém de confiança olhando pelo seu pet quando você não pode."],
+            ["💛", "Cuidado, não só serviço", "Atenção, carinho e segurança de verdade, pensados pra saúde e o equilíbrio emocional de cada pet."],
             ["🏡", "Tranquilidade pra você", "Acreditamos que, quando o tutor encontra apoio para cuidar da rotina do seu pet, aumentam as possibilidades de oferecer uma vida mais saudável, feliz e segura ao animal."],
           ].map(([e, t, d]) => (
             <div key={t as string} className="card reveal" style={{ textAlign: "center" }}>
@@ -107,9 +108,9 @@ export default function Home() {
       {/* ── SERVIÇOS ─────────────────────────────────── */}
       <section className="section" id="servicos">
         <div className="sec-head center reveal">
-          <span className="eyebrow"><Paw /> Como cuidamos</span>
+          <span className="eyebrow"><Paw /> O que oferecemos</span>
           <h2 className="h-lg">Mais do que serviços, <span className="hl">cuidado</span></h2>
-          <p className="lead">Cada etapa da rotina do seu pet, com a mesma atenção e o mesmo carinho.</p>
+          <p className="lead">Um jeito de cuidar pra cada momento da rotina do seu pet.</p>
         </div>
         <div className="cards c3">
           {[
@@ -187,8 +188,8 @@ export default function Home() {
             </g>
           </svg>
           <div style={{ position: "relative", zIndex: 2 }}>
-            <h2>Cuidando de quem faz parte da sua família 🐾</h2>
-            <p>Fale com a gente pelo WhatsApp e veja como podemos cuidar da rotina do seu pet com você.</p>
+            <h2>Mais cuidado, mais carinho, mais qualidade de vida 🐾</h2>
+            <p>Fale com a gente pelo WhatsApp e comece hoje a dar mais tranquilidade pro seu pet e pra você.</p>
           </div>
           <a className="btn btn-white btn-lg" style={{ position: "relative", zIndex: 2 }} href={waVisita} target="_blank" rel="noopener">
             Agendar agora
