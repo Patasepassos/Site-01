@@ -70,7 +70,7 @@ export default function SocializacaoPage() {
           </div>
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
-          <img className="photo" src="/photos/creche-play-2.jpg" alt="Cães se socializando em passeio em grupo — Patas & Passos" />
+          <img className="photo" src="/photos/socializacao-hero.jpg" alt="Cães se socializando em passeio em grupo — Patas & Passos" />
         </div>
       </section>
 
