@@ -48,7 +48,6 @@ export default function HotelPage() {
     <div className="wrap">
       {/* HERO */}
       <section className="phero">
-        <div className="page-hero-blob" />
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
           <span className="eyebrow">🏠 Hotel para cães</span>
           <h1 className="h-xl">

@@ -49,7 +49,6 @@ export default function PasseiosPage() {
     <div className="wrap">
       {/* HERO */}
       <section className="phero">
-        <div className="page-hero-blob" />
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
           <span className="eyebrow">🐾 Passeios · Dog Walker</span>
           <h1 className="h-xl">

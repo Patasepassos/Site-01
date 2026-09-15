@@ -56,7 +56,6 @@ export default function ParceirosPage() {
     <div className="wrap">
       {/* HERO */}
       <section className="phero">
-        <div className="page-hero-blob" />
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
           <span className="eyebrow">🤝 Parceiros</span>
           <h1 className="h-xl">
