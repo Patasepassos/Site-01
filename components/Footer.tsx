@@ -11,8 +11,8 @@ export default function Footer() {
             <img src="/logo-main.png" alt="Patas & Passos" style={{ height: 60, width: "auto", objectFit: "contain" }} />
           </div>
           <p>
-            Mais do que um passeio, uma jornada de bem-estar para o seu melhor amigo. Passeios,
-            pet sitter, hotel e vacinas a domicílio com amor e segurança.
+            Cuidando de quem faz parte da sua família: passeios, pet sitter, creche, hotel e
+            vacinas a domicílio, com amor, atenção e segurança.
           </p>
         </div>
         <div>

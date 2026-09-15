@@ -55,8 +55,8 @@ export default function PasseiosPage() {
             Energia gasta, dog <span className="hl">feliz</span> e equilibrado
           </h1>
           <p className="lead">
-            Passeios com um dog walker de confiança. Seu melhor amigo gasta energia, explora o mundo
-            com segurança e volta para casa tranquilo, no ritmo que combina com ele.
+            Cuidado de verdade em cada passeio: seu melhor amigo gasta energia, explora o mundo com
+            segurança e volta para casa tranquilo, no ritmo que combina com ele.
           </p>
           <div className="cta-row" style={{ display: "flex", gap: 16, marginTop: 30, flexWrap: "wrap" }}>
             <a className="btn btn-wa btn-lg" href={wa} target="_blank" rel="noopener">

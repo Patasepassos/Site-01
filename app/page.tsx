@@ -35,8 +35,8 @@ export default function Home() {
             Mais do que um passeio. Uma jornada de <span className="hl">bem-estar.</span>
           </h1>
           <p className="lead">
-            Oferecemos saúde, energia e felicidade para o seu melhor amigo, com passeios seguros e
-            personalizados em São Caetano do Sul.
+            Cuidado de verdade para quem já é da família: passeios, pet sitter, creche, hotel e
+            vacinas a domicílio, com atenção e carinho para o seu pet e tranquilidade para você.
           </p>
           <div className="cta-row">
             <a className="btn btn-blue btn-lg" href={wa} target="_blank" rel="noopener">
@@ -71,6 +71,68 @@ export default function Home() {
           <div className="gratis">Primeiro<br />passo</div>
           <div className="blob" />
           <div className="dog-stage"><MascotAuau /></div>
+        </div>
+      </section>
+
+      {/* ── PROPÓSITO ────────────────────────────────── */}
+      <section className="section" id="proposito">
+        <div className="sec-head center reveal">
+          <span className="eyebrow"><Paw /> Nosso propósito</span>
+          <h2 className="h-lg">Cuidando de quem <span className="hl">faz parte da sua família</span></h2>
+          <p className="lead">
+            A rotina aperta, o trabalho não para e às vezes não dá pra estar presente o tempo
+            todo. A Patas & Passos existe para isso: para que a correria do dia a dia nunca
+            signifique menos cuidado, menos atenção ou menos amor para o seu pet.
+          </p>
+        </div>
+        <div className="cards c3">
+          {[
+            ["🐾", "Apoio na rotina", "Passeios, visitas, creche, hospedagem e vacinação — cuidado presente todos os dias, mesmo quando você não pode estar por perto."],
+            ["💛", "Bem-estar de verdade", "Mais do que um serviço: atenção, carinho e segurança para que seu pet viva com saúde e equilíbrio."],
+            ["🏡", "Tranquilidade pra você", "Acreditamos que, quando o tutor encontra apoio para cuidar da rotina do seu pet, aumentam as possibilidades de oferecer uma vida mais saudável, feliz e segura ao animal."],
+          ].map(([e, t, d]) => (
+            <div key={t as string} className="card reveal" style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 24, marginBottom: 8 }}>{e}</div>
+              <h3 className="h-md">{t as string}</h3>
+              <p style={{ fontSize: 13 }}>{d as string}</p>
+            </div>
+          ))}
+        </div>
+        <p className="lead" style={{ maxWidth: 640, margin: "28px auto 0", textAlign: "center" }}>
+          Queremos contribuir para que nenhum pet fique para trás só porque sua família está
+          enfrentando dificuldade para conciliar a rotina com os cuidados do dia a dia.
+        </p>
+      </section>
+
+      {/* ── SERVIÇOS ─────────────────────────────────── */}
+      <section className="section" id="servicos">
+        <div className="sec-head center reveal">
+          <span className="eyebrow"><Paw /> Como cuidamos</span>
+          <h2 className="h-lg">Mais do que serviços, <span className="hl">cuidado</span></h2>
+          <p className="lead">Cada etapa da rotina do seu pet, com a mesma atenção e o mesmo carinho.</p>
+        </div>
+        <div className="cards c3">
+          {[
+            ["🐕", "Dog Walker", "Passeios personalizados, com busca em casa, pra gastar energia com segurança.", "/passeios"],
+            ["🏡", "Pet Sitter", "Cuidado no próprio ambiente do seu pet, respeitando a rotina dele.", "/pet-sitter"],
+            ["🧸", "Creche", "Um dia cheio de convivência, brincadeira e supervisão.", "/creche"],
+            ["🛏️", "Hotel Pet", "Hospedagem com conforto e companhia quando você precisa viajar.", "/hotel"],
+            ["💉", "Vacinação a domicílio", "Vacinas aplicadas no conforto e na segurança de casa.", "/vacinas"],
+          ].map(([e, t, d, href]) => (
+            <Link
+              key={t as string}
+              href={href as string}
+              className="card reveal"
+              style={{ textAlign: "center", textDecoration: "none", color: "inherit" }}
+            >
+              <div style={{ fontSize: 28, marginBottom: 8 }}>{e}</div>
+              <h3 className="h-md">{t as string}</h3>
+              <p style={{ fontSize: 13 }}>{d as string}</p>
+              <span style={{ fontSize: 13, color: "var(--brown)", fontWeight: 600, marginTop: 8, display: "block" }}>
+                Saiba mais →
+              </span>
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -125,8 +187,8 @@ export default function Home() {
             </g>
           </svg>
           <div style={{ position: "relative", zIndex: 2 }}>
-            <h2>Agende o primeiro passo hoje 🐾</h2>
-            <p>Entre em contato pelo WhatsApp. Respondemos em minutos!</p>
+            <h2>Cuidando de quem faz parte da sua família 🐾</h2>
+            <p>Fale com a gente pelo WhatsApp e veja como podemos cuidar da rotina do seu pet com você.</p>
           </div>
           <a className="btn btn-white btn-lg" style={{ position: "relative", zIndex: 2 }} href={waVisita} target="_blank" rel="noopener">
             Agendar agora
