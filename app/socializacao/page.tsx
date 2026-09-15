@@ -134,6 +134,34 @@ export default function SocializacaoPage() {
         </div>
       </section>
 
+      {/* VIDEO REAL */}
+      <section className="section" id="video">
+        <div className="cards c2" style={{ alignItems: "center", gap: 40 }}>
+          <div className="video-card reveal">
+            <video
+              src="/videos/socializacao-grupo.mp4"
+              poster="/videos/socializacao-grupo-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="Passeio em grupo real com pet socializando — Patas & Passos"
+            />
+            <p className="video-caption">Um passeio em grupo de verdade, sem cenas posadas</p>
+          </div>
+          <div className="reveal">
+            <span className="eyebrow">Direto do parque</span>
+            <h2 className="h-lg">
+              Amor e cuidado <span className="hl">a cada passo</span>
+            </h2>
+            <p className="lead">
+              Cada saída em grupo é pensada com atenção: ambiente seguro, ritmo respeitado e muito
+              carinho, pra cada pet aproveitar a companhia da turma.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* TESTIMONIALS */}
       <section className="section" id="depoimentos">
         <div className="sec-head center reveal">
