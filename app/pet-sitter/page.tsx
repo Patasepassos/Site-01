@@ -104,6 +104,23 @@ export default function PetSitterPage() {
         </div>
       </section>
 
+      {/* MOMENTO REAL */}
+      <section className="section">
+        <div className="cards c2 reveal" style={{ alignItems: "center", gap: 40 }}>
+          <img className="photo" style={{ aspectRatio: "3/4", objectFit: "cover" }} src="/photos/pet-sitter-momento.jpg" alt="Pet sitter recebendo carinho do pet durante o atendimento — Patas & Passos" />
+          <div>
+            <span className="eyebrow">Direto da rotina</span>
+            <h2 className="h-lg">
+              Vínculo de verdade, <span className="hl">a cada visita</span>
+            </h2>
+            <p className="lead">
+              Não é só cuidado técnico: é carinho de verdade. Cada visita fortalece a confiança
+              entre o pet e quem cuida dele, pra ele se sentir seguro mesmo com você fora de casa.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* HOW IT WORKS */}
       <section className="section" id="como-funciona">
         <div className="sec-head center reveal">
@@ -129,6 +146,43 @@ export default function PetSitterPage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* VIDEO REAL */}
+      <section className="section" id="video">
+        <div className="sec-head center reveal">
+          <span className="eyebrow">Direto das visitas</span>
+          <h2 className="h-lg">
+            Cada visita, <span className="hl">de verdade</span>
+          </h2>
+          <p className="lead">Sem cenas posadas: é o carinho e o cuidado de cada atendimento.</p>
+        </div>
+        <div className="cards c2" style={{ gap: 24 }}>
+          <div className="video-card reveal">
+            <video
+              src="/videos/pet-sitter-video-1.mp4"
+              poster="/videos/pet-sitter-video-1-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="Pet sitter passeando com o pet — Patas & Passos"
+            />
+            <p className="video-caption">O pet sitter também pode incluir passeio</p>
+          </div>
+          <div className="video-card reveal">
+            <video
+              src="/videos/pet-sitter-video-2.mp4"
+              poster="/videos/pet-sitter-video-2-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="Pet sitter dando carinho e atenção ao pet — Patas & Passos"
+            />
+            <p className="video-caption">Muito carinho e atenção em cada visita</p>
+          </div>
         </div>
       </section>
 
