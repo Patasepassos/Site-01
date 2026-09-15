@@ -69,7 +69,7 @@ export default function PasseiosPage() {
           </div>
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
-          <img className="photo" src="/photos/passeios-hero.jpg" alt="Cão farejando o caminho durante o passeio — Patas & Passos" />
+          <img className="photo photo-circle" src="/photos/passeios-badge.jpg" alt="Selo Passeios — Patas & Passos" />
         </div>
       </section>
 
