@@ -48,7 +48,6 @@ export default function VacinasPage() {
     <div className="wrap">
       {/* HERO */}
       <section className="phero">
-        <div className="page-hero-blob" />
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
           <span className="eyebrow">💉 Vacinas a domicílio</span>
           <h1 className="h-xl">
