@@ -49,6 +49,14 @@ const PARTNERS = [
     color: "green",
     link: "https://buddydog.com.br/",
   },
+  {
+    logo: "/parceiros/caoacaospa.jpg",
+    name: "Cão a Cão Spa",
+    category: "Estética canina e bem-estar",
+    desc: "Centro de estética canina e bem-estar animal em São Caetano do Sul, sem gaiolas. Um espaço pensado para oferecer banho e tosa em uma experiência relaxante, segura e livre de estresse para o seu pet. Indique a Patas & Passos e ganhe 10% de desconto.",
+    color: "amber",
+    link: "https://www.instagram.com/caoacaospa/",
+  },
 ];
 
 const ICO: Record<string, string> = {
