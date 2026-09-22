@@ -67,8 +67,20 @@ export default function CrechePage() {
             </a>
           </div>
         </div>
-        <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
-          <img className="photo" src="/photos/creche-hero.jpg" alt="Cães brincando juntos na creche da Patas & Passos" />
+        <div className="reveal in" style={{ position: "relative", zIndex: 2, display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div style={{
+            width: "clamp(200px, 28vw, 380px)",
+            aspectRatio: "1",
+            borderRadius: "50%",
+            background: "linear-gradient(135deg, var(--cream) 0%, var(--sand) 100%)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "clamp(80px, 12vw, 140px)",
+            boxShadow: "0 24px 64px rgba(61,31,21,.15)",
+          }}>
+            🧸
+          </div>
         </div>
       </section>
 
@@ -129,19 +141,6 @@ export default function CrechePage() {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* GALLERY */}
-      <section className="section" id="galeria">
-        <div className="sec-head center reveal">
-          <span className="eyebrow">Um dia na creche</span>
-          <h2 className="h-lg">Muita <span className="hl">brincadeira e amizade</span></h2>
-        </div>
-        <div className="gallery reveal">
-          <img className="photo span2" src="/photos/creche-play-1.jpg" alt="Cães brincando juntos na creche" />
-          <img className="photo" src="/photos/creche-play-2.jpg" alt="Cães interagindo na creche" />
-          <img className="photo" src="/photos/creche-play-3.jpg" alt="Hora da brincadeira na creche" />
         </div>
       </section>
 
