@@ -74,7 +74,7 @@ export default function PasseiosPage() {
       </section>
 
       {/* OFERTA ESPECIAL */}
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section" id="presente" style={{ paddingTop: 0 }}>
         <div className="cta-band reveal">
           <svg className="paw-bg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" fill="#fff" aria-hidden="true">
             <g opacity=".5">

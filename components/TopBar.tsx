@@ -24,7 +24,16 @@ export default function TopBar() {
   const links = [...nav, { href: "#contato", label: "Contato" }];
 
   return (
-    <div className="wrap tb-wrap">
+    <>
+      <Link href="/passeios#presente" className="promo-bar">
+        <span className="promo-bar-badge">🎁</span>
+        <span>
+          <b>Presente por tempo limitado:</b> Dog Walker por R$10 o passeio, 2x na semana, o mês
+          todo — só até 10/10
+        </span>
+        <span className="promo-bar-arrow">→</span>
+      </Link>
+      <div className="wrap tb-wrap">
       <div className="topbar-outer">
         <div className="topbar">
           <Link className="tb-brand" href="/" aria-label="Patas & Passos">
@@ -77,6 +86,7 @@ export default function TopBar() {
           </a>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
