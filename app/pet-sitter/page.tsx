@@ -1,10 +1,25 @@
 import type { Metadata } from "next";
-import { waLink, waMessages } from "@/lib/site";
+import { siteConfig, waLink, waMessages } from "@/lib/site";
+import { testimonials } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
-  title: "Pet Sitter · Patas & Passos",
+  title: "Pet Sitter em São Caetano do Sul e Santo André · Patas & Passos",
   description:
-    "Pet sitter em São Caetano e Santo André: seu pet cuidado no conforto da própria casa, com a rotina de sempre, amor e segurança.",
+    "Pet sitter em São Caetano do Sul e Santo André — SP: seu pet cuidado no conforto da própria casa, com a rotina de sempre, amor e segurança.",
+  keywords: [
+    "pet sitter São Caetano do Sul",
+    "pet sitter Santo André",
+    "cuidador de pet em casa",
+    "babá de cachorro",
+    "Patas & Passos",
+  ],
+  openGraph: {
+    title: "Pet Sitter em São Caetano do Sul e Santo André · Patas & Passos",
+    description:
+      "Seu pet cuidado no conforto da própria casa, com a rotina de sempre, amor e segurança.",
+    locale: "pt_BR",
+    type: "website",
+  },
 };
 
 const WaIcon = () => (
@@ -33,7 +48,6 @@ export default function PetSitterPage() {
     <div className="wrap">
       {/* HERO */}
       <section className="phero">
-        <div className="page-hero-blob" />
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
           <span className="eyebrow">🏡 Pet Sitter</span>
           <h1 className="h-xl">
@@ -54,7 +68,7 @@ export default function PetSitterPage() {
           </div>
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
-          <img className="photo" src="/photos/hotel-rest-1.jpg" alt="Pet relaxado em casa durante o cuidado do pet sitter — Patas & Passos" />
+          <img className="photo photo-full" src="/photos/pet-sitter-hero.jpg" alt="Pet recebendo carinho e cuidado em casa durante o atendimento do pet sitter — Patas & Passos" />
         </div>
       </section>
 
@@ -90,6 +104,23 @@ export default function PetSitterPage() {
         </div>
       </section>
 
+      {/* MOMENTO REAL */}
+      <section className="section">
+        <div className="cards c2 reveal" style={{ alignItems: "center", gap: 40 }}>
+          <img className="photo" style={{ aspectRatio: "3/4", objectFit: "cover" }} src="/photos/pet-sitter-momento.jpg" alt="Pet sitter recebendo carinho do pet durante o atendimento — Patas & Passos" />
+          <div>
+            <span className="eyebrow">Direto da rotina</span>
+            <h2 className="h-lg">
+              Vínculo de verdade, <span className="hl">a cada visita</span>
+            </h2>
+            <p className="lead">
+              Não é só cuidado técnico: é carinho de verdade. Cada visita fortalece a confiança
+              entre o pet e quem cuida dele, pra ele se sentir seguro mesmo com você fora de casa.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* HOW IT WORKS */}
       <section className="section" id="como-funciona">
         <div className="sec-head center reveal">
@@ -118,6 +149,43 @@ export default function PetSitterPage() {
         </div>
       </section>
 
+      {/* VIDEO REAL */}
+      <section className="section" id="video">
+        <div className="sec-head center reveal">
+          <span className="eyebrow">Direto das visitas</span>
+          <h2 className="h-lg">
+            Cada visita, <span className="hl">de verdade</span>
+          </h2>
+          <p className="lead">Sem cenas posadas: é o carinho e o cuidado de cada atendimento.</p>
+        </div>
+        <div className="cards c2" style={{ gap: 24 }}>
+          <div className="video-card reveal">
+            <video
+              src="/videos/pet-sitter-video-1.mp4"
+              poster="/videos/pet-sitter-video-1-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="Pet sitter passeando com o pet — Patas & Passos"
+            />
+            <p className="video-caption">O pet sitter também pode incluir passeio</p>
+          </div>
+          <div className="video-card reveal">
+            <video
+              src="/videos/pet-sitter-video-2.mp4"
+              poster="/videos/pet-sitter-video-2-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="Pet sitter dando carinho e atenção ao pet — Patas & Passos"
+            />
+            <p className="video-caption">Muito carinho e atenção em cada visita</p>
+          </div>
+        </div>
+      </section>
+
       {/* TESTIMONIALS */}
       <section className="section" id="depoimentos">
         <div className="sec-head center reveal">
@@ -125,21 +193,20 @@ export default function PetSitterPage() {
           <h2 className="h-lg">
             Tutores que viajaram <span className="hl">tranquilos</span>
           </h2>
+          <a className="review-cta" href={siteConfig.googleReview} target="_blank" rel="noopener">
+            🐾 Já é nosso cliente? Avalie a gente no Google →
+          </a>
         </div>
         <div className="quotes">
-          {[
-            ['"A Lua é super medrosa e não se adapta a hotel. Com o pet sitter em casa ela ficou tranquila, comendo direitinho. Alívio total."', "M", "Marina V.", "tutora da Lua"],
-            ['"Meu idoso precisa de remédio na hora certa. A equipe foi pontual e cuidadosa em todas as visitas, com foto de cada uma."', "P", "Paulo R.", "tutor do Bento"],
-            ['"Viajei sabendo que o Simba estava na própria casa, com a rotina dele. Voltei e estava tudo impecável."', "A", "Amanda L.", "tutora do Simba"],
-          ].map(([q, av, nome, papel], i) => (
+          {[testimonials[0], testimonials[4], testimonials[2]].map((t, i) => (
             <div className="quote reveal" key={i}>
               <div className="stars">★★★★★</div>
-              <p>{q}</p>
+              <p>&quot;{t.quote}&quot;</p>
               <div className="who">
-                <div className="av">{av}</div>
+                <div className="av">{t.initial}</div>
                 <div>
-                  <b>{nome}</b>
-                  <span>{papel}</span>
+                  <b>{t.name}</b>
+                  <span>{t.role}</span>
                 </div>
               </div>
             </div>

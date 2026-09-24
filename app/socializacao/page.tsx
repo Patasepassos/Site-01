@@ -1,10 +1,25 @@
 import type { Metadata } from "next";
-import { waLink, waMessages } from "@/lib/site";
+import { siteConfig, waLink, waMessages } from "@/lib/site";
+import { testimonials } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
-  title: "Socialização · Passeios em Grupo · Patas & Passos",
+  title: "Socialização e Passeios em Grupo em São Caetano do Sul e Santo André · Patas & Passos",
   description:
-    "Passeios em grupo para cães em São Caetano do Sul: grupos pequenos e supervisionados para seu pet fazer amigos, se exercitar e se desenvolver com segurança.",
+    "Passeios em grupo para cães em São Caetano do Sul e Santo André — SP: grupos pequenos e supervisionados para seu pet fazer amigos, se exercitar e se desenvolver com segurança.",
+  keywords: [
+    "socialização canina São Caetano do Sul",
+    "passeio em grupo para cães",
+    "socialização de cães Santo André",
+    "grupo de passeio dog",
+    "Patas & Passos",
+  ],
+  openGraph: {
+    title: "Socialização e Passeios em Grupo · Patas & Passos",
+    description:
+      "Grupos pequenos e supervisionados em São Caetano do Sul e Santo André para seu pet fazer amigos com segurança.",
+    locale: "pt_BR",
+    type: "website",
+  },
 };
 
 const WaIcon = () => (
@@ -33,7 +48,6 @@ export default function SocializacaoPage() {
     <div className="wrap">
       {/* HERO */}
       <section className="phero">
-        <div className="page-hero-blob" />
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
           <span className="eyebrow">🐕 Socialização · Passeios em Grupo</span>
           <h1 className="h-xl">
@@ -55,7 +69,7 @@ export default function SocializacaoPage() {
           </div>
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
-          <img className="photo" src="/photos/creche-play-2.jpg" alt="Cães se socializando em passeio em grupo — Patas & Passos" />
+          <img className="photo" src="/photos/socializacao-hero.jpg" alt="Cães se socializando em passeio em grupo — Patas & Passos" />
         </div>
       </section>
 
@@ -119,6 +133,34 @@ export default function SocializacaoPage() {
         </div>
       </section>
 
+      {/* VIDEO REAL */}
+      <section className="section" id="video">
+        <div className="cards c2" style={{ alignItems: "center", gap: 40 }}>
+          <div className="video-card reveal">
+            <video
+              src="/videos/socializacao-grupo.mp4"
+              poster="/videos/socializacao-grupo-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-label="Passeio em grupo real com pet socializando — Patas & Passos"
+            />
+            <p className="video-caption">Um passeio em grupo de verdade, sem cenas posadas</p>
+          </div>
+          <div className="reveal">
+            <span className="eyebrow">Direto do parque</span>
+            <h2 className="h-lg">
+              Amor e cuidado <span className="hl">a cada passo</span>
+            </h2>
+            <p className="lead">
+              Cada saída em grupo é pensada com atenção: ambiente seguro, ritmo respeitado e muito
+              carinho, pra cada pet aproveitar a companhia da turma.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* TESTIMONIALS */}
       <section className="section" id="depoimentos">
         <div className="sec-head center reveal">
@@ -126,21 +168,20 @@ export default function SocializacaoPage() {
           <h2 className="h-lg">
             Pets mais <span className="hl">equilibrados</span>
           </h2>
+          <a className="review-cta" href={siteConfig.googleReview} target="_blank" rel="noopener">
+            🐾 Já é nosso cliente? Avalie a gente no Google →
+          </a>
         </div>
         <div className="quotes">
-          {[
-            ['"A Mel era super arredia com outros cães. Depois de 3 semanas no grupo já chega abanando o rabo pra todo mundo. Impressionante."', "C", "Camila R.", "tutora da Mel"],
-            ['"O Thor é energético demais pra passear sozinho. Em grupo ele gasta energia, faz amizades e volta manso. Perfeito."', "R", "Rafael S.", "tutor do Thor"],
-            ['"Minha cadela idosa precisava de estimulação social leve. O grupo certo fez toda a diferença no humor dela."', "L", "Letícia M.", "tutora da Luna"],
-          ].map(([q, av, nome, papel], i) => (
+          {[testimonials[1], testimonials[4], testimonials[3]].map((t, i) => (
             <div className="quote reveal" key={i}>
               <div className="stars">★★★★★</div>
-              <p>{q}</p>
+              <p>&quot;{t.quote}&quot;</p>
               <div className="who">
-                <div className="av">{av}</div>
+                <div className="av">{t.initial}</div>
                 <div>
-                  <b>{nome}</b>
-                  <span>{papel}</span>
+                  <b>{t.name}</b>
+                  <span>{t.role}</span>
                 </div>
               </div>
             </div>
