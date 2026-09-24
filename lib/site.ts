@@ -12,6 +12,7 @@ export const siteConfig = {
   whatsappPhone: "5511912164567",
   instagram: "https://www.instagram.com/patas.passos/",
   googleBusiness: "https://share.google/4YEgIomFOhwJLxpDO",
+  googleReview: "https://g.page/r/CZbLPFUVftzREBM/review",
 } as const;
 
 export const waMessages = {

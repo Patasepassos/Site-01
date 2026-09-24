@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { waLink, waMessages } from "@/lib/site";
+import { siteConfig, waLink, waMessages } from "@/lib/site";
 import { testimonials } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
@@ -176,6 +176,9 @@ export default function VacinasPage() {
           <h2 className="h-lg">
             Cuidado que <span className="hl">tranquiliza</span>
           </h2>
+          <a className="review-cta" href={siteConfig.googleReview} target="_blank" rel="noopener">
+            🐾 Já é nosso cliente? Avalie a gente no Google →
+          </a>
         </div>
         <div className="quotes">
           {[testimonials[0], testimonials[4], testimonials[3]].map((t, i) => (

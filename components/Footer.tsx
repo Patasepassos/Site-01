@@ -31,8 +31,8 @@ export default function Footer() {
           <a href={siteConfig.instagram} target="_blank" rel="noopener">
             Instagram
           </a>
-          <a href={siteConfig.googleBusiness} target="_blank" rel="noopener">
-            Avaliações no Google
+          <a href={siteConfig.googleReview} target="_blank" rel="noopener">
+            Avalie a gente no Google
           </a>
         </div>
         <div>

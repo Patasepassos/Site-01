@@ -167,6 +167,10 @@ img.photo.wide{ aspect-ratio:16/11; }
 .gallery img.photo{ width:100%; height:100%; border-radius:16px; object-fit:cover; }
 
 /* testimonials */
+.review-cta{ display:inline-flex; align-items:center; gap:6px; margin:0 auto 32px; font-weight:600;
+  font-size:14px; color:var(--brown-2); border-bottom:1px solid transparent; transition:border-color .2s ease; }
+.review-cta:hover{ border-color:var(--brown-2); }
+.sec-head.center .review-cta{ display:flex; justify-content:center; }
 .quotes{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
 .quotes:has(> :nth-child(4):last-child) > :nth-child(4){ grid-column:1 / -1; max-width:420px; margin:0 auto; }
 .quote{ background:#fffaf3; border:1px solid rgba(61,31,21,.08); border-radius:20px; padding:30px; box-shadow:var(--shadow-md); display:flex; flex-direction:column; gap:16px; }
