@@ -1,6 +1,6 @@
 import Link from "next/link";
 import MascotAuau from "@/components/mascot/MascotAuau";
-import { waLink, waMessages } from "@/lib/site";
+import { siteConfig, waLink, waMessages } from "@/lib/site";
 
 const Paw = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
@@ -70,6 +70,16 @@ export default function Home() {
             <path d="M4 22 Q20 4 38 18 T74 18 T110 16" fill="none" stroke="#A36C43" strokeWidth="6" strokeLinecap="round" />
           </svg>
           <div className="gratis">Primeiro<br />passo</div>
+          <a
+            className="rate-badge"
+            href={siteConfig.googleBusiness}
+            target="_blank"
+            rel="noopener"
+            aria-label="Ver avaliações no Google"
+          >
+            <span className="rate-stars">★★★★★</span>
+            Ver<br />avaliações
+          </a>
           <div className="blob" />
           <div className="dog-stage"><MascotAuau /></div>
         </div>

@@ -284,6 +284,13 @@ img.photo.wide{ aspect-ratio:16/11; }
   box-shadow:0 14px 26px rgba(255,138,91,.4); animation:tagWiggle 3s ease-in-out infinite; }
 @keyframes tagWiggle{ 0%,100%{ transform:rotate(-7deg);} 50%{ transform:rotate(7deg);} }
 
+.rate-badge{ position:absolute; z-index:6; top:8%; left:-4%; width:108px; height:108px; border-radius:50%;
+  background:#fffaf3; color:var(--blue-deep); display:grid; place-items:center; text-align:center; gap:2px;
+  font-family:var(--font-heading),'Cormorant Garamond',serif; font-weight:700; font-size:17px; line-height:1.1;
+  border:1px solid rgba(61,31,21,.08); box-shadow:0 14px 26px rgba(61,31,21,.2);
+  animation:tagWiggle 3s ease-in-out infinite reverse; }
+.rate-stars{ font-family:var(--font-body),'Montserrat',sans-serif; color:var(--amber); font-size:13px; letter-spacing:1px; font-weight:600; }
+
 @media (max-width:980px){
   .hero{ grid-template-columns:1fr; text-align:center; }
   .hero .lead{ margin-left:auto; margin-right:auto; }
@@ -518,6 +525,8 @@ a.ci-val:hover{ color:var(--blue); }
   .dog-zone .deco{ transform:scale(.7); }
   .dog-zone .dotgrid{ display:none; }
   .gratis{ width:88px; height:88px; font-size:16px; }
+  .rate-badge{ width:84px; height:84px; font-size:13px; }
+  .rate-stars{ font-size:11px; }
 
   .section{ padding:52px 0; }
   .sec-head{ margin-bottom:28px; }
@@ -531,4 +540,6 @@ a.ci-val:hover{ color:var(--blue); }
 @media (max-width:400px){
   .tb-logo{ max-width:120px; }
   .gratis{ width:76px; height:76px; font-size:14px; }
+  .rate-badge{ width:72px; height:72px; font-size:11px; }
+  .rate-stars{ font-size:9px; }
 }
