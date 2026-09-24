@@ -1,4 +1,4 @@
-import { location } from "@/lib/site";
+import { location, siteConfig } from "@/lib/site";
 
 const Paw = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
@@ -29,6 +29,15 @@ export default function LocationSection() {
             <span className="location-pin" aria-hidden="true">📍</span>
             <span>São Caetano do Sul – SP</span>
           </div>
+          <a
+            className="btn btn-white"
+            style={{ marginTop: 18 }}
+            href={siteConfig.googleBusiness}
+            target="_blank"
+            rel="noopener"
+          >
+            ⭐ Ver avaliações no Google
+          </a>
         </div>
 
         <div className="location-map-card reveal">

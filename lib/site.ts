@@ -11,6 +11,7 @@ export const siteConfig = {
   hours: "Atendimento 24h, de segunda a domingo e feriados · Folgas e dias de fechamento são comunicados no Instagram",
   whatsappPhone: "5511912164567",
   instagram: "https://www.instagram.com/patas.passos/",
+  googleBusiness: "https://share.google/4YEgIomFOhwJLxpDO",
 } as const;
 
 export const waMessages = {
