@@ -47,4 +47,10 @@ export const testimonials: Testimonial[] = [
     name: "Welington",
     role: "avaliação no Google",
   },
+  {
+    quote: "Muito atenciosos! Tiram todas as dúvidas com carinho e atenção que mãe de Pet precisa 🤩",
+    initial: "D",
+    name: "Danubia Ribeiro Rodrigues",
+    role: "avaliação no Google · Local Guide",
+  },
 ];

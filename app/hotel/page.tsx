@@ -172,7 +172,7 @@ export default function HotelPage() {
           </h2>
         </div>
         <div className="quotes">
-          {[testimonials[0], testimonials[1], testimonials[5]].map((t, i) => (
+          {[testimonials[0], testimonials[1], testimonials[5], testimonials[6]].map((t, i) => (
             <div className="quote reveal" key={i}>
               <div className="stars">★★★★★</div>
               <p>&quot;{t.quote}&quot;</p>

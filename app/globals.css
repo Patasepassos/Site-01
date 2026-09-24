@@ -168,6 +168,7 @@ img.photo.wide{ aspect-ratio:16/11; }
 
 /* testimonials */
 .quotes{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.quotes:has(> :nth-child(4):last-child) > :nth-child(4){ grid-column:1 / -1; max-width:420px; margin:0 auto; }
 .quote{ background:#fffaf3; border:1px solid rgba(61,31,21,.08); border-radius:20px; padding:30px; box-shadow:var(--shadow-md); display:flex; flex-direction:column; gap:16px; }
 .quote .stars{ color:var(--amber); font-size:18px; letter-spacing:2px; }
 .quote p{ margin:0; font-weight:400; font-size:16.5px; line-height:1.7; color:#765F53; }
