@@ -91,19 +91,19 @@ export default function PasseiosPage() {
             </g>
           </svg>
           <div style={{ position: "relative", zIndex: 2 }}>
-            <span className="eyebrow" style={{ color: "#F5C13D" }}>🐾 Oferta especial pra você começar</span>
+            <span className="eyebrow" style={{ color: "#F5C13D" }}>🐾 Presente especial pra você começar</span>
             <h2 style={{ margin: "10px 0 6px" }}>
-              <span style={{ fontSize: "clamp(30px, 9vw, 44px)", fontWeight: 800, display: "block", lineHeight: 1 }}>77,53% OFF</span>
-              no plano de Dog Walker
+              <span style={{ fontSize: "clamp(30px, 9vw, 44px)", fontWeight: 800, display: "block", lineHeight: 1 }}>R$10 por passeio</span>
+              Dog Walker 2x por semana, o mês todo
             </h2>
             <p>
-              Sabemos que decidir começar é mais fácil quando o preço faz sentido. Fale com a gente
-              no WhatsApp e use o cupom <b>1CLIENTE</b> pra saber como funciona o desconto — mensal
-              ou anual. Aceitamos cartão de crédito ou débito de qualquer bandeira, com parcelamento.
+              A Patas &amp; Passos está com um presente pra você começar: Dog Walker por apenas
+              R$10 o passeio, 2 vezes na semana, durante o mês inteiro. Oferta por tempo limitado —
+              garanta a sua até <b>10 de outubro</b>.
             </p>
           </div>
           <a className="btn btn-white btn-lg" style={{ position: "relative", zIndex: 2 }} href={waPromo} target="_blank" rel="noopener">
-            Quero meu desconto
+            Quero meu presente
           </a>
         </div>
       </section>

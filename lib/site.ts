@@ -29,7 +29,7 @@ export const waMessages = {
   visita:
     "Olá! 🐾 Vim pelo site da Patas & Passos e gostaria de agendar um atendimento para o meu pet. Quando vocês têm disponibilidade?",
   promoPasseios:
-    "Olá! 🐾 Vi a oferta especial no site da Patas & Passos e quero saber como usar o cupom 1CLIENTE nos passeios (dog walker)!",
+    "Olá! 🐾 Vi o presente da Patas & Passos no site e quero garantir o Dog Walker por R$10, 2x na semana, durante o mês todo — antes que acabe em 10/10!",
 } as const;
 
 export function waLink(message: string): string {
