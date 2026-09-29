@@ -3,6 +3,7 @@ import { getCurrentPartner } from "@/lib/partners/session";
 import { buildEligibilityChecklist } from "@/lib/partners/eligibility";
 import EditProfileForm from "@/components/portal/EditProfileForm";
 import ChangePasswordForm from "@/components/portal/ChangePasswordForm";
+import MfaSetup from "@/components/MfaSetup";
 
 export default async function PerfilPage() {
   const current = await getCurrentPartner();
@@ -60,6 +61,11 @@ export default async function PerfilPage() {
       <div className="portal-card">
         <h2>Trocar senha</h2>
         <ChangePasswordForm />
+      </div>
+
+      <div className="portal-card">
+        <h2>Autenticação em dois fatores</h2>
+        <MfaSetup />
       </div>
     </>
   );

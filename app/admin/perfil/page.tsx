@@ -3,7 +3,7 @@ import { requireStaffUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getAuthEmailMap } from "@/lib/admin/auth-emails";
 import ChangePasswordForm from "@/components/portal/ChangePasswordForm";
-import MfaSetup from "@/components/admin/MfaSetup";
+import MfaSetup from "@/components/MfaSetup";
 
 const ROLE_LABELS: Record<string, string> = { admin: "Administrador", operator: "Operador" };
 
@@ -31,12 +31,10 @@ export default async function AdminPerfilPage() {
         <ChangePasswordForm />
       </div>
 
-      {staff.profile.role === "admin" && (
-        <div className="portal-card">
-          <h2>Autenticação em dois fatores</h2>
-          <MfaSetup />
-        </div>
-      )}
+      <div className="portal-card">
+        <h2>Autenticação em dois fatores</h2>
+        <MfaSetup />
+      </div>
     </>
   );
 }

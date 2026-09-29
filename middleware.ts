@@ -63,22 +63,22 @@ export async function middleware(request: NextRequest) {
       dashboardUrl.pathname = "/parceiros/dashboard";
       return NextResponse.redirect(dashboardUrl);
     }
+  }
 
-    // 2FA obrigatório pra admin: se já tem um fator TOTP verificado mas a
-    // sessão atual não chegou em aal2, manda pro desafio antes de liberar
-    // qualquer rota /admin/*. Quem ainda não configurou 2FA passa direto —
-    // sem isso, o primeiro admin nunca conseguiria nem configurar o 2FA.
-    if (profile.role === "admin") {
-      const { data: factorsData } = await supabase.auth.mfa.listFactors();
-      const hasVerifiedTotp = (factorsData?.totp ?? []).some((f) => f.status === "verified");
-      if (hasVerifiedTotp) {
-        const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-        if (aal && aal.currentLevel !== "aal2" && aal.nextLevel === "aal2") {
-          const mfaUrl = request.nextUrl.clone();
-          mfaUrl.pathname = "/mfa-challenge";
-          mfaUrl.searchParams.set("redirect", pathname);
-          return NextResponse.redirect(mfaUrl);
-        }
+  // 2FA: quem configurou (admin, operador ou parceiro — qualquer um pode
+  // ativar no próprio perfil) tem a sessão elevada exigida aqui. Se ainda
+  // não tem fator verificado, passa direto — sem isso, ninguém conseguiria
+  // nem configurar o 2FA a primeira vez.
+  if ((isPortalPath || isAdminPath) && user) {
+    const { data: factorsData } = await supabase.auth.mfa.listFactors();
+    const hasVerifiedTotp = (factorsData?.totp ?? []).some((f) => f.status === "verified");
+    if (hasVerifiedTotp) {
+      const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (aal && aal.currentLevel !== "aal2" && aal.nextLevel === "aal2") {
+        const mfaUrl = request.nextUrl.clone();
+        mfaUrl.pathname = "/mfa-challenge";
+        mfaUrl.searchParams.set("redirect", pathname);
+        return NextResponse.redirect(mfaUrl);
       }
     }
   }

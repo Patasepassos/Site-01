@@ -5,6 +5,7 @@ import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
 type Step = "loading" | "disabled" | "enrolling" | "enabled";
 
+/** Ativação de 2FA (TOTP) — disponível pra qualquer conta (admin, operador ou parceiro) no próprio perfil. */
 export default function MfaSetup() {
   const [step, setStep] = useState<Step>("loading");
   const [factorId, setFactorId] = useState<string | null>(null);
@@ -109,7 +110,7 @@ export default function MfaSetup() {
   if (step === "enabled") {
     return (
       <div>
-        <p className="pf-success">2FA ativado — sua conta exige o código do autenticador pra entrar no admin.</p>
+        <p className="pf-success">2FA ativado — sua conta exige o código do autenticador pra entrar.</p>
         {error && <p className="pf-error">{error}</p>}
         <button type="button" className="btn btn-danger btn-sm" style={{ marginTop: 10 }} disabled={loading} onClick={disable}>
           Desativar 2FA
@@ -143,7 +144,7 @@ export default function MfaSetup() {
 
   return (
     <div>
-      <p>Sua conta ainda não tem 2FA. Recomendado pra contas de administrador.</p>
+      <p>Sua conta ainda não tem verificação em duas etapas. Recomendado pra manter sua conta mais segura.</p>
       {error && <p className="pf-error">{error}</p>}
       <button type="button" className="btn btn-wa btn-sm" style={{ marginTop: 10 }} disabled={loading} onClick={startEnroll}>
         Configurar 2FA

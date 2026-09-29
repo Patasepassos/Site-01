@@ -8,7 +8,7 @@ import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 function MfaChallengeForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/admin";
+  const redirectTo = searchParams.get("redirect") || "/parceiros/dashboard";
 
   const [factorId, setFactorId] = useState<string | null>(null);
   const [code, setCode] = useState("");

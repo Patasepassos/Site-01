@@ -3,6 +3,7 @@ import { requireStaffUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/partners/audit";
 import { recomputePartnerEligibility } from "@/lib/partners/eligibility";
+import { describeError } from "@/lib/partners/errors";
 import type { PartnerStatus } from "@/lib/supabase/types";
 
 const ALLOWED_STATUSES: PartnerStatus[] = ["pending", "active", "blocked"];
@@ -24,6 +25,15 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   }
 
   const supabaseAdmin = createSupabaseAdminClient();
+
+  const { data: partner } = await supabaseAdmin.from("partners").select("id").eq("id", params.id).maybeSingle();
+  if (!partner) {
+    return NextResponse.json(
+      { error: "Este parceiro não existe mais. Atualize a página (F5) e tente de novo." },
+      { status: 404 }
+    );
+  }
+
   const update: { status: PartnerStatus; approved_at?: string; approved_by?: string; financial_data_verified?: boolean } = {
     status,
   };
@@ -49,7 +59,12 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     metadata: { status },
   });
 
-  await recomputePartnerEligibility(supabaseAdmin, params.id, { id: admin.userId, role: admin.profile.role });
+  try {
+    await recomputePartnerEligibility(supabaseAdmin, params.id, { id: admin.userId, role: admin.profile.role });
+  } catch (err) {
+    console.error("Erro ao recalcular elegibilidade:", describeError(err));
+    return NextResponse.json({ error: "Status atualizado, mas não foi possível recalcular a elegibilidade." }, { status: 500 });
+  }
 
   return NextResponse.json({ success: true });
 }
