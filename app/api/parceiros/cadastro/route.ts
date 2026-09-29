@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { generateUniqueCoupon } from "@/lib/partners/coupon";
 import { logAudit } from "@/lib/partners/audit";
+import { describeError } from "@/lib/partners/errors";
 import {
   isValidCpfOrCnpj,
   isValidEmail,
@@ -66,6 +67,9 @@ export async function POST(request: Request) {
   });
 
   if (createUserError || !created.user) {
+    if (!createUserError?.message.includes("already been registered")) {
+      console.error("Erro ao criar usuário de parceiro:", describeError(createUserError));
+    }
     const message = createUserError?.message.includes("already been registered")
       ? "Este e-mail já está cadastrado."
       : "Não foi possível criar sua conta. Tente novamente.";
@@ -110,8 +114,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, couponCode: partner.coupon_code });
   } catch (err) {
     await supabaseAdmin.auth.admin.deleteUser(userId);
-    const message = err instanceof Error ? err.message : "Erro desconhecido.";
-    console.error("Erro no cadastro de parceiro:", message);
+    console.error("Erro no cadastro de parceiro:", describeError(err));
     return NextResponse.json(
       { error: "Não foi possível concluir o cadastro. Tente novamente." },
       { status: 500 }
