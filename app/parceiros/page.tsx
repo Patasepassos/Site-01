@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { waLink } from "@/lib/site";
+import PartnerTermsModal from "@/components/PartnerTermsModal";
 
 export const metadata: Metadata = {
   title: "Parceiros em São Caetano do Sul e Santo André · Patas & Passos",
@@ -19,10 +19,6 @@ export const metadata: Metadata = {
     type: "website",
   },
 };
-
-const waPartner = waLink(
-  "Olá! 🐾 Vim pelo site da Patas & Passos e gostaria de me tornar um parceiro. Podemos conversar?"
-);
 
 const PARTNERS = [
   {
@@ -82,9 +78,7 @@ export default function ParceirosPage() {
             compromisso: oferecer o melhor cuidado para os animais da nossa região.
           </p>
           <div className="cta-row" style={{ display: "flex", gap: 16, marginTop: 30, flexWrap: "wrap" }}>
-            <a className="btn btn-wa btn-lg" href={waPartner} target="_blank" rel="noopener">
-              Quero ser parceiro
-            </a>
+            <PartnerTermsModal className="btn btn-wa btn-lg">Quero ser parceiro</PartnerTermsModal>
             <a className="btn btn-white btn-lg" href="#parceiros">
               Ver parceiros
             </a>
@@ -186,9 +180,9 @@ export default function ParceirosPage() {
             <h2>Vamos construir algo juntos? 🤝</h2>
             <p>Entre em contato pelo WhatsApp e descubra como se tornar um parceiro oficial da Patas &amp; Passos.</p>
           </div>
-          <a className="btn btn-white btn-lg" style={{ position: "relative", zIndex: 2 }} href={waPartner} target="_blank" rel="noopener">
+          <PartnerTermsModal className="btn btn-white btn-lg" style={{ position: "relative", zIndex: 2 }}>
             Quero ser parceiro
-          </a>
+          </PartnerTermsModal>
         </div>
       </section>
     </div>
