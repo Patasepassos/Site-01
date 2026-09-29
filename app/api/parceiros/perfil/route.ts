@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/partners/audit";
+import { recomputePartnerEligibility } from "@/lib/partners/eligibility";
 import { isValidPhone, isValidPixKey, onlyDigits, PIX_KEY_TYPES } from "@/lib/partners/validation";
 import type { PixKeyType } from "@/lib/supabase/types";
 
@@ -39,20 +40,36 @@ export async function PATCH(request: Request) {
 
   const supabaseAdmin = createSupabaseAdminClient();
 
-  const { data: partner } = await supabaseAdmin
-    .from("partners")
-    .select("id")
-    .eq("profile_id", user.id)
-    .maybeSingle();
+  const [{ data: profile }, { data: partner }] = await Promise.all([
+    supabaseAdmin.from("profiles").select("phone").eq("id", user.id).maybeSingle(),
+    supabaseAdmin.from("partners").select("*").eq("profile_id", user.id).maybeSingle(),
+  ]);
   if (!partner) return NextResponse.json({ error: "Parceiro não encontrado." }, { status: 404 });
 
+  const newPhoneDigits = onlyDigits(phone);
+  const phoneChanged = profile?.phone !== newPhoneDigits;
+  const pixChanged = partner.pix_key !== pixKey || partner.pix_key_type !== pixKeyType;
+
+  const partnerUpdate: { pix_key: string; pix_key_type: PixKeyType; financial_data_verified?: boolean } = {
+    pix_key: pixKey,
+    pix_key_type: pixKeyType,
+  };
+  // Trocar a chave Pix invalida a aprovação anterior dos dados financeiros —
+  // o admin precisa revisar de novo antes de qualquer pagamento novo sair.
+  if (pixChanged) partnerUpdate.financial_data_verified = false;
+
   const [{ error: profileError }, { error: partnerError }] = await Promise.all([
-    supabaseAdmin.from("profiles").update({ phone: onlyDigits(phone) }).eq("id", user.id),
-    supabaseAdmin.from("partners").update({ pix_key: pixKey, pix_key_type: pixKeyType }).eq("id", partner.id),
+    supabaseAdmin.from("profiles").update({ phone: newPhoneDigits }).eq("id", user.id),
+    supabaseAdmin.from("partners").update(partnerUpdate).eq("id", partner.id),
   ]);
 
   if (profileError || partnerError) {
     return NextResponse.json({ error: "Não foi possível salvar as alterações." }, { status: 500 });
+  }
+
+  // Trocar o WhatsApp também invalida a verificação anterior desse número.
+  if (phoneChanged) {
+    await supabaseAdmin.from("partners").update({ whatsapp_verified: false }).eq("id", partner.id);
   }
 
   await logAudit(supabaseAdmin, {
@@ -61,7 +78,12 @@ export async function PATCH(request: Request) {
     action: "partner_profile_updated",
     entityType: "partner",
     entityId: partner.id,
+    metadata: { phoneChanged, pixChanged },
   });
+
+  if (phoneChanged || pixChanged) {
+    await recomputePartnerEligibility(supabaseAdmin, partner.id, { id: user.id, role: "partner" });
+  }
 
   return NextResponse.json({ success: true });
 }

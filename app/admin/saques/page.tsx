@@ -79,6 +79,7 @@ export default async function AdminSaquesPage({
                     <div className="rr-meta">
                       Pago em {p.processed_at ? formatDate(p.processed_at) : "—"} via {p.payment_method ?? "—"}
                       {processedByProfile ? ` · confirmado por ${processedByProfile.full_name}` : ""}
+                      {p.transaction_reference ? ` · ref. ${p.transaction_reference}` : ""}
                       {p.notes ? ` · Obs.: ${p.notes}` : ""}
                     </div>
                   )}

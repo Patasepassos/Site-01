@@ -5,6 +5,7 @@ import type { PartnerRow, ProfileRow } from "@/lib/supabase/types";
 export type CurrentPartner = {
   userId: string;
   email: string;
+  emailVerified: boolean;
   profile: ProfileRow;
   partner: PartnerRow;
 };
@@ -32,5 +33,11 @@ export async function getCurrentPartner(): Promise<CurrentPartner | null> {
     .maybeSingle();
   if (!partner) return null;
 
-  return { userId: user.id, email: user.email ?? "", profile, partner };
+  return {
+    userId: user.id,
+    email: user.email ?? "",
+    emailVerified: Boolean(user.email_confirmed_at),
+    profile,
+    partner,
+  };
 }

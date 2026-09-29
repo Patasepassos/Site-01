@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requireStaffUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/partners/audit";
+import { recomputePartnerEligibility } from "@/lib/partners/eligibility";
 import type { PartnerStatus } from "@/lib/supabase/types";
 
 const ALLOWED_STATUSES: PartnerStatus[] = ["pending", "active", "blocked"];
@@ -23,10 +24,15 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   }
 
   const supabaseAdmin = createSupabaseAdminClient();
-  const update: { status: PartnerStatus; approved_at?: string; approved_by?: string } = { status };
+  const update: { status: PartnerStatus; approved_at?: string; approved_by?: string; financial_data_verified?: boolean } = {
+    status,
+  };
   if (status === "active") {
     update.approved_at = new Date().toISOString();
     update.approved_by = admin.userId;
+    // Aprovar o parceiro é o momento em que o admin revisa os dados (Pix
+    // incluído) — trata como a aprovação dos dados financeiros também.
+    update.financial_data_verified = true;
   }
 
   const { error } = await supabaseAdmin.from("partners").update(update).eq("id", params.id);
@@ -42,6 +48,8 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     entityId: params.id,
     metadata: { status },
   });
+
+  await recomputePartnerEligibility(supabaseAdmin, params.id, { id: admin.userId, role: admin.profile.role });
 
   return NextResponse.json({ success: true });
 }

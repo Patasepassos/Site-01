@@ -17,7 +17,11 @@ export type ContractType = "avulso" | "mensal" | "anual";
 export type CommissionStatus = "bloqueada" | "liberada" | "paga";
 export type PayoutStatus = "solicitado" | "em_analise" | "aprovado" | "pago" | "recusado";
 export type PaymentStatus = "pendente" | "confirmado" | "cancelado";
-export type NotificationType = "indicacao_convertida" | "comissao_liberada" | "saque_atualizado";
+export type NotificationType =
+  | "indicacao_convertida"
+  | "comissao_liberada"
+  | "saque_atualizado"
+  | "elegibilidade_atualizada";
 export type UserRole = "admin" | "operator" | "partner";
 
 export type ProfileRow = {
@@ -41,6 +45,11 @@ export type PartnerRow = {
   approved_at: string | null;
   approved_by: string | null;
   is_test: boolean;
+  whatsapp_verified: boolean;
+  document_verified: boolean;
+  financial_data_verified: boolean;
+  payout_eligible: boolean;
+  eligibility_updated_at: string | null;
   created_at: string;
 };
 
@@ -119,6 +128,8 @@ export type PayoutRow = {
   payment_method: string | null;
   notes: string | null;
   proof_path: string | null;
+  transaction_reference: string | null;
+  idempotency_key: string | null;
   requested_at: string;
   processed_by: string | null;
   processed_at: string | null;

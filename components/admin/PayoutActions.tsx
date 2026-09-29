@@ -13,7 +13,9 @@ export default function PayoutActions({ payoutId, status }: { payoutId: string; 
   const [showConfirm, setShowConfirm] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(PAYMENT_METHODS[0]);
   const [notes, setNotes] = useState("");
+  const [transactionReference, setTransactionReference] = useState("");
   const [proof, setProof] = useState<File | null>(null);
+  const [idempotencyKey, setIdempotencyKey] = useState<string | null>(null);
 
   async function updateStatus(next: PayoutStatus) {
     setError(null);
@@ -37,6 +39,15 @@ export default function PayoutActions({ payoutId, status }: { payoutId: string; 
     }
   }
 
+  function openConfirm() {
+    // Gerada uma vez por tentativa de pagamento: se o clique falhar por
+    // queda de conexão e o admin apertar de novo sem fechar o modal, a
+    // mesma chave viaja de novo — o servidor trata como replay, nunca paga
+    // duas vezes. Fechar e reabrir o modal conta como uma nova tentativa.
+    setIdempotencyKey(crypto.randomUUID());
+    setShowConfirm(true);
+  }
+
   async function confirmPayment(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -44,11 +55,14 @@ export default function PayoutActions({ payoutId, status }: { payoutId: string; 
       setError("Anexe o comprovante de pagamento.");
       return;
     }
+    if (!idempotencyKey) return;
     setLoading(true);
     try {
       const form = new FormData();
       form.set("paymentMethod", paymentMethod);
       form.set("notes", notes);
+      form.set("transactionReference", transactionReference);
+      form.set("idempotencyKey", idempotencyKey);
       form.set("proof", proof);
       const res = await fetch(`/api/admin/saques/${payoutId}/pagar`, { method: "POST", body: form });
       const data = await res.json();
@@ -86,7 +100,7 @@ export default function PayoutActions({ payoutId, status }: { payoutId: string; 
           </>
         )}
         {status === "aprovado" && (
-          <button type="button" className="btn btn-wa btn-sm" disabled={loading} onClick={() => setShowConfirm(true)}>
+          <button type="button" className="btn btn-wa btn-sm" disabled={loading} onClick={openConfirm}>
             💰 Marcar como pago
           </button>
         )}
@@ -109,6 +123,15 @@ export default function PayoutActions({ payoutId, status }: { payoutId: string; 
                 <option key={m} value={m}>{m}</option>
               ))}
             </select>
+
+            <label className="pf-label" htmlFor="pay-ref">Identificador da transação (opcional)</label>
+            <input
+              id="pay-ref"
+              className="pf-input"
+              value={transactionReference}
+              onChange={(e) => setTransactionReference(e.target.value)}
+              placeholder="Código do comprovante Pix, se tiver"
+            />
 
             <label className="pf-label" htmlFor="pay-notes">Observação</label>
             <input

@@ -28,6 +28,12 @@ export async function POST() {
   if (!partner || partner.status !== "active") {
     return NextResponse.json({ error: "Parceiro não está ativo." }, { status: 403 });
   }
+  if (!partner.payout_eligible) {
+    return NextResponse.json(
+      { error: "Seus dados ainda precisam ser confirmados antes de solicitar saque. Veja o status em Perfil." },
+      { status: 403 }
+    );
+  }
 
   const { disponivel } = await getPartnerBalance(supabase, partner.id);
 

@@ -14,6 +14,8 @@ import AddCustomerForm from "@/components/admin/AddCustomerForm";
 import CustomerActions from "@/components/admin/CustomerActions";
 import CustomerRowMenu from "@/components/admin/CustomerRowMenu";
 import TestFlagToggle from "@/components/admin/TestFlagToggle";
+import WhatsappVerifyToggle from "@/components/admin/WhatsappVerifyToggle";
+import { buildEligibilityChecklist } from "@/lib/partners/eligibility";
 import type { CommissionRow, CommissionStatus } from "@/lib/supabase/types";
 
 function formatPhone(digits: string): string {
@@ -34,13 +36,16 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
   const { data: partner } = await supabaseAdmin.from("partners").select("*").eq("id", params.id).maybeSingle();
   if (!partner) notFound();
 
-  const [{ data: profile }, emailMap, { data: customers }] = await Promise.all([
+  const [{ data: profile }, emailMap, { data: authUser }, { data: customers }] = await Promise.all([
     supabaseAdmin.from("profiles").select("*").eq("id", partner.profile_id).maybeSingle(),
     getAuthEmailMap(supabaseAdmin, [partner.profile_id]),
+    supabaseAdmin.auth.admin.getUserById(partner.profile_id),
     supabaseAdmin.from("customers").select("*").eq("partner_id", partner.id).order("created_at", { ascending: false }),
   ]);
 
   const email = emailMap.get(partner.profile_id) ?? "e-mail indisponível";
+  const emailVerified = Boolean(authUser.user?.email_confirmed_at);
+  const checklist = buildEligibilityChecklist(partner, emailVerified);
 
   const customerIds = (customers ?? []).map((c) => c.id);
   const { data: sales } = customerIds.length
@@ -77,6 +82,23 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
           <PartnerStatusActions partnerId={partner.id} status={partner.status} />
           <TestFlagToggle kind="parceiros" id={partner.id} isTest={partner.is_test} />
         </div>
+      </div>
+
+      <div className="portal-card">
+        <h2>Elegibilidade de pagamento</h2>
+        <div style={{ marginTop: 6, marginBottom: 10 }}>
+          <span className={`status-pill tone-${checklist.eligible ? "done" : "pending"}`}>
+            {checklist.eligible ? "✅ Apto para pagamento" : "⏳ Verificação pendente"}
+          </span>
+        </div>
+        <ul style={{ margin: "0 0 12px", paddingLeft: 20, fontSize: 14, color: "var(--ink-soft)" }}>
+          <li>{checklist.partnerActive ? "✅" : "⏳"} Conta ativa</li>
+          <li>{checklist.emailVerified ? "✅" : "⏳"} E-mail verificado</li>
+          <li>{checklist.whatsappVerified ? "✅" : "⏳"} WhatsApp verificado</li>
+          <li>{checklist.documentVerified ? "✅" : "⏳"} CPF/CNPJ validado</li>
+          <li>{checklist.financialDataVerified ? "✅" : "⏳"} Dados financeiros aprovados</li>
+        </ul>
+        <WhatsappVerifyToggle partnerId={partner.id} verified={partner.whatsapp_verified} />
       </div>
 
       <div className="portal-card">
