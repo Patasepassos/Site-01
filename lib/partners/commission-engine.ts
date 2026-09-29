@@ -44,15 +44,27 @@ export async function getPartnerProgress(
     };
   }
 
-  const { count, error: countError } = await supabase
+  // Só conta como "fechado" pra meta quem tem pagamento CONFIRMADO — uma
+  // venda registrada com pagamento ainda pendente não conta ainda.
+  const { data: closedCustomers, error: closedError } = await supabase
     .from("customers")
-    .select("id", { count: "exact", head: true })
+    .select("id")
     .eq("partner_id", partnerId)
     .eq("status", "fechado");
+  if (closedError) throw closedError;
 
-  if (countError) throw countError;
+  const closedIds = (closedCustomers ?? []).map((c) => c.id);
+  let closedCount = 0;
+  if (closedIds.length > 0) {
+    const { data: confirmedSales, error: confirmedError } = await supabase
+      .from("sales")
+      .select("customer_id")
+      .in("customer_id", closedIds)
+      .eq("payment_status", "confirmado");
+    if (confirmedError) throw confirmedError;
+    closedCount = new Set((confirmedSales ?? []).map((s) => s.customer_id)).size;
+  }
 
-  const closedCount = count ?? 0;
   const goal = rule.min_clients;
   const locked = closedCount < goal;
 
@@ -130,18 +142,24 @@ export async function recalculatePartnerCommissions(
     const customerIds = (closedCustomers ?? []).map((c) => c.id);
     if (customerIds.length === 0) continue;
 
+    // Só vendas com pagamento CONFIRMADO entram na meta e geram comissão —
+    // uma venda "fechada" com pagamento pendente ainda não conta.
     const { data: sales, error: salesError } = await supabaseAdmin
       .from("sales")
       .select("*")
-      .in("customer_id", customerIds);
+      .in("customer_id", customerIds)
+      .eq("payment_status", "confirmado");
     if (salesError) throw salesError;
 
-    let qualifyingCustomerIds = customerIds;
+    const confirmedCustomerIds = Array.from(new Set((sales ?? []).map((s) => s.customer_id)));
+    if (confirmedCustomerIds.length === 0) continue;
+
+    let qualifyingCustomerIds = confirmedCustomerIds;
     if (rule.recurring) {
       const recurringCustomerIds = new Set(
         (sales ?? []).filter((s) => s.contract_type !== "avulso").map((s) => s.customer_id)
       );
-      qualifyingCustomerIds = customerIds.filter((id) => recurringCustomerIds.has(id));
+      qualifyingCustomerIds = confirmedCustomerIds.filter((id) => recurringCustomerIds.has(id));
     }
 
     const unlocked = qualifyingCustomerIds.length >= rule.min_clients;
@@ -167,6 +185,7 @@ export async function recalculatePartnerCommissions(
         partner_id: partnerId,
         rule_id: rule.id,
         sale_id: sale.id,
+        customer_id: sale.customer_id,
         period: periodOf(sale.created_at),
         amount,
         status: unlocked ? "liberada" : "bloqueada",

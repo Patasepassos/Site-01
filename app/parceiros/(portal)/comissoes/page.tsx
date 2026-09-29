@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCurrentPartner } from "@/lib/partners/session";
 import { getPartnerProgress } from "@/lib/partners/commission-engine";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
 export default async function ComissoesPage() {
   const current = await getCurrentPartner();
@@ -10,8 +11,10 @@ export default async function ComissoesPage() {
   const supabase = createSupabaseServerClient();
   const partnerId = current.partner.id;
 
+  // getPartnerProgress lê `sales`, reservada ao admin pelo RLS — mesmo
+  // motivo do dashboard.
   const [progress, { data: commissions }] = await Promise.all([
-    getPartnerProgress(supabase, partnerId),
+    getPartnerProgress(createSupabaseAdminClient(), partnerId),
     supabase
       .from("commissions")
       .select("*")

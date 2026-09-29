@@ -16,6 +16,8 @@ export type CommissionRuleType = "meta_clientes" | "recorrencia";
 export type ContractType = "avulso" | "mensal" | "anual";
 export type CommissionStatus = "bloqueada" | "liberada" | "paga";
 export type PayoutStatus = "solicitado" | "em_analise" | "aprovado" | "pago" | "recusado";
+export type PaymentStatus = "pendente" | "confirmado" | "cancelado";
+export type NotificationType = "indicacao_convertida" | "comissao_liberada" | "saque_atualizado";
 export type UserRole = "admin" | "partner";
 
 export type ProfileRow = {
@@ -47,6 +49,8 @@ export type CustomerRow = {
   service: ServiceKey;
   status: CustomerStatus;
   coupon_used: string;
+  customer_name: string | null;
+  customer_phone: string | null;
   closed_at: string | null;
   created_at: string;
   updated_at: string;
@@ -72,7 +76,20 @@ export type SaleRow = {
   service: ServiceKey;
   contract_type: ContractType;
   amount: number;
+  payment_method: string | null;
+  payment_status: PaymentStatus;
+  notes: string | null;
   created_by: string;
+  created_at: string;
+};
+
+export type PartnerNotificationRow = {
+  id: string;
+  partner_id: string;
+  customer_id: string | null;
+  type: NotificationType;
+  message: string;
+  read_at: string | null;
   created_at: string;
 };
 
@@ -81,6 +98,7 @@ export type CommissionRow = {
   partner_id: string;
   rule_id: string;
   sale_id: string | null;
+  customer_id: string | null;
   period: string;
   amount: number;
   status: CommissionStatus;
@@ -128,6 +146,7 @@ export type Database = {
       commissions: TableDef<CommissionRow>;
       payouts: TableDef<PayoutRow>;
       audit_logs: TableDef<AuditLogRow>;
+      partner_notifications: TableDef<PartnerNotificationRow>;
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

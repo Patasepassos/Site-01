@@ -687,6 +687,11 @@ a.ci-val:hover{ color:var(--blue); }
   background:rgba(61,31,21,.08); color:var(--ink-soft); }
 .status-pill.active{ background:rgba(122,138,84,.18); color:#4c5a34; }
 .status-pill.blocked{ background:rgba(179,38,30,.12); color:#8c241d; }
+.status-pill.tone-pending{ background:rgba(245,193,61,.2); color:#8a6c14; }
+.status-pill.tone-progress{ background:rgba(184,148,116,.18); color:#8a5a34; }
+.status-pill.tone-done{ background:rgba(122,138,84,.18); color:#4c5a34; }
+.status-pill.tone-paid{ background:var(--amber); color:var(--brown); }
+.status-pill.tone-cancelled{ background:rgba(179,38,30,.12); color:#8c241d; }
 
 .referral-row{ display:flex; align-items:center; justify-content:space-between; gap:10px;
   padding:14px 0; border-bottom:1px solid rgba(61,31,21,.08); }

@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCurrentPartner } from "@/lib/partners/session";
 import { getPartnerProgress } from "@/lib/partners/commission-engine";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import CommissionCalculator from "@/components/portal/CommissionCalculator";
 
 export default async function CalculadoraPage() {
@@ -9,7 +10,8 @@ export default async function CalculadoraPage() {
   if (!current) redirect("/parceiros/login");
 
   const supabase = createSupabaseServerClient();
-  const progress = await getPartnerProgress(supabase, current.partner.id);
+  // getPartnerProgress lê `sales`, reservada ao admin pelo RLS.
+  const progress = await getPartnerProgress(createSupabaseAdminClient(), current.partner.id);
 
   let percentage: number | null = null;
   if (!progress.locked) {

@@ -2,21 +2,28 @@ import { notFound } from "next/navigation";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getAuthEmailMap } from "@/lib/admin/auth-emails";
 import {
-  CUSTOMER_STATUS_LABELS,
   PARTNER_STATUS_LABELS,
   SERVICE_LABELS,
   formatCustomerLabel,
   formatDate,
+  getUnifiedStatus,
 } from "@/lib/partners/labels";
 import { maskSecret } from "@/lib/partners/mask";
 import PartnerStatusActions from "@/components/admin/PartnerStatusActions";
 import AddCustomerForm from "@/components/admin/AddCustomerForm";
 import CustomerActions from "@/components/admin/CustomerActions";
+import type { CommissionRow, CommissionStatus } from "@/lib/supabase/types";
 
 function formatPhone(digits: string): string {
   if (digits.length === 11) return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
   if (digits.length === 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
   return digits;
+}
+
+const COMMISSION_PRIORITY: Record<CommissionStatus, number> = { paga: 3, liberada: 2, bloqueada: 1 };
+
+function pickBestCommission(commissions: CommissionRow[]): CommissionRow | undefined {
+  return commissions.sort((a, b) => COMMISSION_PRIORITY[b.status] - COMMISSION_PRIORITY[a.status])[0];
 }
 
 export default async function AdminPartnerDetailPage({ params }: { params: { id: string } }) {
@@ -32,6 +39,24 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
   ]);
 
   const email = emailMap.get(partner.profile_id) ?? "e-mail indisponível";
+
+  const customerIds = (customers ?? []).map((c) => c.id);
+  const { data: sales } = customerIds.length
+    ? await supabaseAdmin.from("sales").select("*").in("customer_id", customerIds).order("created_at", { ascending: false })
+    : { data: [] };
+  const saleByCustomerId = new Map((sales ?? []).map((s) => [s.customer_id, s]));
+
+  const saleIds = (sales ?? []).map((s) => s.id);
+  const { data: commissions } = saleIds.length
+    ? await supabaseAdmin.from("commissions").select("*").in("sale_id", saleIds)
+    : { data: [] };
+  const commissionsBySaleId = new Map<string, CommissionRow[]>();
+  for (const c of commissions ?? []) {
+    if (!c.sale_id) continue;
+    const list = commissionsBySaleId.get(c.sale_id) ?? [];
+    list.push(c);
+    commissionsBySaleId.set(c.sale_id, list);
+  }
 
   return (
     <>
@@ -66,20 +91,36 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
           {!customers || customers.length === 0 ? (
             <p>Nenhum cliente indicado ainda.</p>
           ) : (
-            customers.map((c) => (
-              <div className="referral-row" key={c.id} style={{ alignItems: "flex-start" }}>
-                <div>
-                  <div className="rr-id">{formatCustomerLabel(c.sequence_number)}</div>
-                  <div className="rr-meta">
-                    {SERVICE_LABELS[c.service]} · indicado em {formatDate(c.created_at)}
+            customers.map((c) => {
+              const sale = saleByCustomerId.get(c.id) ?? null;
+              const bestCommission = sale ? pickBestCommission(commissionsBySaleId.get(sale.id) ?? []) : undefined;
+              const unified = getUnifiedStatus({
+                customerStatus: c.status,
+                paymentStatus: sale?.payment_status,
+                commissionStatus: bestCommission?.status,
+              });
+
+              return (
+                <div className="referral-row" key={c.id} style={{ alignItems: "flex-start" }}>
+                  <div>
+                    <div className="rr-id">
+                      {formatCustomerLabel(c.sequence_number)}
+                      {c.customer_name ? ` · ${c.customer_name}` : ""}
+                    </div>
+                    <div className="rr-meta">
+                      {SERVICE_LABELS[c.service]} · indicado em {formatDate(c.created_at)}
+                      {c.customer_phone ? ` · ${c.customer_phone}` : ""}
+                      {sale?.payment_method ? ` · pago via ${sale.payment_method}` : ""}
+                    </div>
+                    {sale?.notes && <div className="rr-meta">Obs.: {sale.notes}</div>}
+                    <div style={{ marginTop: 6 }}>
+                      <span className={`status-pill tone-${unified.tone}`}>{unified.emoji} {unified.label}</span>
+                    </div>
                   </div>
-                  <div style={{ marginTop: 6 }}>
-                    <span className={`status-pill ${c.status}`}>{CUSTOMER_STATUS_LABELS[c.status]}</span>
-                  </div>
+                  <CustomerActions customerId={c.id} status={c.status} sale={sale} />
                 </div>
-                <CustomerActions customerId={c.id} status={c.status} />
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </div>

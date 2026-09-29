@@ -1,8 +1,11 @@
 import { redirect } from "next/navigation";
 import { getCurrentPartner } from "@/lib/partners/session";
 import { getPartnerProgress } from "@/lib/partners/commission-engine";
+import { countUnreadNotifications, getPartnerNotifications } from "@/lib/partners/notifications";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import CouponBox from "@/components/portal/CouponBox";
+import NotificationsCard from "@/components/portal/NotificationsCard";
 
 export default async function DashboardPage() {
   const current = await getCurrentPartner();
@@ -11,14 +14,22 @@ export default async function DashboardPage() {
   const supabase = createSupabaseServerClient();
   const partnerId = current.partner.id;
 
-  const [{ count: totalIndicados }, { count: totalFechados }, progress] = await Promise.all([
+  // getPartnerProgress precisa ler `sales` (payment_status), tabela que o
+  // RLS reserva só pro admin — por isso usa o client de servidor aqui. A
+  // função já garante que o retorno nunca inclui valor de venda, só contagem
+  // e o total liberado (quando já desbloqueado).
+  const supabaseAdmin = createSupabaseAdminClient();
+
+  const [{ count: totalIndicados }, { count: totalFechados }, progress, notifications, unreadCount] = await Promise.all([
     supabase.from("customers").select("id", { count: "exact", head: true }).eq("partner_id", partnerId),
     supabase
       .from("customers")
       .select("id", { count: "exact", head: true })
       .eq("partner_id", partnerId)
       .eq("status", "fechado"),
-    getPartnerProgress(supabase, partnerId),
+    getPartnerProgress(supabaseAdmin, partnerId),
+    getPartnerNotifications(supabase, partnerId),
+    countUnreadNotifications(supabase, partnerId),
   ]);
 
   const dots = Array.from({ length: Math.max(progress.goal, 1) }, (_, i) => i < progress.progress);
@@ -37,6 +48,8 @@ export default async function DashboardPage() {
 
   return (
     <>
+      <NotificationsCard notifications={notifications} unreadCount={unreadCount} />
+
       <div className="portal-card">
         <h2>🐾 Sua jornada</h2>
         <div className="journey">{journeyNodes}</div>
