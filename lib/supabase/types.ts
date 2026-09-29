@@ -18,13 +18,14 @@ export type CommissionStatus = "bloqueada" | "liberada" | "paga";
 export type PayoutStatus = "solicitado" | "em_analise" | "aprovado" | "pago" | "recusado";
 export type PaymentStatus = "pendente" | "confirmado" | "cancelado";
 export type NotificationType = "indicacao_convertida" | "comissao_liberada" | "saque_atualizado";
-export type UserRole = "admin" | "partner";
+export type UserRole = "admin" | "operator" | "partner";
 
 export type ProfileRow = {
   id: string;
   role: UserRole;
   full_name: string;
   phone: string;
+  active: boolean;
   created_at: string;
 };
 

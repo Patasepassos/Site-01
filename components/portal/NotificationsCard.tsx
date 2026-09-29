@@ -1,19 +1,41 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { formatDate } from "@/lib/partners/labels";
 import type { PartnerNotificationRow } from "@/lib/supabase/types";
 
 export default function NotificationsCard({
+  partnerId,
   notifications,
   unreadCount,
 }: {
+  partnerId: string;
   notifications: PartnerNotificationRow[];
   unreadCount: number;
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+  // Tempo real: quando uma notificação nova é gravada pra esse parceiro, o
+  // card atualiza sozinho (refetch do server component) — sem precisar de F5.
+  useEffect(() => {
+    const supabase = createSupabaseBrowserClient();
+    const channel = supabase
+      .channel(`partner-notifications-${partnerId}`)
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "partner_notifications", filter: `partner_id=eq.${partnerId}` },
+        () => router.refresh()
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [partnerId]);
 
   if (notifications.length === 0) return null;
 

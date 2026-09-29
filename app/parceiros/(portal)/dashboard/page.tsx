@@ -48,7 +48,7 @@ export default async function DashboardPage() {
 
   return (
     <>
-      <NotificationsCard notifications={notifications} unreadCount={unreadCount} />
+      <NotificationsCard partnerId={partnerId} notifications={notifications} unreadCount={unreadCount} />
 
       <div className="portal-card">
         <h2>🐾 Sua jornada</h2>

@@ -1,13 +1,13 @@
 import { redirect } from "next/navigation";
-import { requireAdminUser } from "@/lib/admin/guard";
+import { requireStaffUser } from "@/lib/admin/guard";
 import LogoutButton from "@/components/portal/LogoutButton";
 import { AdminBottomNav, AdminDesktopNav } from "@/components/admin/AdminNav";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const admin = await requireAdminUser();
-  if (!admin) redirect("/parceiros/login");
+  const staff = await requireStaffUser();
+  if (!staff) redirect("/parceiros/login");
 
-  const firstName = admin.profile.full_name.split(" ")[0];
+  const firstName = staff.profile.full_name.split(" ")[0];
 
   return (
     <div className="portal-shell">
@@ -19,12 +19,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </div>
           <LogoutButton />
         </div>
-        <AdminDesktopNav />
+        <AdminDesktopNav isAdmin={staff.profile.role === "admin"} />
       </header>
 
       <div className="portal-content">{children}</div>
 
-      <AdminBottomNav />
+      <AdminBottomNav isAdmin={staff.profile.role === "admin"} />
     </div>
   );
 }

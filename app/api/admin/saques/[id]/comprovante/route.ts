@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { requireAdminUser } from "@/lib/admin/guard";
+import { requireStaffUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
 const SIGNED_URL_TTL_SECONDS = 300;
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const admin = await requireAdminUser();
+  const admin = await requireStaffUser();
   if (!admin) return NextResponse.json({ error: "Acesso negado." }, { status: 403 });
 
   const supabaseAdmin = createSupabaseAdminClient();

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireAdminUser } from "@/lib/admin/guard";
+import { requireStaffUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/partners/audit";
 import { recalculatePartnerCommissions } from "@/lib/partners/commission-engine";
@@ -18,7 +18,7 @@ const CONTRACT_TYPES: ContractType[] = ["avulso", "mensal", "anual"];
  * da venda em si nunca é exposto para o parceiro.
  */
 export async function POST(request: Request, { params }: { params: { id: string } }) {
-  const admin = await requireAdminUser();
+  const admin = await requireStaffUser();
   if (!admin) return NextResponse.json({ error: "Acesso negado." }, { status: 403 });
 
   let body: {
@@ -97,7 +97,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
 
     await logAudit(supabaseAdmin, {
       actorId: admin.userId,
-      actorRole: "admin",
+      actorRole: admin.profile.role,
       action: "sale_closed",
       entityType: "sale",
       entityId: sale.id,

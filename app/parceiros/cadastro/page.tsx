@@ -142,9 +142,10 @@ export default function CadastroParceiroPage() {
                 className="pf-input"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                minLength={8}
+                minLength={10}
                 required
               />
+              <p className="pf-hint">Mínimo 10 caracteres, com maiúscula, minúscula, número e símbolo.</p>
             </div>
             <div>
               <label className="pf-label" htmlFor="confirmPassword">Confirmar senha</label>
@@ -154,7 +155,7 @@ export default function CadastroParceiroPage() {
                 className="pf-input"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                minLength={8}
+                minLength={10}
                 required
               />
             </div>

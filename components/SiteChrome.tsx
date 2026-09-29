@@ -22,6 +22,7 @@ const APP_SHELL_PREFIXES = [
   "/parceiros/saques",
   "/parceiros/perfil",
   "/admin",
+  "/mfa-challenge",
 ];
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {

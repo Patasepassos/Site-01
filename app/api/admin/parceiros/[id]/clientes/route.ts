@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { requireAdminUser } from "@/lib/admin/guard";
+import { requireStaffUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/partners/audit";
 import { SERVICE_KEYS } from "@/lib/partners/labels";
 import type { ServiceKey } from "@/lib/supabase/types";
 
 export async function POST(request: Request, { params }: { params: { id: string } }) {
-  const admin = await requireAdminUser();
+  const admin = await requireStaffUser();
   if (!admin) return NextResponse.json({ error: "Acesso negado." }, { status: 403 });
 
   let body: { service?: unknown };
@@ -47,7 +47,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
 
   await logAudit(supabaseAdmin, {
     actorId: admin.userId,
-    actorRole: "admin",
+    actorRole: admin.profile.role,
     action: "customer_added_manually",
     entityType: "customer",
     entityId: customer.id,

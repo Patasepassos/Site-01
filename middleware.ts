@@ -53,14 +53,33 @@ export async function middleware(request: NextRequest) {
   if (isAdminPath && user) {
     const { data: profile } = await supabase
       .from("profiles")
-      .select("role")
+      .select("role, active")
       .eq("id", user.id)
       .maybeSingle();
 
-    if (!profile || profile.role !== "admin") {
+    const isStaff = profile?.active && (profile.role === "admin" || profile.role === "operator");
+    if (!isStaff) {
       const dashboardUrl = request.nextUrl.clone();
       dashboardUrl.pathname = "/parceiros/dashboard";
       return NextResponse.redirect(dashboardUrl);
+    }
+
+    // 2FA obrigatório pra admin: se já tem um fator TOTP verificado mas a
+    // sessão atual não chegou em aal2, manda pro desafio antes de liberar
+    // qualquer rota /admin/*. Quem ainda não configurou 2FA passa direto —
+    // sem isso, o primeiro admin nunca conseguiria nem configurar o 2FA.
+    if (profile.role === "admin") {
+      const { data: factorsData } = await supabase.auth.mfa.listFactors();
+      const hasVerifiedTotp = (factorsData?.totp ?? []).some((f) => f.status === "verified");
+      if (hasVerifiedTotp) {
+        const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+        if (aal && aal.currentLevel !== "aal2" && aal.nextLevel === "aal2") {
+          const mfaUrl = request.nextUrl.clone();
+          mfaUrl.pathname = "/mfa-challenge";
+          mfaUrl.searchParams.set("redirect", pathname);
+          return NextResponse.redirect(mfaUrl);
+        }
+      }
     }
   }
 

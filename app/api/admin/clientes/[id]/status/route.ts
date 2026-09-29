@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireAdminUser } from "@/lib/admin/guard";
+import { requireStaffUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/partners/audit";
 import type { CustomerStatus } from "@/lib/supabase/types";
@@ -10,7 +10,7 @@ import type { CustomerStatus } from "@/lib/supabase/types";
 const ALLOWED_STATUSES: CustomerStatus[] = ["indicado", "em_contato", "em_negociacao", "cancelado", "nao_convertido"];
 
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
-  const admin = await requireAdminUser();
+  const admin = await requireStaffUser();
   if (!admin) return NextResponse.json({ error: "Acesso negado." }, { status: 403 });
 
   let body: { status?: unknown };
@@ -35,7 +35,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 
   await logAudit(supabaseAdmin, {
     actorId: admin.userId,
-    actorRole: "admin",
+    actorRole: admin.profile.role,
     action: "customer_status_updated",
     entityType: "customer",
     entityId: params.id,

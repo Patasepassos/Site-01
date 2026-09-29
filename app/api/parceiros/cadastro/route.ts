@@ -3,10 +3,10 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { generateUniqueCoupon } from "@/lib/partners/coupon";
 import { logAudit } from "@/lib/partners/audit";
 import { describeError } from "@/lib/partners/errors";
+import { validatePasswordPolicy } from "@/lib/partners/password-policy";
 import {
   isValidCpfOrCnpj,
   isValidEmail,
-  isValidPassword,
   isValidPhone,
   isValidPixKey,
   onlyDigits,
@@ -52,7 +52,8 @@ export async function POST(request: Request) {
   if (!isValidEmail(email)) return badRequest("E-mail inválido.");
   if (!isValidPhone(phone)) return badRequest("WhatsApp inválido.");
   if (!isValidCpfOrCnpj(cpfCnpj)) return badRequest("CPF ou CNPJ inválido.");
-  if (!isValidPassword(password)) return badRequest("A senha precisa ter pelo menos 8 caracteres.");
+  const passwordError = validatePasswordPolicy(password, { fullName, email, phone });
+  if (passwordError) return badRequest(passwordError);
   if (password !== confirmPassword) return badRequest("As senhas não coincidem.");
   if (!pixKeyType || !PIX_KEY_TYPES.includes(pixKeyType)) return badRequest("Tipo de chave Pix inválido.");
   if (!isValidPixKey(pixKeyType, pixKey)) return badRequest("Chave Pix inválida para o tipo selecionado.");

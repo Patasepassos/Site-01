@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { validatePasswordPolicy } from "@/lib/partners/password-policy";
 
 export default function RedefinirSenhaPage() {
   const router = useRouter();
@@ -17,10 +18,6 @@ export default function RedefinirSenhaPage() {
     e.preventDefault();
     setError(null);
 
-    if (password.length < 8) {
-      setError("A senha precisa ter pelo menos 8 caracteres.");
-      return;
-    }
     if (password !== confirmPassword) {
       setError("As senhas não coincidem.");
       return;
@@ -28,6 +25,25 @@ export default function RedefinirSenhaPage() {
 
     setLoading(true);
     const supabase = createSupabaseBrowserClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const { data: profile } = user
+      ? await supabase.from("profiles").select("full_name, phone").eq("id", user.id).maybeSingle()
+      : { data: null };
+
+    const policyError = validatePasswordPolicy(password, {
+      fullName: profile?.full_name ?? "",
+      email: user?.email ?? "",
+      phone: profile?.phone ?? "",
+    });
+    if (policyError) {
+      setError(policyError);
+      setLoading(false);
+      return;
+    }
+
     const { error: updateError } = await supabase.auth.updateUser({ password });
     setLoading(false);
 
@@ -61,9 +77,10 @@ export default function RedefinirSenhaPage() {
               className="pf-input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              minLength={8}
+              minLength={10}
               required
             />
+            <p className="pf-hint">Mínimo 10 caracteres, com maiúscula, minúscula, número e símbolo.</p>
 
             <label className="pf-label" htmlFor="confirmPassword">Confirmar nova senha</label>
             <input
@@ -72,7 +89,7 @@ export default function RedefinirSenhaPage() {
               className="pf-input"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              minLength={8}
+              minLength={10}
               required
             />
 

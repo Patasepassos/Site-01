@@ -1,7 +1,12 @@
+import { redirect } from "next/navigation";
+import { requireAdminUser } from "@/lib/admin/guard";
 import RemoveTestDataButton from "@/components/admin/RemoveTestDataButton";
 import WipeSystemButton from "@/components/admin/WipeSystemButton";
 
-export default function AdminSistemaPage() {
+export default async function AdminSistemaPage() {
+  const admin = await requireAdminUser();
+  if (!admin) redirect("/admin/parceiros");
+
   return (
     <>
       <div className="portal-card">
