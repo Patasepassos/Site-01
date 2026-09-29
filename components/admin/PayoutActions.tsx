@@ -4,10 +4,16 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { PayoutStatus } from "@/lib/supabase/types";
 
+const PAYMENT_METHODS = ["Pix", "Transferência bancária", "Outro"];
+
 export default function PayoutActions({ payoutId, status }: { payoutId: string; status: PayoutStatus }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState(PAYMENT_METHODS[0]);
+  const [notes, setNotes] = useState("");
+  const [proof, setProof] = useState<File | null>(null);
 
   async function updateStatus(next: PayoutStatus) {
     setError(null);
@@ -23,6 +29,34 @@ export default function PayoutActions({ payoutId, status }: { payoutId: string; 
         setError(data.error ?? "Não foi possível atualizar o saque.");
         return;
       }
+      router.refresh();
+    } catch {
+      setError("Falha de conexão. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function confirmPayment(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    if (!proof) {
+      setError("Anexe o comprovante de pagamento.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const form = new FormData();
+      form.set("paymentMethod", paymentMethod);
+      form.set("notes", notes);
+      form.set("proof", proof);
+      const res = await fetch(`/api/admin/saques/${payoutId}/pagar`, { method: "POST", body: form });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Não foi possível confirmar o pagamento.");
+        return;
+      }
+      setShowConfirm(false);
       router.refresh();
     } catch {
       setError("Falha de conexão. Tente novamente.");
@@ -52,12 +86,61 @@ export default function PayoutActions({ payoutId, status }: { payoutId: string; 
           </>
         )}
         {status === "aprovado" && (
-          <button type="button" className="btn btn-wa btn-sm" disabled={loading} onClick={() => updateStatus("pago")}>
-            Marcar como pago
+          <button type="button" className="btn btn-wa btn-sm" disabled={loading} onClick={() => setShowConfirm(true)}>
+            💰 Marcar como pago
           </button>
         )}
       </div>
-      {error && <p className="pf-error">{error}</p>}
+      {!showConfirm && error && <p className="pf-error">{error}</p>}
+
+      {showConfirm && (
+        <div className="admin-modal-overlay" onClick={() => setShowConfirm(false)}>
+          <form className="admin-modal" onClick={(e) => e.stopPropagation()} onSubmit={confirmPayment}>
+            <h3>Confirmar pagamento</h3>
+
+            <label className="pf-label" htmlFor="pay-method">Forma de pagamento</label>
+            <select
+              id="pay-method"
+              className="pf-select"
+              value={paymentMethod}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            >
+              {PAYMENT_METHODS.map((m) => (
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+
+            <label className="pf-label" htmlFor="pay-notes">Observação</label>
+            <input
+              id="pay-notes"
+              className="pf-input"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Opcional"
+            />
+
+            <label className="pf-label" htmlFor="pay-proof">📎 Anexar comprovante de pagamento</label>
+            <input
+              id="pay-proof"
+              className="pf-input"
+              type="file"
+              accept="image/png,image/jpeg,image/webp,application/pdf"
+              onChange={(e) => setProof(e.target.files?.[0] ?? null)}
+            />
+
+            {error && <p className="pf-error">{error}</p>}
+
+            <div className="admin-modal-actions">
+              <button type="button" className="btn btn-white btn-sm" disabled={loading} onClick={() => setShowConfirm(false)}>
+                Cancelar
+              </button>
+              <button type="submit" className="btn btn-wa btn-sm" disabled={loading}>
+                {loading ? "Confirmando…" : "Confirmar pagamento"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 }

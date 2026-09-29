@@ -12,6 +12,8 @@ import { maskSecret } from "@/lib/partners/mask";
 import PartnerStatusActions from "@/components/admin/PartnerStatusActions";
 import AddCustomerForm from "@/components/admin/AddCustomerForm";
 import CustomerActions from "@/components/admin/CustomerActions";
+import CustomerRowMenu from "@/components/admin/CustomerRowMenu";
+import TestFlagToggle from "@/components/admin/TestFlagToggle";
 import type { CommissionRow, CommissionStatus } from "@/lib/supabase/types";
 
 function formatPhone(digits: string): string {
@@ -71,7 +73,9 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
 
         <div style={{ marginTop: 14, display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
           <span className={`status-pill ${partner.status}`}>{PARTNER_STATUS_LABELS[partner.status]}</span>
+          {partner.is_test && <span className="admin-badge-test">TESTE</span>}
           <PartnerStatusActions partnerId={partner.id} status={partner.status} />
+          <TestFlagToggle kind="parceiros" id={partner.id} isTest={partner.is_test} />
         </div>
       </div>
 
@@ -106,6 +110,8 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
                     <div className="rr-id">
                       {formatCustomerLabel(c.sequence_number)}
                       {c.customer_name ? ` · ${c.customer_name}` : ""}
+                      {c.is_test && <span className="admin-badge-test">TESTE</span>}
+                      {c.archived_at && <span className="admin-badge-test">ARQUIVADO</span>}
                     </div>
                     <div className="rr-meta">
                       {SERVICE_LABELS[c.service]} · indicado em {formatDate(c.created_at)}
@@ -117,7 +123,10 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
                       <span className={`status-pill tone-${unified.tone}`}>{unified.emoji} {unified.label}</span>
                     </div>
                   </div>
-                  <CustomerActions customerId={c.id} status={c.status} sale={sale} />
+                  <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+                    <CustomerActions customerId={c.id} status={c.status} sale={sale} />
+                    <CustomerRowMenu customerId={c.id} isTest={c.is_test} isArchived={Boolean(c.archived_at)} />
+                  </div>
                 </div>
               );
             })

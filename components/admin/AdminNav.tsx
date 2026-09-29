@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { href: "/admin/comissoes", label: "Comissões", icon: "💰" },
   { href: "/admin/saques", label: "Saques", icon: "💸" },
   { href: "/admin/regras", label: "Regras", icon: "⚙️" },
+  { href: "/admin/sistema", label: "Sistema", icon: "🧹" },
 ];
 
 function isActive(pathname: string, href: string): boolean {

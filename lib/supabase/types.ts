@@ -39,6 +39,7 @@ export type PartnerRow = {
   terms_accepted_at: string;
   approved_at: string | null;
   approved_by: string | null;
+  is_test: boolean;
   created_at: string;
 };
 
@@ -52,6 +53,8 @@ export type CustomerRow = {
   customer_name: string | null;
   customer_phone: string | null;
   closed_at: string | null;
+  is_test: boolean;
+  archived_at: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -112,6 +115,9 @@ export type PayoutRow = {
   amount: number;
   pix_key_snapshot: string;
   status: PayoutStatus;
+  payment_method: string | null;
+  notes: string | null;
+  proof_path: string | null;
   requested_at: string;
   processed_by: string | null;
   processed_at: string | null;

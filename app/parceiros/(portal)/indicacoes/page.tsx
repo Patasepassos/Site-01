@@ -22,6 +22,7 @@ export default async function IndicacoesPage() {
       .from("customers")
       .select("id, sequence_number, service, status, coupon_used, created_at, updated_at, closed_at, partner_id")
       .eq("partner_id", partnerId)
+      .is("archived_at", null)
       .order("created_at", { ascending: false }),
     supabase.from("commissions").select("*").eq("partner_id", partnerId),
   ]);

@@ -5,6 +5,7 @@ import { getPartnerBalance } from "@/lib/partners/balance";
 import { PAYOUT_STATUS_LABELS, formatDate } from "@/lib/partners/labels";
 import { maskSecret } from "@/lib/partners/mask";
 import RequestPayoutButton from "@/components/portal/RequestPayoutButton";
+import ProofLink from "@/components/ProofLink";
 
 function formatBRL(value: number): string {
   return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -49,6 +50,11 @@ export default async function SaquesPage() {
                 <div>
                   <div className="rr-id">{formatBRL(p.amount)}</div>
                   <div className="rr-meta">{formatDate(p.requested_at)}</div>
+                  {p.status === "pago" && p.proof_path && (
+                    <div style={{ marginTop: 6 }}>
+                      <ProofLink endpoint={`/api/parceiros/saques/${p.id}/comprovante`} />
+                    </div>
+                  )}
                 </div>
                 <span className={`status-pill ${p.status}`}>{PAYOUT_STATUS_LABELS[p.status]}</span>
               </div>

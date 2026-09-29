@@ -3,6 +3,7 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getAuthEmailMap } from "@/lib/admin/auth-emails";
 import { PARTNER_STATUS_LABELS, formatDate } from "@/lib/partners/labels";
 import PartnerStatusActions from "@/components/admin/PartnerStatusActions";
+import TestFlagToggle from "@/components/admin/TestFlagToggle";
 import type { PartnerStatus } from "@/lib/supabase/types";
 
 const TABS: { key: PartnerStatus | "all"; label: string }[] = [
@@ -59,6 +60,7 @@ export default async function AdminParceirosPage({
                 <div>
                   <div className="rr-id">
                     <Link href={`/admin/parceiros/${partner.id}`}>{profile?.full_name ?? "—"}</Link>
+                    {partner.is_test && <span className="admin-badge-test">TESTE</span>}
                   </div>
                   <div className="rr-meta">
                     {emailMap.get(partner.profile_id) ?? "e-mail indisponível"} · cupom{" "}
@@ -67,7 +69,10 @@ export default async function AdminParceirosPage({
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
                   <span className={`status-pill ${partner.status}`}>{PARTNER_STATUS_LABELS[partner.status]}</span>
-                  <PartnerStatusActions partnerId={partner.id} status={partner.status} />
+                  <div className="admin-actions">
+                    <PartnerStatusActions partnerId={partner.id} status={partner.status} />
+                    <TestFlagToggle kind="parceiros" id={partner.id} isTest={partner.is_test} />
+                  </div>
                 </div>
               </div>
             );

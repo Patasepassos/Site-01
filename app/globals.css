@@ -730,6 +730,30 @@ a.ci-val:hover{ color:var(--blue); }
 .admin-tab.active{ color:#F5EFE6; background:var(--brown-2); border-color:transparent; }
 .admin-actions{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
 
+.admin-modal-overlay{ position:fixed; inset:0; background:rgba(42,20,14,.55); display:grid; place-items:center;
+  padding:20px; z-index:100; }
+.admin-modal{ background:#fffaf3; border-radius:20px; padding:26px 24px; max-width:440px; width:100%;
+  box-shadow:0 20px 50px rgba(42,20,14,.35); max-height:90vh; overflow-y:auto; }
+.admin-modal h3{ font-family:var(--font-heading),'Cormorant Garamond',serif; font-size:21px; font-weight:700;
+  margin:0 0 10px; color:var(--ink); }
+.admin-modal p{ margin:0 0 10px; font-size:14px; color:var(--ink-soft); }
+.admin-modal-danger{ background:rgba(179,38,30,.08); border:1px solid rgba(179,38,30,.25); color:#8c241d;
+  font-size:13px; padding:11px 14px; border-radius:12px; margin:10px 0; }
+.admin-modal-actions{ display:flex; gap:10px; margin-top:18px; justify-content:flex-end; flex-wrap:wrap; }
+.admin-menu{ position:relative; }
+.admin-menu-btn{ background:none; border:1px solid rgba(61,31,21,.15); border-radius:8px; width:32px; height:32px;
+  font-size:16px; cursor:pointer; color:var(--ink-soft); font-family:inherit; }
+.admin-menu-list{ position:absolute; right:0; top:38px; background:#fff; border-radius:12px;
+  box-shadow:0 12px 30px rgba(42,20,14,.2); border:1px solid rgba(61,31,21,.08); min-width:180px; z-index:20;
+  overflow:hidden; }
+.admin-menu-list button{ display:block; width:100%; text-align:left; padding:10px 14px; font-size:13.5px;
+  background:none; border:none; cursor:pointer; color:var(--ink); font-family:inherit; }
+.admin-menu-list button:hover{ background:rgba(122,74,58,.08); }
+.admin-menu-list button.danger{ color:#8c241d; }
+.admin-badge-test{ display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.04em; background:rgba(179,38,30,.12); color:#8c241d; padding:3px 8px; border-radius:999px;
+  margin-left:6px; vertical-align:middle; }
+
 @media (max-width:480px){
   .portal-auth-card{ padding:28px 20px; }
   .pf-row{ grid-template-columns:1fr; }

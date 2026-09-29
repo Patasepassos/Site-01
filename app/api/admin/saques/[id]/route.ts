@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 import { requireAdminUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/partners/audit";
-import { markCommissionsAsPaid } from "@/lib/partners/commission-engine";
 import { describeError } from "@/lib/partners/errors";
 import type { PayoutStatus } from "@/lib/supabase/types";
 
-const ALLOWED_STATUSES: PayoutStatus[] = ["em_analise", "aprovado", "pago", "recusado"];
+// "pago" não passa por aqui — precisa do comprovante obrigatório, então tem
+// rota própria (/pagar) que faz upload, marca as comissões como pagas e só
+// então atualiza o status.
+const ALLOWED_STATUSES: PayoutStatus[] = ["em_analise", "aprovado", "recusado"];
 
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
   const admin = await requireAdminUser();
@@ -35,10 +37,6 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   const nowIso = new Date().toISOString();
 
   try {
-    if (status === "pago") {
-      await markCommissionsAsPaid(supabaseAdmin, payout.partner_id, Number(payout.amount));
-    }
-
     const { error } = await supabaseAdmin
       .from("payouts")
       .update({ status, processed_by: admin.userId, processed_at: nowIso })
