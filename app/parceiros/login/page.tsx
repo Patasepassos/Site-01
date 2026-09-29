@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
@@ -14,7 +14,6 @@ export default function LoginParceiroPage() {
 }
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") || "/parceiros/dashboard";
 
@@ -42,8 +41,11 @@ function LoginForm() {
       return;
     }
 
-    router.push(redirect);
-    router.refresh();
+    // Navegação completa de propósito: com router.push existe uma corrida em
+    // que o middleware ainda não vê a sessão recém-criada (cookie ainda não
+    // salvo) e manda de volta pro login. window.location garante que a
+    // sessão já está salva antes da próxima requisição.
+    window.location.href = redirect;
   }
 
   async function handleForgotPassword(e: React.FormEvent) {
