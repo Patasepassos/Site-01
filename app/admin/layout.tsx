@@ -14,7 +14,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <header className="portal-topbar">
         <div className="portal-topbar-in">
           <div>
-            <h1>Painel Admin 🐾</h1>
+            <h1>Área do Admin 🐾</h1>
             <p>Olá, {firstName} — Patas &amp; Passos</p>
           </div>
           <LogoutButton />

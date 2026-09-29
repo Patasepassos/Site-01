@@ -59,8 +59,12 @@ function MfaChallengeForm() {
         setError("Código inválido. Tente de novo.");
         return;
       }
-      router.push(redirectTo);
-      router.refresh();
+      // Navegação completa (não router.push) de propósito: garante que o
+      // cookie de sessão já elevado (aal2) esteja salvo antes da próxima
+      // requisição chegar no middleware — com router.push existe uma corrida
+      // em que o middleware ainda vê a sessão antiga e manda de volta pra
+      // essa mesma tela, parecendo que o botão travou.
+      window.location.href = redirectTo;
     } finally {
       setLoading(false);
     }

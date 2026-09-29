@@ -64,7 +64,7 @@ export default function RedefinirSenhaPage() {
       </Link>
       <div className="portal-auth-card">
         <h1>Nova senha</h1>
-        <p className="lead">Escolha uma nova senha para acessar o Portal do Parceiro.</p>
+        <p className="lead">Escolha uma nova senha para acessar a Área de Parceiro.</p>
 
         {done ? (
           <p className="pf-success">Senha atualizada! Redirecionando para o login…</p>
