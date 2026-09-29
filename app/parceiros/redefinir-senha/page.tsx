@@ -1,0 +1,88 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+
+export default function RedefinirSenhaPage() {
+  const router = useRouter();
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [done, setDone] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+
+    if (password.length < 8) {
+      setError("A senha precisa ter pelo menos 8 caracteres.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("As senhas não coincidem.");
+      return;
+    }
+
+    setLoading(true);
+    const supabase = createSupabaseBrowserClient();
+    const { error: updateError } = await supabase.auth.updateUser({ password });
+    setLoading(false);
+
+    if (updateError) {
+      setError("Não foi possível redefinir a senha. Peça um novo link e tente de novo.");
+      return;
+    }
+
+    setDone(true);
+    setTimeout(() => router.push("/parceiros/login"), 2000);
+  }
+
+  return (
+    <div className="portal-auth">
+      <div className="portal-auth-brand">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo-main.png" alt="Patas & Passos" />
+      </div>
+      <div className="portal-auth-card">
+        <h1>Nova senha</h1>
+        <p className="lead">Escolha uma nova senha para acessar o Portal do Parceiro.</p>
+
+        {done ? (
+          <p className="pf-success">Senha atualizada! Redirecionando para o login…</p>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <label className="pf-label" htmlFor="password">Nova senha</label>
+            <input
+              id="password"
+              type="password"
+              className="pf-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              minLength={8}
+              required
+            />
+
+            <label className="pf-label" htmlFor="confirmPassword">Confirmar nova senha</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              className="pf-input"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              minLength={8}
+              required
+            />
+
+            {error && <p className="pf-error">{error}</p>}
+
+            <button className="pf-submit" type="submit" disabled={loading}>
+              {loading ? "Salvando…" : "Salvar nova senha"}
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}

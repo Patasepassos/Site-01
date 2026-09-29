@@ -28,6 +28,7 @@ export default function Footer() {
           <h4>Patas &amp; Passos</h4>
           <Link href="/">Início</Link>
           <Link href="/parceiros">Parceiros</Link>
+          <Link href="/parceiros/login">Portal do Parceiro</Link>
           <a href={siteConfig.instagram} target="_blank" rel="noopener">
             Instagram
           </a>

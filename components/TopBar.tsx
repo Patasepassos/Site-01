@@ -52,9 +52,14 @@ export default function TopBar() {
               <Link href="#contato">Contato</Link>
             </li>
           </ul>
-          <a className="tb-cta" href={cta} target="_blank" rel="noopener">
-            Agendar primeiro passo
-          </a>
+          <div className="tb-cta-group">
+            <Link className="tb-portal-link" href="/parceiros/login">
+              Login/Cadastro
+            </Link>
+            <a className="tb-cta" href={cta} target="_blank" rel="noopener">
+              Agendar primeiro passo
+            </a>
+          </div>
           <button
             type="button"
             className={`tb-burger${open ? " tb-burger-on" : ""}`}
@@ -81,6 +86,9 @@ export default function TopBar() {
               </li>
             ))}
           </ul>
+          <Link className="tb-mobile-portal-link" href="/parceiros/login" onClick={() => setOpen(false)}>
+            Login/Cadastro
+          </Link>
           <a className="tb-mobile-cta" href={cta} target="_blank" rel="noopener" onClick={() => setOpen(false)}>
             Agendar primeiro passo
           </a>

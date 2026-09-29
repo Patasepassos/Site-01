@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PartnerTermsModal from "@/components/PartnerTermsModal";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Parceiros em São Caetano do Sul e Santo André · Patas & Passos",
@@ -78,7 +78,12 @@ export default function ParceirosPage() {
             compromisso: oferecer o melhor cuidado para os animais da nossa região.
           </p>
           <div className="cta-row" style={{ display: "flex", gap: 16, marginTop: 30, flexWrap: "wrap" }}>
-            <PartnerTermsModal className="btn btn-wa btn-lg">Quero ser parceiro</PartnerTermsModal>
+            <Link className="btn btn-wa btn-lg" href="/parceiros/cadastro">
+              Quero ser parceiro
+            </Link>
+            <Link className="btn btn-white btn-lg" href="/parceiros/login">
+              Já sou parceiro
+            </Link>
             <a className="btn btn-white btn-lg" href="#parceiros">
               Ver parceiros
             </a>
@@ -178,11 +183,16 @@ export default function ParceirosPage() {
           </svg>
           <div style={{ position: "relative", zIndex: 2 }}>
             <h2>Vamos construir algo juntos? 🤝</h2>
-            <p>Entre em contato pelo WhatsApp e descubra como se tornar um parceiro oficial da Patas &amp; Passos.</p>
+            <p>Cadastre-se em poucos minutos e comece a indicar clientes pra Patas &amp; Passos.</p>
           </div>
-          <PartnerTermsModal className="btn btn-white btn-lg" style={{ position: "relative", zIndex: 2 }}>
-            Quero ser parceiro
-          </PartnerTermsModal>
+          <div style={{ position: "relative", zIndex: 2, display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            <Link className="btn btn-white btn-lg" href="/parceiros/cadastro">
+              Quero ser parceiro
+            </Link>
+            <Link className="btn btn-white btn-lg" href="/parceiros/login">
+              Já sou parceiro
+            </Link>
+          </div>
         </div>
       </section>
     </div>
