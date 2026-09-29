@@ -104,6 +104,9 @@ img{ max-width:100%; }
 .btn-wa{ background:#7A4A3A; color:#F5EFE6; padding:13px 24px; font-size:15px; box-shadow:0 12px 24px rgba(61,31,21,.28); }
 .btn-wa:hover{ box-shadow:0 16px 30px rgba(37,211,102,.42); }
 .btn-lg{ font-size:18px; padding:17px 32px; }
+.btn-sm{ font-size:13px; padding:9px 16px; }
+.btn-danger{ background:rgba(179,38,30,.12); color:#8c241d; padding:13px 24px; font-size:15px; box-shadow:none; }
+.btn-danger:hover{ box-shadow:0 10px 20px rgba(179,38,30,.18); }
 .btn:disabled{ opacity:.45; cursor:not-allowed; transform:none !important; box-shadow:none !important; }
 
 /* ---------- modal de termos de parceria ---------- */
@@ -682,6 +685,8 @@ a.ci-val:hover{ color:var(--blue); }
   background:rgba(179,38,30,.12); color:#8c241d; }
 .status-pill.bloqueada, .status-pill.solicitado, .status-pill.em_analise, .status-pill.pending{
   background:rgba(61,31,21,.08); color:var(--ink-soft); }
+.status-pill.active{ background:rgba(122,138,84,.18); color:#4c5a34; }
+.status-pill.blocked{ background:rgba(179,38,30,.12); color:#8c241d; }
 
 .referral-row{ display:flex; align-items:center; justify-content:space-between; gap:10px;
   padding:14px 0; border-bottom:1px solid rgba(61,31,21,.08); }
@@ -712,6 +717,13 @@ a.ci-val:hover{ color:var(--blue); }
   .portal-nav-desktop a.active{ color:#F5EFE6; background:var(--brown-2); border-color:transparent; }
   .portal-shell{ padding-bottom:40px; }
 }
+
+/* ---------- painel admin ---------- */
+.admin-tabs{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+.admin-tab{ font-size:13px; font-weight:700; color:var(--ink-soft); padding:8px 16px; border-radius:999px;
+  background:#fffaf3; border:1px solid rgba(61,31,21,.08); text-decoration:none; }
+.admin-tab.active{ color:#F5EFE6; background:var(--brown-2); border-color:transparent; }
+.admin-actions{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
 
 @media (max-width:480px){
   .portal-auth-card{ padding:28px 20px; }

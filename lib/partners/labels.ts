@@ -1,4 +1,4 @@
-import type { CustomerStatus, PayoutStatus, ServiceKey } from "@/lib/supabase/types";
+import type { CustomerStatus, PartnerStatus, PayoutStatus, ServiceKey } from "@/lib/supabase/types";
 
 export const SERVICE_LABELS: Record<ServiceKey, string> = {
   passeios: "🐕 Dog Walker / Passeios",
@@ -9,6 +9,8 @@ export const SERVICE_LABELS: Record<ServiceKey, string> = {
   vacinas: "💉 Vacinas a domicílio",
 };
 
+export const SERVICE_KEYS = Object.keys(SERVICE_LABELS) as ServiceKey[];
+
 export const CUSTOMER_STATUS_LABELS: Record<CustomerStatus, string> = {
   indicado: "Indicado",
   em_contato: "Em contato",
@@ -16,6 +18,12 @@ export const CUSTOMER_STATUS_LABELS: Record<CustomerStatus, string> = {
   fechado: "Fechado",
   cancelado: "Cancelado",
   nao_convertido: "Não convertido",
+};
+
+export const PARTNER_STATUS_LABELS: Record<PartnerStatus, string> = {
+  pending: "Aguardando aprovação",
+  active: "Ativo",
+  blocked: "Bloqueado",
 };
 
 export const PAYOUT_STATUS_LABELS: Record<PayoutStatus, string> = {
@@ -32,4 +40,8 @@ export function formatCustomerLabel(sequenceNumber: number): string {
 
 export function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("pt-BR");
+}
+
+export function formatBRL(value: number): string {
+  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
