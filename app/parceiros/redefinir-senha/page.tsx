@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
@@ -41,10 +42,10 @@ export default function RedefinirSenhaPage() {
 
   return (
     <div className="portal-auth">
-      <div className="portal-auth-brand">
+      <Link className="portal-auth-brand" href="/" aria-label="Voltar para o site">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo-main.png" alt="Patas & Passos" />
-      </div>
+      </Link>
       <div className="portal-auth-card">
         <h1>Nova senha</h1>
         <p className="lead">Escolha uma nova senha para acessar o Portal do Parceiro.</p>

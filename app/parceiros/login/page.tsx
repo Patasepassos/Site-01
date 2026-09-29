@@ -64,10 +64,10 @@ function LoginForm() {
   if (forgotMode) {
     return (
       <div className="portal-auth">
-        <div className="portal-auth-brand">
+        <Link className="portal-auth-brand" href="/" aria-label="Voltar para o site">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo-main.png" alt="Patas & Passos" />
-        </div>
+        </Link>
         <div className="portal-auth-card">
           <h1>Recuperar senha</h1>
           <p className="lead">Enviamos um link de redefinição para o seu e-mail.</p>
@@ -109,10 +109,10 @@ function LoginForm() {
 
   return (
     <div className="portal-auth">
-      <div className="portal-auth-brand">
+      <Link className="portal-auth-brand" href="/" aria-label="Voltar para o site">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo-main.png" alt="Patas & Passos" />
-      </div>
+      </Link>
       <div className="portal-auth-card">
         <h1>Área do Parceiro</h1>
         <p className="lead">Entre para acompanhar suas indicações e comissões.</p>

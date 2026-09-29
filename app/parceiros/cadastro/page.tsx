@@ -65,10 +65,10 @@ export default function CadastroParceiroPage() {
   if (couponCode) {
     return (
       <div className="portal-auth">
-        <div className="portal-auth-brand">
+        <Link className="portal-auth-brand" href="/" aria-label="Voltar para o site">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo-main.png" alt="Patas & Passos" />
-        </div>
+        </Link>
         <div className="portal-auth-card" style={{ textAlign: "center" }}>
           <div style={{ fontSize: 44, marginBottom: 10 }}>🐾</div>
           <h1>Cadastro enviado!</h1>
@@ -86,10 +86,10 @@ export default function CadastroParceiroPage() {
 
   return (
     <div className="portal-auth">
-      <div className="portal-auth-brand">
+      <Link className="portal-auth-brand" href="/" aria-label="Voltar para o site">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo-main.png" alt="Patas & Passos" />
-      </div>
+      </Link>
       <div className="portal-auth-card">
         <h1>Seja nosso parceiro 🐾</h1>
         <p className="lead">Indique, conecte e ganhe com a Patas &amp; Passos.</p>
