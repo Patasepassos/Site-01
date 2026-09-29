@@ -59,12 +59,25 @@ function MfaChallengeForm() {
         setError("Código inválido. Tente de novo.");
         return;
       }
+
+      // Mesma separação do login: nunca manda uma conta de parceiro pra
+      // /admin por causa de um ?redirect= antigo (ex.: sessão expirou numa
+      // página do admin antes, ou o teste usou essa conta como admin antes).
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const { data: profile } = user
+        ? await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle()
+        : { data: null };
+      const isStaff = profile?.role === "admin" || profile?.role === "operator";
+      const target = redirectTo.startsWith("/admin") && !isStaff ? "/parceiros/dashboard" : redirectTo;
+
       // Navegação completa (não router.push) de propósito: garante que o
       // cookie de sessão já elevado (aal2) esteja salvo antes da próxima
       // requisição chegar no middleware — com router.push existe uma corrida
       // em que o middleware ainda vê a sessão antiga e manda de volta pra
       // essa mesma tela, parecendo que o botão travou.
-      window.location.href = redirectTo;
+      window.location.href = target;
     } finally {
       setLoading(false);
     }

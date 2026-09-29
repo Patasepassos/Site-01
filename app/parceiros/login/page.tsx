@@ -33,19 +33,32 @@ function LoginForm() {
     setLoading(true);
 
     const supabase = createSupabaseBrowserClient();
-    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (signInError) {
+    if (signInError || !signInData.user) {
       setError("E-mail ou senha incorretos.");
       setLoading(false);
       return;
     }
 
+    // A área de parceiro é separada da área do admin: uma conta de parceiro
+    // nunca pode terminar em /admin, mesmo que a URL de login carregue um
+    // ?redirect=/admin/... deixado de uma tentativa anterior (ex.: sessão
+    // expirou numa página do admin). Só respeita esse destino se a conta
+    // que acabou de logar é realmente staff (admin/operador).
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", signInData.user.id)
+      .maybeSingle();
+    const isStaff = profile?.role === "admin" || profile?.role === "operator";
+    const target = redirect.startsWith("/admin") && !isStaff ? "/parceiros/dashboard" : redirect;
+
     // Navegação completa de propósito: com router.push existe uma corrida em
     // que o middleware ainda não vê a sessão recém-criada (cookie ainda não
     // salvo) e manda de volta pro login. window.location garante que a
     // sessão já está salva antes da próxima requisição.
-    window.location.href = redirect;
+    window.location.href = target;
   }
 
   async function handleForgotPassword(e: React.FormEvent) {
