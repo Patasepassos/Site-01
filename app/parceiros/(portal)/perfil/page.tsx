@@ -3,10 +3,11 @@ import { getCurrentPartner } from "@/lib/partners/session";
 import { buildEligibilityChecklist } from "@/lib/partners/eligibility";
 import { onlyDigits } from "@/lib/partners/validation";
 import { formatDateTime } from "@/lib/partners/labels";
+import { maskSecret } from "@/lib/partners/mask";
 import EditProfileForm from "@/components/portal/EditProfileForm";
 import ChangePasswordForm from "@/components/portal/ChangePasswordForm";
 import MfaSetup from "@/components/MfaSetup";
-import CpfVerifyRetryButton from "@/components/portal/CpfVerifyRetryButton";
+import CpfVerificationCard from "@/components/portal/CpfVerificationCard";
 import EmailVerificationCard from "@/components/portal/EmailVerificationCard";
 import WhatsappVerificationCard from "@/components/portal/WhatsappVerificationCard";
 import { getConfiguredChannel } from "@/lib/sms/twilio";
@@ -72,8 +73,11 @@ export default async function PerfilPage() {
           verified={current.partner.whatsapp_verified}
           channel={getConfiguredChannel()}
         />
-        {isCpf && (current.partner.cpf_status === "pending" || current.partner.cpf_status === "failed") && (
-          <CpfVerifyRetryButton />
+        {isCpf && (
+          <CpfVerificationCard
+            cpfMasked={maskSecret(current.partner.cpf_cnpj)}
+            verified={current.partner.cpf_status === "verified"}
+          />
         )}
         {!checklist.eligible && (
           <p style={{ marginTop: 10, fontSize: 13 }}>
