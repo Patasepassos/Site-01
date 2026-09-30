@@ -38,16 +38,14 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
   const { data: partner } = await supabaseAdmin.from("partners").select("*").eq("id", params.id).maybeSingle();
   if (!partner) notFound();
 
-  const [{ data: profile }, emailMap, { data: authUser }, { data: customers }] = await Promise.all([
+  const [{ data: profile }, emailMap, { data: customers }] = await Promise.all([
     supabaseAdmin.from("profiles").select("*").eq("id", partner.profile_id).maybeSingle(),
     getAuthEmailMap(supabaseAdmin, [partner.profile_id]),
-    supabaseAdmin.auth.admin.getUserById(partner.profile_id),
     supabaseAdmin.from("customers").select("*").eq("partner_id", partner.id).order("created_at", { ascending: false }),
   ]);
 
   const email = emailMap.get(partner.profile_id) ?? "e-mail indisponível";
-  const emailVerified = Boolean(authUser.user?.email_confirmed_at);
-  const checklist = buildEligibilityChecklist(partner, emailVerified);
+  const checklist = buildEligibilityChecklist(partner);
   const isCpf = onlyDigits(partner.cpf_cnpj).length === 11;
 
   const customerIds = (customers ?? []).map((c) => c.id);
@@ -96,7 +94,12 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
         </div>
         <ul style={{ margin: "0 0 12px", paddingLeft: 20, fontSize: 14, color: "var(--ink-soft)" }}>
           <li>{checklist.partnerActive ? "✅" : "⏳"} Conta ativa</li>
-          <li>{checklist.emailVerified ? "✅" : "⏳"} E-mail verificado</li>
+          <li>
+            {checklist.emailVerified ? "✅" : "⏳"} E-mail verificado
+            {checklist.emailVerified && partner.email_verified_at && (
+              <span style={{ opacity: 0.7 }}> — em {formatDateTime(partner.email_verified_at)}</span>
+            )}
+          </li>
           <li>{checklist.whatsappVerified ? "✅" : "⏳"} WhatsApp verificado</li>
           <li>{checklist.documentVerified ? "✅" : "⏳"} CPF/CNPJ validado</li>
           <li>{checklist.financialDataVerified ? "✅" : "⏳"} Dados financeiros aprovados</li>

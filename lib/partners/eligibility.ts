@@ -14,8 +14,13 @@ export type EligibilityChecklist = {
 };
 
 /**
- * "Apto para pagamento" exige TODOS os requisitos ao mesmo tempo. E-mail
- * vem de auth.users.email_confirmed_at (nunca duplicado no nosso banco).
+ * "Apto para pagamento" exige TODOS os requisitos ao mesmo tempo.
+ *
+ * E-mail: `emailVerified` reflete o resultado REAL do código enviado por
+ * Resend (`partner.email_verified`) — nunca mais lido de
+ * auth.users.email_confirmed_at, que é sempre true (o cadastro cria a conta
+ * com email_confirm: true de propósito, senão o Supabase bloquearia o
+ * primeiro login de todo mundo).
  *
  * CPF/CNPJ: para pessoa física (11 dígitos), `documentVerified` reflete o
  * resultado REAL da verificação automática via API CPF Brasil
@@ -23,16 +28,20 @@ export type EligibilityChecklist = {
  * (14 dígitos) não existe verificação automática contratada, então continua
  * dependendo da aprovação manual do admin (`partner.document_verified`).
  */
-export function buildEligibilityChecklist(partner: PartnerRow, emailVerified: boolean): EligibilityChecklist {
+export function buildEligibilityChecklist(partner: PartnerRow): EligibilityChecklist {
   const partnerActive = partner.status === "active";
   const isCpf = onlyDigits(partner.cpf_cnpj).length === 11;
   const documentVerified = isCpf ? partner.cpf_status === "verified" : partner.document_verified;
 
   const eligible =
-    partnerActive && emailVerified && partner.whatsapp_verified && documentVerified && partner.financial_data_verified;
+    partnerActive &&
+    partner.email_verified &&
+    partner.whatsapp_verified &&
+    documentVerified &&
+    partner.financial_data_verified;
 
   return {
-    emailVerified,
+    emailVerified: partner.email_verified,
     whatsappVerified: partner.whatsapp_verified,
     documentVerified,
     financialDataVerified: partner.financial_data_verified,
@@ -56,10 +65,7 @@ export async function recomputePartnerEligibility(
   const { data: partner, error } = await supabaseAdmin.from("partners").select("*").eq("id", partnerId).maybeSingle();
   if (error || !partner) throw error ?? new Error("Parceiro não encontrado pra recalcular elegibilidade.");
 
-  const { data: authUser } = await supabaseAdmin.auth.admin.getUserById(partner.profile_id);
-  const emailVerified = Boolean(authUser.user?.email_confirmed_at);
-
-  const checklist = buildEligibilityChecklist(partner, emailVerified);
+  const checklist = buildEligibilityChecklist(partner);
 
   if (partner.payout_eligible !== checklist.eligible) {
     const { error: updateError } = await supabaseAdmin

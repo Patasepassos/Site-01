@@ -7,12 +7,13 @@ import EditProfileForm from "@/components/portal/EditProfileForm";
 import ChangePasswordForm from "@/components/portal/ChangePasswordForm";
 import MfaSetup from "@/components/MfaSetup";
 import CpfVerifyRetryButton from "@/components/portal/CpfVerifyRetryButton";
+import EmailVerificationCard from "@/components/portal/EmailVerificationCard";
 
 export default async function PerfilPage() {
   const current = await getCurrentPartner();
   if (!current) redirect("/parceiros/login");
 
-  const checklist = buildEligibilityChecklist(current.partner, current.emailVerified);
+  const checklist = buildEligibilityChecklist(current.partner);
   const isCpf = onlyDigits(current.partner.cpf_cnpj).length === 11;
   const cpfBadge = !isCpf
     ? { emoji: "✅", label: "CPF/CNPJ validado" }
@@ -43,7 +44,12 @@ export default async function PerfilPage() {
           </span>
         </div>
         <ul style={{ margin: 0, paddingLeft: 20, fontSize: 14, color: "var(--ink-soft)" }}>
-          <li>{checklist.emailVerified ? "✅" : "⏳"} E-mail verificado</li>
+          <li>
+            {checklist.emailVerified ? "✅ E-mail verificado" : "🟡 Aguardando verificação do e-mail"}
+            {checklist.emailVerified && current.partner.email_verified_at && (
+              <span style={{ opacity: 0.7 }}> — verificado em {formatDateTime(current.partner.email_verified_at)}</span>
+            )}
+          </li>
           <li>{checklist.whatsappVerified ? "✅" : "⏳"} WhatsApp verificado</li>
           <li>
             {cpfBadge.emoji} {cpfBadge.label}
@@ -53,6 +59,7 @@ export default async function PerfilPage() {
           </li>
           <li>{checklist.financialDataVerified ? "✅" : "⏳"} Dados financeiros aprovados</li>
         </ul>
+        <EmailVerificationCard email={current.email} verified={current.partner.email_verified} />
         {isCpf && (current.partner.cpf_status === "pending" || current.partner.cpf_status === "failed") && (
           <CpfVerifyRetryButton />
         )}

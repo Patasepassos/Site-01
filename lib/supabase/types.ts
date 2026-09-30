@@ -56,6 +56,19 @@ export type PartnerRow = {
   cpf_verified_at: string | null;
   cpf_verification_reason: string | null;
   cpf_verification_hash: string | null;
+  email_verified: boolean;
+  email_verified_at: string | null;
+  created_at: string;
+};
+
+export type PartnerEmailOtpRow = {
+  id: string;
+  partner_id: string;
+  email: string;
+  code_hash: string;
+  expires_at: string;
+  consumed_at: string | null;
+  attempts: number;
   created_at: string;
 };
 
@@ -171,6 +184,7 @@ export type Database = {
       payouts: TableDef<PayoutRow>;
       audit_logs: TableDef<AuditLogRow>;
       partner_notifications: TableDef<PartnerNotificationRow>;
+      partner_email_otps: TableDef<PartnerEmailOtpRow>;
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

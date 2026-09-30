@@ -5,6 +5,7 @@ import { logAudit } from "@/lib/partners/audit";
 import { describeError } from "@/lib/partners/errors";
 import { validatePasswordPolicy } from "@/lib/partners/password-policy";
 import { verifyAndPersistPartnerCpf } from "@/lib/partners/cpf-verification";
+import { sendPartnerEmailOtp } from "@/lib/partners/email-verification";
 import {
   isValidCpfOrCnpj,
   isValidEmail,
@@ -126,15 +127,19 @@ export async function POST(request: Request) {
       entityId: partner.id,
     });
 
-    // A verificação de CPF nunca deve travar o cadastro — se a API estiver
-    // fora do ar nesse instante, o parceiro fica com cpf_status='pending' e
-    // pode tentar de novo depois pelo próprio perfil.
+    // Nem a verificação de CPF nem o envio do código de e-mail devem travar
+    // o cadastro — se algo falhar aqui, o parceiro tenta de novo pelo perfil.
     if (isCpf) {
       try {
         await verifyAndPersistPartnerCpf(supabaseAdmin, partner.id, { id: userId, role: "partner" });
       } catch (err) {
         console.error("Falha ao verificar CPF no cadastro:", describeError(err));
       }
+    }
+    try {
+      await sendPartnerEmailOtp(supabaseAdmin, partner.id, email, { id: userId, role: "partner" });
+    } catch (err) {
+      console.error("Falha ao enviar código de verificação de e-mail no cadastro:", describeError(err));
     }
 
     return NextResponse.json({ success: true, couponCode: partner.coupon_code });
