@@ -133,6 +133,11 @@ export async function checkPartnerWhatsappCode(
     .update({ whatsapp_verified: true, whatsapp_verified_at: now })
     .eq("id", partnerId);
   if (error) {
+    // Nunca logar telefone/CPF/e-mail/token/código — só o motivo técnico do
+    // Postgrest, pra diagnosticar sem adivinhar.
+    console.error(
+      `[whatsapp-verification] update em partners falhou: code=${error.code ?? "?"} message=${error.message} details=${error.details ?? "?"} hint=${error.hint ?? "?"}`
+    );
     return { status: "invalid", reason: "Código confirmado, mas houve um erro ao salvar. Tente novamente." };
   }
 
