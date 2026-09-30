@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { validatePasswordPolicy } from "@/lib/partners/password-policy";
@@ -9,9 +8,9 @@ import { validatePasswordPolicy } from "@/lib/partners/password-policy";
 type SessionCheck = "checking" | "valid" | "invalid";
 
 export default function RedefinirSenhaPage() {
-  const router = useRouter();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
@@ -71,7 +70,6 @@ export default function RedefinirSenhaPage() {
     }
 
     setDone(true);
-    setTimeout(() => router.push("/parceiros/login"), 2000);
   }
 
   return (
@@ -81,7 +79,7 @@ export default function RedefinirSenhaPage() {
         <img src="/logo-main.png" alt="Patas & Passos" />
       </Link>
       <div className="portal-auth-card">
-        <h1>Nova senha</h1>
+        <h1>Crie uma nova senha</h1>
         <p className="lead">Escolha uma nova senha para acessar a Área de Parceiro.</p>
 
         {sessionCheck === "checking" ? (
@@ -94,29 +92,46 @@ export default function RedefinirSenhaPage() {
             </Link>
           </>
         ) : done ? (
-          <p className="pf-success">Senha atualizada! Redirecionando para o login…</p>
+          <>
+            <p className="pf-success">Senha alterada com sucesso!</p>
+            <Link className="btn btn-wa btn-lg" href="/parceiros/login" style={{ marginTop: 12 }}>
+              Entrar novamente
+            </Link>
+          </>
         ) : (
           <form onSubmit={handleSubmit}>
             <label className="pf-label" htmlFor="password">Nova senha</label>
-            <input
-              id="password"
-              type="password"
-              className="pf-input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              minLength={10}
-              required
-            />
+            <div style={{ display: "flex", gap: 8 }}>
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                className="pf-input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                minLength={10}
+                autoComplete="new-password"
+                required
+              />
+              <button
+                type="button"
+                className="btn btn-sm"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+              >
+                {showPassword ? "Ocultar" : "Mostrar"}
+              </button>
+            </div>
             <p className="pf-hint">Mínimo 10 caracteres, com maiúscula, minúscula, número e símbolo.</p>
 
             <label className="pf-label" htmlFor="confirmPassword">Confirmar nova senha</label>
             <input
               id="confirmPassword"
-              type="password"
+              type={showPassword ? "text" : "password"}
               className="pf-input"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               minLength={10}
+              autoComplete="new-password"
               required
             />
 

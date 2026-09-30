@@ -27,6 +27,7 @@ function LoginForm() {
   const [forgotEmail, setForgotEmail] = useState("");
   const [forgotSent, setForgotSent] = useState(false);
   const [forgotLoading, setForgotLoading] = useState(false);
+  const [forgotError, setForgotError] = useState<string | null>(null);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -64,17 +65,24 @@ function LoginForm() {
 
   async function handleForgotPassword(e: React.FormEvent) {
     e.preventDefault();
+    setForgotError(null);
     setForgotLoading(true);
 
     const supabase = createSupabaseBrowserClient();
-    await supabase.auth.resetPasswordForEmail(forgotEmail, {
+    const { error } = await supabase.auth.resetPasswordForEmail(forgotEmail, {
       redirectTo: `${window.location.origin}/auth/callback?next=/parceiros/redefinir-senha`,
     });
-
-    // Sempre mostra sucesso, mesmo se o e-mail não existir — evita
-    // confirmar pra terceiros quais e-mails têm cadastro.
-    setForgotSent(true);
     setForgotLoading(false);
+
+    // O Supabase já não revela se o e-mail existe (retorna sucesso mesmo
+    // pra e-mail não cadastrado) — um `error` aqui é falha real (rede,
+    // limite de envio etc.), não "e-mail não encontrado". Só nesse caso
+    // mostramos erro; senão, sempre a mensagem genérica de sucesso.
+    if (error) {
+      setForgotError("Não foi possível enviar o link. Tente novamente.");
+      return;
+    }
+    setForgotSent(true);
   }
 
   if (forgotMode) {
@@ -85,12 +93,12 @@ function LoginForm() {
           <img src="/logo-main.png" alt="Patas & Passos" />
         </Link>
         <div className="portal-auth-card">
-          <h1>Recuperar senha</h1>
-          <p className="lead">Enviamos um link de redefinição para o seu e-mail.</p>
+          <h1>Esqueceu sua senha?</h1>
+          <p className="lead">Digite seu e-mail e enviaremos um link para você criar uma nova senha.</p>
 
           {forgotSent ? (
             <p className="pf-success">
-              Se esse e-mail estiver cadastrado, você vai receber um link em instantes.
+              Se esse e-mail estiver cadastrado, você receberá um link para redefinir sua senha.
             </p>
           ) : (
             <form onSubmit={handleForgotPassword}>
@@ -103,8 +111,9 @@ function LoginForm() {
                 onChange={(e) => setForgotEmail(e.target.value)}
                 required
               />
+              {forgotError && <p className="pf-error">{forgotError}</p>}
               <button className="pf-submit" type="submit" disabled={forgotLoading}>
-                {forgotLoading ? "Enviando…" : "Enviar link"}
+                {forgotLoading ? "Enviando..." : "Enviar link de recuperação"}
               </button>
             </form>
           )}
@@ -115,7 +124,7 @@ function LoginForm() {
               onClick={() => setForgotMode(false)}
               style={{ background: "none", border: "none", cursor: "pointer", color: "var(--brown-2)", fontWeight: 700, fontFamily: "inherit", fontSize: 14 }}
             >
-              ← Voltar para o login
+              Voltar para o login
             </button>
           </p>
         </div>

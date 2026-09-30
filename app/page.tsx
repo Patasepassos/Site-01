@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import MascotAuau from "@/components/mascot/MascotAuau";
 import { siteConfig, waLink, waMessages } from "@/lib/site";
 
@@ -20,7 +21,22 @@ const WaIcon = () => (
   </svg>
 );
 
-export default function Home() {
+type HomeProps = { searchParams: { code?: string; error?: string; error_code?: string } };
+
+export default function Home({ searchParams }: HomeProps) {
+  // Rede de segurança: o GoTrue do Supabase às vezes ignora o `redirectTo`
+  // (ex.: se a URL de callback ainda não está na allow-list do projeto) e
+  // manda o link de recuperação/confirmação direto pra Site URL (a raiz).
+  // Sem isso, o código chegaria aqui e seria simplesmente ignorado — a
+  // página inicial não faz nada com ele. Encaminha pro mesmo processamento
+  // de sempre em vez de deixar o parceiro travado numa home sem sentido.
+  if (searchParams.code) {
+    redirect(`/auth/callback?code=${encodeURIComponent(searchParams.code)}`);
+  }
+  if (searchParams.error || searchParams.error_code) {
+    redirect("/parceiros/login?erro=link-invalido");
+  }
+
   const wa = waLink(waMessages.default);
   const waVisita = waLink(waMessages.visita);
 
