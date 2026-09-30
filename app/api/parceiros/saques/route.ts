@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { getBearerToken } from "@/lib/supabase/bearer";
+import { getCurrentPartnerFromBearer } from "@/lib/partners/session";
 import { logAudit } from "@/lib/partners/audit";
 import { getPartnerBalance } from "@/lib/partners/balance";
+import type { Database, PartnerRow } from "@/lib/supabase/types";
 
 const MIN_WITHDRAWAL = 20;
 
@@ -10,20 +14,33 @@ const MIN_WITHDRAWAL = 20;
  * Solicita o saque do saldo disponível. O valor NUNCA vem do corpo da
  * requisição — é sempre recalculado aqui a partir das comissões liberadas
  * menos saques já em andamento, exatamente como em /parceiros/saldo.
+ *
+ * Aceita tanto a sessão via cookie (site web) quanto um token
+ * "Authorization: Bearer" (app mobile) — o valor e a elegibilidade são
+ * sempre recalculados no servidor nos dois casos.
  */
-export async function POST() {
-  const supabase = createSupabaseServerClient();
+export async function POST(request: Request) {
+  let supabase: SupabaseClient<Database>;
+  let userId: string;
+  let partner: PartnerRow | null;
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Sessão expirada." }, { status: 401 });
-
-  const { data: partner } = await supabase
-    .from("partners")
-    .select("*")
-    .eq("profile_id", user.id)
-    .maybeSingle();
+  const bearerToken = getBearerToken(request);
+  if (bearerToken) {
+    const current = await getCurrentPartnerFromBearer(bearerToken);
+    if (!current) return NextResponse.json({ error: "Sessão expirada." }, { status: 401 });
+    supabase = current.supabase;
+    userId = current.userId;
+    partner = current.partner;
+  } else {
+    supabase = createSupabaseServerClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return NextResponse.json({ error: "Sessão expirada." }, { status: 401 });
+    userId = user.id;
+    const { data: p } = await supabase.from("partners").select("*").eq("profile_id", user.id).maybeSingle();
+    partner = p;
+  }
 
   if (!partner || partner.status !== "active") {
     return NextResponse.json({ error: "Parceiro não está ativo." }, { status: 403 });
@@ -61,7 +78,7 @@ export async function POST() {
   }
 
   await logAudit(supabaseAdmin, {
-    actorId: user.id,
+    actorId: userId,
     actorRole: "partner",
     action: "payout_requested",
     entityType: "payout",
