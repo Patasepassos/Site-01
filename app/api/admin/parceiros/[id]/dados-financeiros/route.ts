@@ -51,7 +51,12 @@ export async function PATCH(request: Request, { params }: { params: { id: string
       financial_data_review_note: status === "rejected" ? note : null,
     })
     .eq("id", params.id);
-  if (error) return NextResponse.json({ error: "Não foi possível atualizar." }, { status: 500 });
+  if (error) {
+    console.error(
+      `[dados-financeiros] update em partners falhou: code=${error.code ?? "?"} message=${error.message} details=${error.details ?? "?"} hint=${error.hint ?? "?"}`
+    );
+    return NextResponse.json({ error: "Não foi possível atualizar." }, { status: 500 });
+  }
 
   await logAudit(supabaseAdmin, {
     actorId: admin.userId,
