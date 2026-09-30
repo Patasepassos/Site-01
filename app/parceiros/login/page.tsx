@@ -68,9 +68,16 @@ function LoginForm() {
     setForgotError(null);
     setForgotLoading(true);
 
+    // Sem querystring de propósito: a allow-list de Redirect URLs do Supabase
+    // faz correspondência exata (glob sem "*") quando a URL cadastrada não
+    // tem wildcard — "/auth/callback?next=..." não bate com "/auth/callback"
+    // cadastrado, e o GoTrue cai silenciosamente pro Site URL. O próprio
+    // /auth/callback já usa /parceiros/redefinir-senha como destino padrão
+    // quando `next` não vem na URL, então tirar o parâmetro não muda o
+    // comportamento — só faz o redirectTo bater com o que já está cadastrado.
     const supabase = createSupabaseBrowserClient();
     const { error } = await supabase.auth.resetPasswordForEmail(forgotEmail, {
-      redirectTo: `${window.location.origin}/auth/callback?next=/parceiros/redefinir-senha`,
+      redirectTo: `${window.location.origin}/auth/callback`,
     });
     setForgotLoading(false);
 
