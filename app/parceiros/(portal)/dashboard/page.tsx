@@ -6,9 +6,10 @@ import { getPartnerServiceAreaNote } from "@/lib/partners/settings";
 import { countUnreadNotifications, getPartnerNotifications } from "@/lib/partners/notifications";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import CouponBox from "@/components/portal/CouponBox";
 import NotificationsCard from "@/components/portal/NotificationsCard";
-import RankLadder from "@/components/portal/RankLadder";
+import RankGrid from "@/components/portal/RankGrid";
+import RankUpWatcher from "@/components/portal/RankUpWatcher";
+import ServiceShareCards from "@/components/portal/ServiceShareCards";
 
 export default async function DashboardPage() {
   const current = await getCurrentPartner();
@@ -16,6 +17,7 @@ export default async function DashboardPage() {
 
   const supabase = createSupabaseServerClient();
   const partnerId = current.partner.id;
+  const firstName = current.profile.full_name.split(" ")[0];
 
   // getPartnerProgress precisa ler `sales` (payment_status), tabela que o
   // RLS reserva só pro admin — por isso usa o client de servidor aqui. A
@@ -40,36 +42,50 @@ export default async function DashboardPage() {
 
   return (
     <>
+      {rank.currentTier && (
+        <RankUpWatcher
+          partnerId={partnerId}
+          currentTierKey={rank.currentTier.key}
+          currentTierLabel={rank.currentTier.label}
+          currentTierEmoji={rank.currentTier.emoji}
+          sortOrder={rank.currentTier.sort_order}
+        />
+      )}
+
       <NotificationsCard partnerId={partnerId} notifications={notifications} unreadCount={unreadCount} />
 
-      <div className="portal-card">
-        <h2>🐾 Seu Rank</h2>
-        {rank.currentTier ? (
-          <div className="rank-badge-row">
-            <div className="rank-badge">{rank.currentTier.emoji}</div>
-            <div>
-              <div className="rank-badge-name">{rank.currentTier.label}</div>
-              <div className="rank-badge-sub">
-                {rank.nextTier
-                  ? `Faltam ${rank.remainingToNext} para ${rank.nextTier.emoji} ${rank.nextTier.label}`
-                  : "Nível máximo alcançado!"}
-              </div>
+      <section className="pp-hero">
+        <div className="pp-hero-glow" aria-hidden="true" />
+        <div className="pp-hero-tag">
+          {rank.currentTier ? `${rank.currentTier.emoji} Nível atual: ${rank.currentTier.label}` : "🐾 Bem-vindo"}
+        </div>
+        <h1 className="pp-hero-title">Continue assim, {firstName}!</h1>
+        <p className="pp-hero-desc">
+          Você já tem <b>{totalFechados ?? 0}</b> {(totalFechados ?? 0) === 1 ? "venda fechada" : "vendas fechadas"} e{" "}
+          <b>{rank.activeClients}</b> {rank.activeClients === 1 ? "cliente ativo" : "clientes ativos"}. Continue
+          divulgando seu cupom pra evoluir de nível.
+        </p>
+
+        {rank.nextTier && rank.progressToNext !== null && (
+          <div className="pp-hero-progress">
+            <div className="pp-hero-progress-top">
+              <span>
+                Progresso para <b>{rank.nextTier.emoji} {rank.nextTier.label}</b>
+              </span>
+              <span>
+                <b>{rank.activeClients}</b> de {rank.nextTier.min_clients}
+              </span>
+            </div>
+            <div className="rank-progress-bg">
+              <div className="rank-progress-fill" style={{ width: `${Math.round(rank.progressToNext * 100)}%` }} />
             </div>
           </div>
-        ) : (
-          <p style={{ marginTop: 6 }}>Nenhum nível configurado ainda.</p>
         )}
+      </section>
 
-        <p style={{ textAlign: "center", fontWeight: 700, margin: "4px 0" }}>
-          {rank.activeClients} {rank.nextTier ? `/ ${rank.nextTier.min_clients}` : ""} clientes ativos
-        </p>
-        {rank.progressToNext !== null && (
-          <div className="rank-progress-bg">
-            <div className="rank-progress-fill" style={{ width: `${Math.round(rank.progressToNext * 100)}%` }} />
-          </div>
-        )}
-
-        <RankLadder tiers={rank.tiers} activeClients={rank.activeClients} currentTierId={rank.currentTier?.id ?? null} />
+      <div className="portal-card">
+        <h2>🏆 Estrutura de níveis</h2>
+        <RankGrid tiers={rank.tiers} activeClients={rank.activeClients} currentTierId={rank.currentTier?.id ?? null} />
         <p className="rank-disclaimer">
           Metas e benefícios configurados pela Patas &amp; Passos. O valor real de comissão segue sempre as regras
           vigentes do programa.
@@ -105,7 +121,11 @@ export default async function DashboardPage() {
         )}
       </div>
 
-      <CouponBox couponCode={current.partner.coupon_code} />
+      <div className="portal-card">
+        <h2>Seus links de divulgação rápidos</h2>
+        <p style={{ marginBottom: 4 }}>Copie seu cupom já pensando no serviço que você vai indicar.</p>
+        <ServiceShareCards couponCode={current.partner.coupon_code} />
+      </div>
 
       <div className="portal-card">
         <h2>📍 Área de atendimento</h2>
