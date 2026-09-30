@@ -9,7 +9,7 @@ export default function CommissionCalculator({ percentage }: { percentage: numbe
   const commission = valid ? (parsed * percentage) / 100 : null;
 
   return (
-    <div>
+    <div className="pp-calc-wrap">
       <label className="pf-label" htmlFor="saleAmount">Valor da venda (R$)</label>
       <input
         id="saleAmount"

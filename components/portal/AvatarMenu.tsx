@@ -1,0 +1,71 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import LogoutButton from "./LogoutButton";
+
+const NAV_ITEMS = [
+  { href: "/parceiros/dashboard", label: "Início", icon: "🏠" },
+  { href: "/parceiros/indicacoes", label: "Indicações", icon: "🐾" },
+  { href: "/parceiros/comissoes", label: "Comissões", icon: "💰" },
+  { href: "/parceiros/calculadora", label: "Calculadora", icon: "🧮" },
+  { href: "/parceiros/saldo", label: "Saldo", icon: "💳" },
+  { href: "/parceiros/saques", label: "Saques", icon: "💸" },
+  { href: "/parceiros/perfil", label: "Perfil", icon: "👤" },
+];
+
+export default function AvatarMenu({
+  avatarSrc,
+  avatarAlt,
+  rankEmoji,
+  firstName,
+}: {
+  avatarSrc: string;
+  avatarAlt: string;
+  rankEmoji?: string;
+  firstName: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function onClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, []);
+
+  useEffect(() => setOpen(false), [pathname]);
+
+  return (
+    <div className="avatar-menu" ref={ref}>
+      <button type="button" className="avatar-menu-trigger" onClick={() => setOpen((v) => !v)} aria-expanded={open} aria-label="Menu do parceiro">
+        <span style={{ position: "relative" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={avatarSrc} alt={avatarAlt} width={40} height={40} style={{ borderRadius: "50%" }} />
+          {rankEmoji && <span className="avatar-rank-badge">{rankEmoji}</span>}
+        </span>
+        <span className="avatar-menu-caret">{open ? "▲" : "▼"}</span>
+      </button>
+
+      {open && (
+        <div className="avatar-menu-panel">
+          <div className="avatar-menu-greeting">Olá, {firstName}!</div>
+          <div className="avatar-menu-list">
+            {NAV_ITEMS.map((item) => (
+              <Link key={item.href} href={item.href} className={`avatar-menu-item${pathname === item.href ? " active" : ""}`}>
+                <span aria-hidden="true">{item.icon}</span> {item.label}
+              </Link>
+            ))}
+          </div>
+          <div className="avatar-menu-footer">
+            <LogoutButton label="Sair da conta" redirectTo="/parceiros/login" />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

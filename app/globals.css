@@ -4,6 +4,11 @@
    hero + mascote (home), blobs/galeria/bolhas e dock social.
    ============================================================ */
 :root{
+  /* Força controles nativos (input, select, scrollbar) a renderizar claros
+     mesmo quando o sistema/navegador do visitante está em modo escuro --
+     sem isso, alguns navegadores escurecem campos de formulário sozinhos e
+     o contraste quebra (texto sumindo) no site público, que é só claro. */
+  color-scheme: light;
   --bg1:#F8F5EF; --bg2:#EFE4D8;
   --blue:#71402F; --blue-deep:#3D1F15; --blue-deeper:#2A140E;
   --blue-soft:#D8B994; --blue-tile:#A36C43; --blue-wash:#F8F5EF;
@@ -816,7 +821,20 @@ a.ci-val:hover{ color:var(--blue); }
    Paleta própria Patas & Passos (brown/amber/cream), não a da
    referência usada como inspiração de composição.
    ============================================================ */
-.parceiro-app{ min-height:100vh; background:linear-gradient(160deg,#1C1008 0%, #241409 55%, #150C06 100%); color:#F5EFE6; }
+.parceiro-app{ min-height:100vh; background:linear-gradient(160deg,#1C1008 0%, #241409 55%, #150C06 100%); color:#F5EFE6;
+  color-scheme: dark; }
+
+.parceiro-app .pf-input::placeholder, .parceiro-app .pf-select::placeholder{ color:rgba(245,239,230,.4); }
+.parceiro-app .pf-input:-webkit-autofill{ -webkit-text-fill-color:#F5EFE6; caret-color:#F5EFE6;
+  -webkit-box-shadow:0 0 0px 1000px #241708 inset; transition:background-color 9999s ease-in-out 0s; }
+
+/* desktop: layout "paisagem" mais largo, como um painel de verdade, em vez
+   da coluna estreita de mobile esticada no meio da tela */
+@media (min-width:860px){
+  .parceiro-app .portal-content{ max-width:1080px; }
+  .parceiro-app .portal-topbar-in, .parceiro-app .portal-nav-desktop{ max-width:1080px; }
+}
+.pp-calc-wrap{ max-width:380px; }
 
 .parceiro-app .portal-topbar{ position:sticky; top:0; z-index:60; border-radius:0 0 20px 20px;
   background:rgba(28,16,8,.82); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
@@ -927,6 +945,29 @@ a.ci-val:hover{ color:var(--blue); }
 .parceiro-app .avatar-rank-badge{ position:absolute; bottom:-3px; right:-3px; font-size:9.5px; font-weight:700;
   background:var(--amber); color:#1C1008; padding:1px 5px; border-radius:999px; border:2px solid #1C1008;
   white-space:nowrap; }
+
+/* ---------- menu do avatar (estilo Netflix: clique no perfil abre painel) ---------- */
+.avatar-menu{ position:relative; }
+.avatar-menu-trigger{ display:flex; align-items:center; gap:6px; background:none; border:none; cursor:pointer;
+  padding:2px; font-family:inherit; }
+.avatar-menu-caret{ font-size:9px; color:rgba(245,239,230,.6); }
+.avatar-menu-panel{ position:absolute; top:calc(100% + 12px); right:0; width:240px; background:#1A0F08;
+  border:1px solid rgba(245,239,230,.12); border-radius:14px; box-shadow:0 20px 50px rgba(0,0,0,.5);
+  overflow:hidden; z-index:80; animation:avatarMenuIn .15s ease-out; }
+.avatar-menu-panel::before{ content:""; position:absolute; top:-6px; right:16px; width:12px; height:12px;
+  background:#1A0F08; border-left:1px solid rgba(245,239,230,.12); border-top:1px solid rgba(245,239,230,.12);
+  transform:rotate(45deg); }
+.avatar-menu-greeting{ padding:14px 16px 10px; font-size:13px; font-weight:700; color:rgba(245,239,230,.55);
+  border-bottom:1px solid rgba(245,239,230,.08); }
+.avatar-menu-list{ padding:6px; display:flex; flex-direction:column; }
+.avatar-menu-item{ display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:8px;
+  color:#F5EFE6; font-size:13.5px; font-weight:600; text-decoration:none; }
+.avatar-menu-item:hover{ background:rgba(245,239,230,.08); }
+.avatar-menu-item.active{ background:rgba(245,193,61,.14); color:var(--amber); }
+.avatar-menu-footer{ padding:10px 12px 14px; border-top:1px solid rgba(245,239,230,.08); }
+.avatar-menu-footer .portal-logout{ width:100%; text-align:center; }
+
+@keyframes avatarMenuIn{ from{ opacity:0; transform:translateY(-6px); } to{ opacity:1; transform:translateY(0); } }
 
 /* ---------- painel admin ---------- */
 .admin-tabs{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
