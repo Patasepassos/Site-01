@@ -6,6 +6,7 @@ import LogoutButton from "@/components/portal/LogoutButton";
 import { PortalBottomNav, PortalDesktopNav } from "@/components/portal/PortalNav";
 import ToastProvider from "@/components/portal/ToastProvider";
 import AvatarMenu from "@/components/portal/AvatarMenu";
+import HoverSoundListener from "@/components/portal/HoverSoundListener";
 import { AVATAR_LABELS, avatarSrc } from "@/lib/partners/avatars";
 
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
@@ -67,6 +68,7 @@ export default async function PortalLayout({ children }: { children: React.React
   return (
     <ToastProvider>
       <div className="parceiro-app">
+        <HoverSoundListener />
         <div className="portal-shell">
           <header className="portal-topbar">
             <div className="portal-topbar-in">

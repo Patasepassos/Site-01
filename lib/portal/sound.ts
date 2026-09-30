@@ -36,6 +36,13 @@ export function playClickSound(): void {
   tone(audioCtx, 880, 0, 0.15, 0.25, "sine");
 }
 
+/** Toque bem sutil e curto — usado ao passar o mouse sobre um botão. */
+export function playHoverSound(): void {
+  const audioCtx = getContext();
+  if (!audioCtx) return;
+  tone(audioCtx, 660, 0, 0.06, 0.06, "sine");
+}
+
 /** Fanfarra curta — usada só quando o parceiro sobe de Rank de verdade. */
 export function playRankUpSound(): void {
   const audioCtx = getContext();

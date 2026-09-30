@@ -822,7 +822,13 @@ a.ci-val:hover{ color:var(--blue); }
    referência usada como inspiração de composição.
    ============================================================ */
 .parceiro-app{ min-height:100vh; background:linear-gradient(160deg,#1C1008 0%, #241409 55%, #150C06 100%); color:#F5EFE6;
-  color-scheme: dark; }
+  color-scheme: dark;
+  /* Redefine os próprios tokens de texto pra dentro do portal do parceiro --
+     em vez de sobrescrever seletor por seletor, qualquer lugar do código que
+     use var(--ink)/var(--ink-soft) (inclusive estilo inline) já fica claro
+     automaticamente aqui dentro. Fora do .parceiro-app (site público, admin)
+     os tokens continuam com o valor escuro original, intocados. */
+  --ink:#F5EFE6; --ink-soft:rgba(245,239,230,.78); }
 
 .parceiro-app .pf-input::placeholder, .parceiro-app .pf-select::placeholder{ color:rgba(245,239,230,.4); }
 .parceiro-app .pf-input:-webkit-autofill{ -webkit-text-fill-color:#F5EFE6; caret-color:#F5EFE6;
@@ -834,7 +840,6 @@ a.ci-val:hover{ color:var(--blue); }
   .parceiro-app .portal-content{ max-width:1080px; }
   .parceiro-app .portal-topbar-in, .parceiro-app .portal-nav-desktop{ max-width:1080px; }
 }
-.pp-calc-wrap{ max-width:380px; }
 
 .parceiro-app .portal-topbar{ position:sticky; top:0; z-index:60; border-radius:0 0 20px 20px;
   background:rgba(28,16,8,.82); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);

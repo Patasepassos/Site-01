@@ -17,7 +17,6 @@ const APP_SHELL_PREFIXES = [
   "/parceiros/dashboard",
   "/parceiros/indicacoes",
   "/parceiros/comissoes",
-  "/parceiros/calculadora",
   "/parceiros/saldo",
   "/parceiros/saques",
   "/parceiros/perfil",

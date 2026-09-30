@@ -8,7 +8,6 @@ const PORTAL_PATHS = [
   "/parceiros/dashboard",
   "/parceiros/indicacoes",
   "/parceiros/comissoes",
-  "/parceiros/calculadora",
   "/parceiros/saldo",
   "/parceiros/saques",
   "/parceiros/perfil",
