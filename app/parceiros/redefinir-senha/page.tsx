@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { validatePasswordPolicy } from "@/lib/partners/password-policy";
+
+type SessionCheck = "checking" | "valid" | "invalid";
 
 export default function RedefinirSenhaPage() {
   const router = useRouter();
@@ -13,6 +15,22 @@ export default function RedefinirSenhaPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const [sessionCheck, setSessionCheck] = useState<SessionCheck>("checking");
+
+  useEffect(() => {
+    // Essa página só deve funcionar pra quem chegou pelo fluxo real de
+    // recuperação (via /auth/callback, que já trocou o código por uma
+    // sessão). Sem sessão, não mostra o formulário — evita passar a
+    // impressão de que dá pra mudar senha de qualquer jeito por aqui.
+    async function checkSession() {
+      const supabase = createSupabaseBrowserClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setSessionCheck(user ? "valid" : "invalid");
+    }
+    checkSession();
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -66,7 +84,16 @@ export default function RedefinirSenhaPage() {
         <h1>Nova senha</h1>
         <p className="lead">Escolha uma nova senha para acessar a Área de Parceiro.</p>
 
-        {done ? (
+        {sessionCheck === "checking" ? (
+          <p>Verificando link…</p>
+        ) : sessionCheck === "invalid" ? (
+          <>
+            <p className="pf-error">Esse link é inválido ou já expirou.</p>
+            <Link className="btn btn-wa btn-lg" href="/parceiros/login" style={{ marginTop: 12 }}>
+              Pedir um novo link
+            </Link>
+          </>
+        ) : done ? (
           <p className="pf-success">Senha atualizada! Redirecionando para o login…</p>
         ) : (
           <form onSubmit={handleSubmit}>

@@ -16,6 +16,7 @@ export default function LoginParceiroPage() {
 function LoginForm() {
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") || "/parceiros/dashboard";
+  const linkError = searchParams.get("erro") === "link-invalido";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -67,7 +68,7 @@ function LoginForm() {
 
     const supabase = createSupabaseBrowserClient();
     await supabase.auth.resetPasswordForEmail(forgotEmail, {
-      redirectTo: `${window.location.origin}/parceiros/redefinir-senha`,
+      redirectTo: `${window.location.origin}/auth/callback?next=/parceiros/redefinir-senha`,
     });
 
     // Sempre mostra sucesso, mesmo se o e-mail não existir — evita
@@ -131,6 +132,10 @@ function LoginForm() {
       <div className="portal-auth-card">
         <h1>Área do Parceiro</h1>
         <p className="lead">Entre para acompanhar suas indicações e comissões.</p>
+
+        {linkError && (
+          <p className="pf-error">Esse link de recuperação é inválido ou já expirou. Peça um novo abaixo.</p>
+        )}
 
         <form onSubmit={handleLogin}>
           <label className="pf-label" htmlFor="email">E-mail</label>
