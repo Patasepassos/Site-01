@@ -46,7 +46,10 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        © 2026 Patas &amp; Passos · Cuidado com amor e segurança
+        <Link href="/admin/login" aria-label="Acesso administrativo" style={{ color: "inherit", textDecoration: "none" }}>
+          ©
+        </Link>{" "}
+        2026 Patas &amp; Passos · Cuidado com amor e segurança
         <span style={{ margin: "0 10px", opacity: 0.4 }}>·</span>
         Desenvolvido por{" "}
         <a href="https://dolvitta.com.br" target="_blank" rel="noopener" style={{ color: "rgba(245,239,230,.65)", textDecoration: "underline" }}>
