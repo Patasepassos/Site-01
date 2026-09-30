@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import MascotAuau from "@/components/mascot/MascotAuau";
+import AuthHashErrorRedirect from "@/components/AuthHashErrorRedirect";
 import { siteConfig, waLink, waMessages } from "@/lib/site";
 
 const Paw = ({ size = 18 }: { size?: number }) => (
@@ -42,6 +43,7 @@ export default function Home({ searchParams }: HomeProps) {
 
   return (
     <div className="wrap">
+      <AuthHashErrorRedirect />
 
       {/* ── HERO ─────────────────────────────────────── */}
       <section className="hero">
