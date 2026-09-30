@@ -50,13 +50,23 @@ export async function PATCH(request: Request) {
   const phoneChanged = profile?.phone !== newPhoneDigits;
   const pixChanged = partner.pix_key !== pixKey || partner.pix_key_type !== pixKeyType;
 
-  const partnerUpdate: { pix_key: string; pix_key_type: PixKeyType; financial_data_verified?: boolean } = {
+  const partnerUpdate: {
+    pix_key: string;
+    pix_key_type: PixKeyType;
+    financial_data_status?: "pending";
+    financial_data_reviewed_at?: null;
+    financial_data_review_note?: null;
+  } = {
     pix_key: pixKey,
     pix_key_type: pixKeyType,
   };
   // Trocar a chave Pix invalida a aprovação anterior dos dados financeiros —
   // o admin precisa revisar de novo antes de qualquer pagamento novo sair.
-  if (pixChanged) partnerUpdate.financial_data_verified = false;
+  if (pixChanged) {
+    partnerUpdate.financial_data_status = "pending";
+    partnerUpdate.financial_data_reviewed_at = null;
+    partnerUpdate.financial_data_review_note = null;
+  }
 
   const [{ error: profileError }, { error: partnerError }] = await Promise.all([
     supabaseAdmin.from("profiles").update({ phone: newPhoneDigits }).eq("id", user.id),

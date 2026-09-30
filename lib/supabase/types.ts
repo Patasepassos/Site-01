@@ -24,6 +24,7 @@ export type NotificationType =
   | "elegibilidade_atualizada";
 export type UserRole = "admin" | "operator" | "partner";
 export type CpfVerificationStatus = "pending" | "verified" | "failed";
+export type FinancialDataStatus = "pending" | "approved" | "rejected";
 
 export type ProfileRow = {
   id: string;
@@ -50,6 +51,9 @@ export type PartnerRow = {
   whatsapp_verified_at: string | null;
   document_verified: boolean;
   financial_data_verified: boolean;
+  financial_data_status: FinancialDataStatus;
+  financial_data_reviewed_at: string | null;
+  financial_data_review_note: string | null;
   payout_eligible: boolean;
   eligibility_updated_at: string | null;
   birth_date: string | null;

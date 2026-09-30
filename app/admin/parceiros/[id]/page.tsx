@@ -17,6 +17,7 @@ import CustomerActions from "@/components/admin/CustomerActions";
 import CustomerRowMenu from "@/components/admin/CustomerRowMenu";
 import TestFlagToggle from "@/components/admin/TestFlagToggle";
 import WhatsappVerifyToggle from "@/components/admin/WhatsappVerifyToggle";
+import FinancialDataReviewActions from "@/components/admin/FinancialDataReviewActions";
 import { buildEligibilityChecklist } from "@/lib/partners/eligibility";
 import type { CommissionRow, CommissionStatus } from "@/lib/supabase/types";
 
@@ -107,9 +108,47 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
             )}
           </li>
           <li>{checklist.documentVerified ? "✅" : "⏳"} CPF/CNPJ validado</li>
-          <li>{checklist.financialDataVerified ? "✅" : "⏳"} Dados financeiros aprovados</li>
+          <li>
+            {checklist.financialDataStatus === "approved"
+              ? "✅ Dados financeiros aprovados"
+              : checklist.financialDataStatus === "rejected"
+                ? "⚠️ Dados financeiros — correção necessária"
+                : "🟡 Dados financeiros em análise"}
+            {checklist.financialDataStatus !== "pending" && partner.financial_data_reviewed_at && (
+              <span style={{ opacity: 0.7 }}> — em {formatDateTime(partner.financial_data_reviewed_at)}</span>
+            )}
+          </li>
         </ul>
         <WhatsappVerifyToggle partnerId={partner.id} verified={partner.whatsapp_verified} />
+      </div>
+
+      <div className="portal-card">
+        <h2>Dados financeiros (Pix)</h2>
+        <p style={{ marginTop: 6 }}>
+          Pix ({partner.pix_key_type}): <b>{maskSecret(partner.pix_key)}</b>
+        </p>
+        <p>
+          Status:{" "}
+          <span
+            className={`status-pill tone-${checklist.financialDataStatus === "approved" ? "done" : checklist.financialDataStatus === "rejected" ? "cancelled" : "pending"}`}
+          >
+            {checklist.financialDataStatus === "approved"
+              ? "✅ Aprovado"
+              : checklist.financialDataStatus === "rejected"
+                ? "⚠️ Correção necessária"
+                : "🟡 Em análise"}
+          </span>
+        </p>
+        {partner.financial_data_reviewed_at && (
+          <p>Última revisão: {formatDateTime(partner.financial_data_reviewed_at)}</p>
+        )}
+        {checklist.financialDataStatus === "rejected" && partner.financial_data_review_note && (
+          <p style={{ fontSize: 13, color: "var(--ink-soft)" }}>Motivo: {partner.financial_data_review_note}</p>
+        )}
+        <p style={{ fontSize: 13, color: "var(--ink-soft)", marginTop: 6 }}>
+          Aprovação manual — nenhuma API de validação de titularidade Pix integrada ainda.
+        </p>
+        <FinancialDataReviewActions partnerId={partner.id} />
       </div>
 
       <div className="portal-card">

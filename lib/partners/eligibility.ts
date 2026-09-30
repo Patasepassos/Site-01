@@ -1,6 +1,6 @@
 import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Database, PartnerRow } from "@/lib/supabase/types";
+import type { Database, FinancialDataStatus, PartnerRow } from "@/lib/supabase/types";
 import { onlyDigits } from "@/lib/partners/validation";
 import { logAudit } from "./audit";
 
@@ -9,6 +9,7 @@ export type EligibilityChecklist = {
   whatsappVerified: boolean;
   documentVerified: boolean;
   financialDataVerified: boolean;
+  financialDataStatus: FinancialDataStatus;
   partnerActive: boolean;
   eligible: boolean;
 };
@@ -27,24 +28,31 @@ export type EligibilityChecklist = {
  * (`partner.cpf_status === "verified"`) — nunca um placeholder. Para CNPJ
  * (14 dígitos) não existe verificação automática contratada, então continua
  * dependendo da aprovação manual do admin (`partner.document_verified`).
+ *
+ * Dados financeiros/Pix: `financial_data_status` tem 3 estados
+ * (pending/approved/rejected) — aprovação 100% manual da Patas & Passos,
+ * sem nenhuma API de validação de titularidade Pix integrada. Só
+ * "approved" conta pra elegibilidade.
  */
 export function buildEligibilityChecklist(partner: PartnerRow): EligibilityChecklist {
   const partnerActive = partner.status === "active";
   const isCpf = onlyDigits(partner.cpf_cnpj).length === 11;
   const documentVerified = isCpf ? partner.cpf_status === "verified" : partner.document_verified;
+  const financialDataStatus: FinancialDataStatus = partner.financial_data_status;
 
   const eligible =
     partnerActive &&
     partner.email_verified &&
     partner.whatsapp_verified &&
     documentVerified &&
-    partner.financial_data_verified;
+    financialDataStatus === "approved";
 
   return {
     emailVerified: partner.email_verified,
     whatsappVerified: partner.whatsapp_verified,
     documentVerified,
-    financialDataVerified: partner.financial_data_verified,
+    financialDataVerified: financialDataStatus === "approved",
+    financialDataStatus,
     partnerActive,
     eligible,
   };

@@ -67,7 +67,16 @@ export default async function PerfilPage() {
               <span style={{ opacity: 0.7 }}> — última verificação em {formatDateTime(current.partner.cpf_verified_at)}</span>
             )}
           </li>
-          <li>{checklist.financialDataVerified ? "✅" : "⏳"} Dados financeiros aprovados</li>
+          <li>
+            {checklist.financialDataStatus === "approved"
+              ? "✅ Dados financeiros aprovados"
+              : checklist.financialDataStatus === "rejected"
+                ? "⚠️ Correção necessária"
+                : "🟡 Dados financeiros em análise"}
+            {checklist.financialDataStatus !== "pending" && current.partner.financial_data_reviewed_at && (
+              <span style={{ opacity: 0.7 }}> — em {formatDateTime(current.partner.financial_data_reviewed_at)}</span>
+            )}
+          </li>
         </ul>
         <EmailVerificationCard email={current.email} verified={current.partner.email_verified} />
         <WhatsappVerificationCard
@@ -80,6 +89,27 @@ export default async function PerfilPage() {
             cpfMasked={maskSecret(current.partner.cpf_cnpj)}
             verified={current.partner.cpf_status === "verified"}
           />
+        )}
+        {checklist.financialDataStatus === "pending" && (
+          <p style={{ marginTop: 10, fontSize: 13 }}>
+            Seus dados de pagamento foram enviados e estão aguardando aprovação da Patas &amp; Passos.
+          </p>
+        )}
+        {checklist.financialDataStatus === "approved" && (
+          <p style={{ marginTop: 10, fontSize: 13 }}>
+            Seus dados de pagamento foram confirmados e estão liberados para receber comissões.
+          </p>
+        )}
+        {checklist.financialDataStatus === "rejected" && (
+          <p style={{ marginTop: 10, fontSize: 13 }}>
+            Precisamos que você revise seus dados de pagamento e envie novamente.
+            {current.partner.financial_data_review_note && (
+              <>
+                {" "}
+                <span style={{ opacity: 0.8 }}>Motivo: {current.partner.financial_data_review_note}</span>
+              </>
+            )}
+          </p>
         )}
         {!checklist.eligible && (
           <p style={{ marginTop: 10, fontSize: 13 }}>
