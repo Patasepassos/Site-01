@@ -213,6 +213,9 @@ async function performCpfVerification(input: {
 }): Promise<CPFVerificationResult> {
   const cpf = onlyDigits(input.cpf);
   if (!isValidCPF(cpf)) {
+    // DIAGNÓSTICO TEMPORÁRIO (remover depois de identificar a causa) — nunca
+    // loga o CPF em si, só o resultado da validação local de formato.
+    console.log("[cpf-brasil][diag] CPF rejeitado na validação local de formato (não chegou a chamar a API).");
     return { status: "failed", reason: "CPF inválido." };
   }
 
@@ -223,11 +226,22 @@ async function performCpfVerification(input: {
     httpStatus = res.httpStatus;
     body = res.body;
   } catch (err) {
+    // DIAGNÓSTICO TEMPORÁRIO — describeError() aqui só descreve erro de rede/
+    // configuração (timeout, chave ausente), nunca inclui CPF/nome/nascimento.
+    console.error(`[cpf-brasil][diag] falha ao chamar a API: ${describeError(err)}`);
     return { status: "pending", reason: `Consulta indisponível no momento (${describeError(err)}).` };
   }
 
   const parsed = parseCpfBrasilResponse(httpStatus, body);
-  if (parsed.kind === "error") return mapApiErrorToResult(parsed.code, parsed.message);
+  if (parsed.kind === "error") {
+    // DIAGNÓSTICO TEMPORÁRIO — code é um dos valores fixos do enum
+    // CPFVerificationError (nunca dado pessoal); nunca loga parsed.message,
+    // que é texto livre vindo da API e poderia, em tese, ecoar dado pessoal.
+    console.error(
+      `[cpf-brasil][diag] API retornou erro: httpStatus=${httpStatus} code=${parsed.code} hasMessage=${Boolean(parsed.message)}`
+    );
+    return mapApiErrorToResult(parsed.code, parsed.message);
+  }
 
   const data = parsed.data;
   const cpfMatches = onlyDigits(data.CPF) === cpf;
@@ -235,6 +249,12 @@ async function performCpfVerification(input: {
   const apiDate = normalizeDateToDDMMYYYY(data.NASC);
   const inputDate = normalizeDateToDDMMYYYY(input.birthDate);
   const dateMatches = apiDate !== null && apiDate === inputDate;
+
+  // DIAGNÓSTICO TEMPORÁRIO — só booleanos de match/mismatch e status HTTP,
+  // nunca o CPF, nome, data de nascimento ou qualquer valor comparado.
+  console.log(
+    `[cpf-brasil][diag] comparação: httpStatus=${httpStatus} cpf=${cpfMatches ? "match" : "mismatch"} nome=${nameMatches ? "match" : "mismatch"} nascimento=${dateMatches ? "match" : "mismatch"} apiDateParsed=${apiDate !== null} inputDateParsed=${inputDate !== null}`
+  );
 
   if (cpfMatches && nameMatches && dateMatches) {
     return { status: "verified", reason: "Verificado com sucesso." };
