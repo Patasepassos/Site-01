@@ -5,6 +5,7 @@ import { onlyDigits } from "@/lib/partners/validation";
 import { formatDateTime } from "@/lib/partners/labels";
 import { maskSecret } from "@/lib/partners/mask";
 import EditProfileForm from "@/components/portal/EditProfileForm";
+import EditNameForm from "@/components/portal/EditNameForm";
 import ChangePasswordForm from "@/components/portal/ChangePasswordForm";
 import MfaSetup from "@/components/MfaSetup";
 import CpfVerificationCard from "@/components/portal/CpfVerificationCard";
@@ -37,6 +38,7 @@ export default async function PerfilPage() {
           <br />
           <b>Cupom:</b> {current.partner.coupon_code}
         </p>
+        <EditNameForm initialFullName={current.profile.full_name} />
       </div>
 
       <div className="portal-card">
