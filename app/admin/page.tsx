@@ -10,7 +10,7 @@ function startOfMonthIso(): string {
 
 export default async function AdminDashboardPage() {
   const staff = await requireStaffUser();
-  if (!staff) redirect("/parceiros/login");
+  if (!staff) redirect("/admin/login");
 
   const supabaseAdmin = createSupabaseAdminClient();
   const monthStart = startOfMonthIso();

@@ -15,6 +15,7 @@ export default function RedefinirSenhaPage() {
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const [sessionCheck, setSessionCheck] = useState<SessionCheck>("checking");
+  const [loginPath, setLoginPath] = useState("/parceiros/login");
 
   useEffect(() => {
     // Essa página só deve funcionar pra quem chegou pelo fluxo real de
@@ -27,6 +28,14 @@ export default function RedefinirSenhaPage() {
         data: { user },
       } = await supabase.auth.getUser();
       setSessionCheck(user ? "valid" : "invalid");
+
+      // Login de admin/operador é separado do de parceiro — os links desta
+      // página precisam apontar pra porta certa depois de trocar a senha.
+      if (user) {
+        const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
+        const isStaff = profile?.role === "admin" || profile?.role === "operator";
+        setLoginPath(isStaff ? "/admin/login" : "/parceiros/login");
+      }
     }
     checkSession();
   }, []);
@@ -94,7 +103,7 @@ export default function RedefinirSenhaPage() {
         ) : done ? (
           <>
             <p className="pf-success">Senha alterada com sucesso!</p>
-            <Link className="btn btn-wa btn-lg" href="/parceiros/login" style={{ marginTop: 12 }}>
+            <Link className="btn btn-wa btn-lg" href={loginPath} style={{ marginTop: 12 }}>
               Entrar novamente
             </Link>
           </>

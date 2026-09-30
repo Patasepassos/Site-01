@@ -6,7 +6,7 @@ import { Suspense, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import ForgotPasswordForm from "@/components/auth/ForgotPasswordForm";
 
-export default function LoginParceiroPage() {
+export default function LoginAdminPage() {
   return (
     <Suspense fallback={null}>
       <LoginForm />
@@ -16,8 +16,7 @@ export default function LoginParceiroPage() {
 
 function LoginForm() {
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect") || "/parceiros/dashboard";
-  const linkError = searchParams.get("erro") === "link-invalido";
+  const redirect = searchParams.get("redirect") || "/admin";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,16 +38,27 @@ function LoginForm() {
       return;
     }
 
-    // A área de parceiro é separada da área do admin: login de parceiro
-    // nunca leva a /admin, mesmo com ?redirect=/admin/... deixado de uma
-    // tentativa anterior. O admin tem sua própria página em /admin/login.
-    const target = redirect.startsWith("/admin") ? "/parceiros/dashboard" : redirect;
+    // Login administrativo é uma porta separada da do parceiro: só entra
+    // aqui quem realmente é admin/operador. Qualquer outra conta é barrada
+    // e desconectada imediatamente, mesmo com credenciais corretas.
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role, active")
+      .eq("id", signInData.user.id)
+      .maybeSingle();
+    const isStaff = profile?.active && (profile.role === "admin" || profile.role === "operator");
+
+    if (!isStaff) {
+      await supabase.auth.signOut();
+      setError("Esta conta não tem acesso administrativo.");
+      setLoading(false);
+      return;
+    }
 
     // Navegação completa de propósito: com router.push existe uma corrida em
     // que o middleware ainda não vê a sessão recém-criada (cookie ainda não
-    // salvo) e manda de volta pro login. window.location garante que a
-    // sessão já está salva antes da próxima requisição.
-    window.location.href = target;
+    // salvo) e manda de volta pro login.
+    window.location.href = redirect.startsWith("/admin") ? redirect : "/admin";
   }
 
   return (
@@ -62,12 +72,8 @@ function LoginForm() {
           <ForgotPasswordForm onBack={() => setForgotMode(false)} />
         ) : (
           <>
-            <h1>🐾 Área do Parceiro</h1>
-            <p className="lead">Acesse seu painel de parceiro Patas &amp; Passos.</p>
-
-            {linkError && (
-              <p className="pf-error">Esse link de recuperação é inválido ou já expirou. Peça um novo abaixo.</p>
-            )}
+            <h1>🔐 Acesso Administrativo</h1>
+            <p className="lead">Área restrita à equipe Patas &amp; Passos.</p>
 
             <form onSubmit={handleLogin}>
               <label className="pf-label" htmlFor="email">E-mail</label>
@@ -105,9 +111,6 @@ function LoginForm() {
               >
                 Esqueci minha senha
               </button>
-            </p>
-            <p className="pf-link">
-              Ainda não é parceiro? <Link href="/parceiros/cadastro">Quero ser parceiro</Link>
             </p>
           </>
         )}

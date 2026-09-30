@@ -5,7 +5,7 @@ import { AdminBottomNav, AdminDesktopNav } from "@/components/admin/AdminNav";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const staff = await requireStaffUser();
-  if (!staff) redirect("/parceiros/login");
+  if (!staff) redirect("/admin/login");
 
   const firstName = staff.profile.full_name.split(" ")[0];
 
@@ -14,10 +14,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <header className="portal-topbar">
         <div className="portal-topbar-in">
           <div>
-            <h1>Área do Admin 🐾</h1>
-            <p>Olá, {firstName} — Patas &amp; Passos</p>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: ".04em", opacity: 0.75, margin: 0 }}>
+              🔐 PAINEL ADMINISTRATIVO
+            </p>
+            <h1>Olá, {firstName}</h1>
+            <p>Patas &amp; Passos — gestão interna</p>
           </div>
-          <LogoutButton />
+          <LogoutButton label="Sair do painel" redirectTo="/admin/login" />
         </div>
         <AdminDesktopNav isAdmin={staff.profile.role === "admin"} />
       </header>

@@ -6,6 +6,8 @@ import { formatDateTime } from "@/lib/partners/labels";
 import { maskSecret } from "@/lib/partners/mask";
 import EditProfileForm from "@/components/portal/EditProfileForm";
 import EditNameForm from "@/components/portal/EditNameForm";
+import AvatarPicker from "@/components/portal/AvatarPicker";
+import DeleteAccountSection from "@/components/portal/DeleteAccountSection";
 import ChangePasswordForm from "@/components/portal/ChangePasswordForm";
 import MfaSetup from "@/components/MfaSetup";
 import CpfVerificationCard from "@/components/portal/CpfVerificationCard";
@@ -29,6 +31,11 @@ export default async function PerfilPage() {
 
   return (
     <>
+      <div className="portal-card">
+        <h2>Seu avatar</h2>
+        <AvatarPicker currentAvatarKey={current.profile.avatar_key} />
+      </div>
+
       <div className="portal-card">
         <h2>Meus dados</h2>
         <p style={{ marginTop: 8 }}>
@@ -141,6 +148,8 @@ export default async function PerfilPage() {
         <h2>Autenticação em dois fatores</h2>
         <MfaSetup />
       </div>
+
+      <DeleteAccountSection />
     </>
   );
 }

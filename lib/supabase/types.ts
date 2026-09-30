@@ -25,6 +25,7 @@ export type NotificationType =
 export type UserRole = "admin" | "operator" | "partner";
 export type CpfVerificationStatus = "pending" | "verified" | "failed";
 export type FinancialDataStatus = "pending" | "approved" | "rejected";
+export type AvatarKey = "pig" | "sheep" | "chicken" | "dog" | "horse" | "turtle" | "cat";
 
 export type ProfileRow = {
   id: string;
@@ -32,6 +33,7 @@ export type ProfileRow = {
   full_name: string;
   phone: string;
   active: boolean;
+  avatar_key: AvatarKey;
   created_at: string;
 };
 
@@ -56,6 +58,7 @@ export type PartnerRow = {
   financial_data_review_note: string | null;
   payout_eligible: boolean;
   eligibility_updated_at: string | null;
+  account_deleted_at: string | null;
   birth_date: string | null;
   cpf_status: CpfVerificationStatus;
   cpf_verified_at: string | null;

@@ -41,11 +41,14 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
   const isPortalPath = PORTAL_PATHS.some((p) => pathname.startsWith(p));
-  const isAdminPath = pathname.startsWith("/admin");
+  // /admin/login fica fora de propósito, assim como /parceiros/login — é a
+  // própria porta de entrada do ambiente administrativo, não pode exigir
+  // sessão pra ser acessada (senão vira loop de redirecionamento).
+  const isAdminPath = pathname.startsWith("/admin") && pathname !== "/admin/login";
 
   if ((isPortalPath || isAdminPath) && !user) {
     const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = "/parceiros/login";
+    loginUrl.pathname = isAdminPath ? "/admin/login" : "/parceiros/login";
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
   }

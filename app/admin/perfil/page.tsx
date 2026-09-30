@@ -9,7 +9,7 @@ const ROLE_LABELS: Record<string, string> = { admin: "Administrador", operator: 
 
 export default async function AdminPerfilPage() {
   const staff = await requireStaffUser();
-  if (!staff) redirect("/parceiros/login");
+  if (!staff) redirect("/admin/login");
 
   const emailMap = await getAuthEmailMap(createSupabaseAdminClient(), [staff.userId]);
 
