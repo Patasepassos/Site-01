@@ -23,7 +23,7 @@ export default function WhatsappVerifyToggle({ partnerId, verified }: { partnerI
 
   return (
     <button type="button" className={verified ? "btn btn-danger btn-sm" : "btn btn-wa btn-sm"} disabled={loading} onClick={toggle}>
-      {verified ? "Desmarcar WhatsApp verificado" : "Confirmar WhatsApp verificado"}
+      {verified ? "Desmarcar telefone verificado" : "Confirmar telefone verificado (manual)"}
     </button>
   );
 }

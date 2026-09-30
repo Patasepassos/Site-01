@@ -47,6 +47,7 @@ export type PartnerRow = {
   approved_by: string | null;
   is_test: boolean;
   whatsapp_verified: boolean;
+  whatsapp_verified_at: string | null;
   document_verified: boolean;
   financial_data_verified: boolean;
   payout_eligible: boolean;

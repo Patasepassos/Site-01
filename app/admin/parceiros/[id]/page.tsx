@@ -100,7 +100,12 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
               <span style={{ opacity: 0.7 }}> — em {formatDateTime(partner.email_verified_at)}</span>
             )}
           </li>
-          <li>{checklist.whatsappVerified ? "✅" : "⏳"} WhatsApp verificado</li>
+          <li>
+            {checklist.whatsappVerified ? "✅" : "⏳"} Telefone verificado
+            {checklist.whatsappVerified && partner.whatsapp_verified_at && (
+              <span style={{ opacity: 0.7 }}> — em {formatDateTime(partner.whatsapp_verified_at)}</span>
+            )}
+          </li>
           <li>{checklist.documentVerified ? "✅" : "⏳"} CPF/CNPJ validado</li>
           <li>{checklist.financialDataVerified ? "✅" : "⏳"} Dados financeiros aprovados</li>
         </ul>

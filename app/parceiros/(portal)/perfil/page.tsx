@@ -8,6 +8,8 @@ import ChangePasswordForm from "@/components/portal/ChangePasswordForm";
 import MfaSetup from "@/components/MfaSetup";
 import CpfVerifyRetryButton from "@/components/portal/CpfVerifyRetryButton";
 import EmailVerificationCard from "@/components/portal/EmailVerificationCard";
+import WhatsappVerificationCard from "@/components/portal/WhatsappVerificationCard";
+import { getConfiguredChannel } from "@/lib/sms/twilio";
 
 export default async function PerfilPage() {
   const current = await getCurrentPartner();
@@ -50,7 +52,12 @@ export default async function PerfilPage() {
               <span style={{ opacity: 0.7 }}> — verificado em {formatDateTime(current.partner.email_verified_at)}</span>
             )}
           </li>
-          <li>{checklist.whatsappVerified ? "✅" : "⏳"} WhatsApp verificado</li>
+          <li>
+            {checklist.whatsappVerified ? "✅ Telefone verificado" : "🟡 Aguardando verificação do telefone"}
+            {checklist.whatsappVerified && current.partner.whatsapp_verified_at && (
+              <span style={{ opacity: 0.7 }}> — verificado em {formatDateTime(current.partner.whatsapp_verified_at)}</span>
+            )}
+          </li>
           <li>
             {cpfBadge.emoji} {cpfBadge.label}
             {isCpf && current.partner.cpf_verified_at && (
@@ -60,6 +67,11 @@ export default async function PerfilPage() {
           <li>{checklist.financialDataVerified ? "✅" : "⏳"} Dados financeiros aprovados</li>
         </ul>
         <EmailVerificationCard email={current.email} verified={current.partner.email_verified} />
+        <WhatsappVerificationCard
+          phone={current.profile.phone}
+          verified={current.partner.whatsapp_verified}
+          channel={getConfiguredChannel()}
+        />
         {isCpf && (current.partner.cpf_status === "pending" || current.partner.cpf_status === "failed") && (
           <CpfVerifyRetryButton />
         )}

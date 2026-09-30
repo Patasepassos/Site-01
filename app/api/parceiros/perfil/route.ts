@@ -67,9 +67,13 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Não foi possível salvar as alterações." }, { status: 500 });
   }
 
-  // Trocar o WhatsApp também invalida a verificação anterior desse número.
+  // Trocar o WhatsApp também invalida a verificação anterior desse número —
+  // a verificação é real (Twilio Verify) e vale só pro número que foi confirmado.
   if (phoneChanged) {
-    await supabaseAdmin.from("partners").update({ whatsapp_verified: false }).eq("id", partner.id);
+    await supabaseAdmin
+      .from("partners")
+      .update({ whatsapp_verified: false, whatsapp_verified_at: null })
+      .eq("id", partner.id);
   }
 
   await logAudit(supabaseAdmin, {
