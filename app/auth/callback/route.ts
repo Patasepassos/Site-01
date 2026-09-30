@@ -21,6 +21,12 @@ export async function GET(request: Request) {
     if (!error) {
       return NextResponse.redirect(`${origin}${next}`);
     }
+    // Nunca logar o `code` em si (segredo de uso único) — só o motivo da
+    // falha, pra diagnosticar sem adivinhar (token expirado/já usado x
+    // code_verifier PKCE ausente por ter sido aberto em outro navegador).
+    console.error(`[auth/callback] exchangeCodeForSession falhou: status=${error.status ?? "?"} code=${error.code ?? "?"} msg=${error.message}`);
+  } else {
+    console.error("[auth/callback] chamado sem parâmetro ?code=");
   }
 
   return NextResponse.redirect(`${origin}/parceiros/login?erro=link-invalido`);
