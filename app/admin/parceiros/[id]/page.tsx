@@ -18,6 +18,7 @@ import CustomerRowMenu from "@/components/admin/CustomerRowMenu";
 import TestFlagToggle from "@/components/admin/TestFlagToggle";
 import WhatsappVerifyToggle from "@/components/admin/WhatsappVerifyToggle";
 import FinancialDataReviewActions from "@/components/admin/FinancialDataReviewActions";
+import PixKeyReveal from "@/components/admin/PixKeyReveal";
 import { buildEligibilityChecklist } from "@/lib/partners/eligibility";
 import type { CommissionRow, CommissionStatus } from "@/lib/supabase/types";
 
@@ -124,9 +125,7 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
 
       <div className="portal-card">
         <h2>Dados financeiros (Pix)</h2>
-        <p style={{ marginTop: 6 }}>
-          Pix ({partner.pix_key_type}): <b>{maskSecret(partner.pix_key)}</b>
-        </p>
+        <PixKeyReveal partnerId={partner.id} pixKeyType={partner.pix_key_type} pixKeyMasked={maskSecret(partner.pix_key)} />
         <p>
           Status:{" "}
           <span
