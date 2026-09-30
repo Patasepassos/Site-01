@@ -111,7 +111,7 @@ export type SaleRow = {
   payment_method: string | null;
   payment_status: PaymentStatus;
   notes: string | null;
-  created_by: string;
+  created_by: string | null;
   created_at: string;
 };
 
