@@ -1,6 +1,7 @@
 import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/lib/supabase/types";
+import { getActiveClientCount } from "./active-clients";
 
 export type PartnerProgress = {
   progress: number;
@@ -44,26 +45,10 @@ export async function getPartnerProgress(
     };
   }
 
-  // Só conta como "fechado" pra meta quem tem pagamento CONFIRMADO — uma
-  // venda registrada com pagamento ainda pendente não conta ainda.
-  const { data: closedCustomers, error: closedError } = await supabase
-    .from("customers")
-    .select("id")
-    .eq("partner_id", partnerId)
-    .eq("status", "fechado");
-  if (closedError) throw closedError;
-
-  const closedIds = (closedCustomers ?? []).map((c) => c.id);
-  let closedCount = 0;
-  if (closedIds.length > 0) {
-    const { data: confirmedSales, error: confirmedError } = await supabase
-      .from("sales")
-      .select("customer_id")
-      .in("customer_id", closedIds)
-      .eq("payment_status", "confirmado");
-    if (confirmedError) throw confirmedError;
-    closedCount = new Set((confirmedSales ?? []).map((s) => s.customer_id)).size;
-  }
+  // "Cliente ativo" = indicação fechada com venda de pagamento CONFIRMADO —
+  // mesma contagem usada pelo sistema de Rank (lib/partners/ranks.ts), pra
+  // nunca divergir entre os dois.
+  const closedCount = await getActiveClientCount(supabase, partnerId);
 
   const goal = rule.min_clients;
   const locked = closedCount < goal;

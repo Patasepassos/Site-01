@@ -92,7 +92,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
       partner_id: customer.partner_id,
       customer_id: customer.id,
       type: "indicacao_convertida",
-      message: `Uma indicação sua resultou em uma nova contratação: ${formatCustomerLabel(customer.sequence_number)} — ${SERVICE_LABELS[customer.service]}.`,
+      message: `🎉 Venda fechada! Sua indicação (${formatCustomerLabel(customer.sequence_number)} — ${SERVICE_LABELS[customer.service]}) foi convertida em cliente da Patas & Passos.`,
     });
 
     await logAudit(supabaseAdmin, {

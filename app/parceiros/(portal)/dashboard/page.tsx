@@ -1,11 +1,14 @@
 import { redirect } from "next/navigation";
 import { getCurrentPartner } from "@/lib/partners/session";
 import { getPartnerProgress } from "@/lib/partners/commission-engine";
+import { getPartnerRankInfo } from "@/lib/partners/ranks";
+import { getPartnerServiceAreaNote } from "@/lib/partners/settings";
 import { countUnreadNotifications, getPartnerNotifications } from "@/lib/partners/notifications";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import CouponBox from "@/components/portal/CouponBox";
 import NotificationsCard from "@/components/portal/NotificationsCard";
+import RankLadder from "@/components/portal/RankLadder";
 
 export default async function DashboardPage() {
   const current = await getCurrentPartner();
@@ -20,43 +23,57 @@ export default async function DashboardPage() {
   // e o total liberado (quando já desbloqueado).
   const supabaseAdmin = createSupabaseAdminClient();
 
-  const [{ count: totalIndicados }, { count: totalFechados }, progress, notifications, unreadCount] = await Promise.all([
-    supabase.from("customers").select("id", { count: "exact", head: true }).eq("partner_id", partnerId),
-    supabase
-      .from("customers")
-      .select("id", { count: "exact", head: true })
-      .eq("partner_id", partnerId)
-      .eq("status", "fechado"),
-    getPartnerProgress(supabaseAdmin, partnerId),
-    getPartnerNotifications(supabase, partnerId),
-    countUnreadNotifications(supabase, partnerId),
-  ]);
-
-  const dots = Array.from({ length: Math.max(progress.goal, 1) }, (_, i) => i < progress.progress);
-  const journeyNodes: React.ReactNode[] = [];
-  dots.forEach((done, i) => {
-    if (i > 0) {
-      journeyNodes.push(<div className={`journey-line${dots[i - 1] ? " done" : ""}`} key={`line-${i}`} />);
-    }
-    const isLast = i === dots.length - 1;
-    journeyNodes.push(
-      <div key={`dot-${i}`} className={`journey-dot${done ? " done" : ""}${isLast && !progress.locked ? " final" : ""}`}>
-        {isLast && !progress.locked ? "🔓" : done ? "✓" : i + 1}
-      </div>
-    );
-  });
+  const [{ count: totalIndicados }, { count: totalFechados }, progress, rank, serviceAreaNote, notifications, unreadCount] =
+    await Promise.all([
+      supabase.from("customers").select("id", { count: "exact", head: true }).eq("partner_id", partnerId),
+      supabase
+        .from("customers")
+        .select("id", { count: "exact", head: true })
+        .eq("partner_id", partnerId)
+        .eq("status", "fechado"),
+      getPartnerProgress(supabaseAdmin, partnerId),
+      getPartnerRankInfo(supabaseAdmin, partnerId),
+      getPartnerServiceAreaNote(supabase),
+      getPartnerNotifications(supabase, partnerId),
+      countUnreadNotifications(supabase, partnerId),
+    ]);
 
   return (
     <>
       <NotificationsCard partnerId={partnerId} notifications={notifications} unreadCount={unreadCount} />
 
       <div className="portal-card">
-        <h2>🐾 Sua jornada</h2>
-        <div className="journey">{journeyNodes}</div>
-        <p style={{ textAlign: "center", fontWeight: 700, marginTop: 6 }}>
-          {progress.progress} / {progress.goal} clientes
+        <h2>🐾 Seu Rank</h2>
+        {rank.currentTier ? (
+          <div className="rank-badge-row">
+            <div className="rank-badge">{rank.currentTier.emoji}</div>
+            <div>
+              <div className="rank-badge-name">{rank.currentTier.label}</div>
+              <div className="rank-badge-sub">
+                {rank.nextTier
+                  ? `Faltam ${rank.remainingToNext} para ${rank.nextTier.emoji} ${rank.nextTier.label}`
+                  : "Nível máximo alcançado!"}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <p style={{ marginTop: 6 }}>Nenhum nível configurado ainda.</p>
+        )}
+
+        <p style={{ textAlign: "center", fontWeight: 700, margin: "4px 0" }}>
+          {rank.activeClients} {rank.nextTier ? `/ ${rank.nextTier.min_clients}` : ""} clientes ativos
         </p>
-        <p style={{ textAlign: "center" }}>{progress.message}</p>
+        {rank.progressToNext !== null && (
+          <div className="rank-progress-bg">
+            <div className="rank-progress-fill" style={{ width: `${Math.round(rank.progressToNext * 100)}%` }} />
+          </div>
+        )}
+
+        <RankLadder tiers={rank.tiers} activeClients={rank.activeClients} currentTierId={rank.currentTier?.id ?? null} />
+        <p className="rank-disclaimer">
+          Metas e benefícios configurados pela Patas &amp; Passos. O valor real de comissão segue sempre as regras
+          vigentes do programa.
+        </p>
       </div>
 
       <div className="portal-stat-grid">
@@ -65,7 +82,7 @@ export default async function DashboardPage() {
           <span className="num">{totalIndicados ?? 0}</span>
         </div>
         <div className="portal-stat">
-          <span className="label">⭐ Fecharam</span>
+          <span className="label">⭐ Vendas fechadas</span>
           <span className="num">{totalFechados ?? 0}</span>
         </div>
       </div>
@@ -89,6 +106,11 @@ export default async function DashboardPage() {
       </div>
 
       <CouponBox couponCode={current.partner.coupon_code} />
+
+      <div className="portal-card">
+        <h2>📍 Área de atendimento</h2>
+        <p style={{ marginTop: 6, fontSize: 14 }}>{serviceAreaNote}</p>
+      </div>
     </>
   );
 }

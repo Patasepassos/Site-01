@@ -26,7 +26,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 
   const supabaseAdmin = createSupabaseAdminClient();
 
-  const { data: partner } = await supabaseAdmin.from("partners").select("id").eq("id", params.id).maybeSingle();
+  const { data: partner } = await supabaseAdmin.from("partners").select("id, status").eq("id", params.id).maybeSingle();
   if (!partner) {
     return NextResponse.json(
       { error: "Este parceiro não existe mais. Atualize a página (F5) e tente de novo." },
@@ -48,6 +48,16 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   const { error } = await supabaseAdmin.from("partners").update(update).eq("id", params.id);
   if (error) {
     return NextResponse.json({ error: "Não foi possível atualizar o parceiro." }, { status: 500 });
+  }
+
+  // Só notifica o parceiro na transição real pending -> active (não repete a
+  // cada re-salvamento do mesmo status "active").
+  if (status === "active" && partner.status === "pending") {
+    await supabaseAdmin.from("partner_notifications").insert({
+      partner_id: params.id,
+      type: "parceiro_aprovado",
+      message: "🎉 Você foi aprovado! Seu painel de parceiro Patas & Passos já está liberado.",
+    });
   }
 
   await logAudit(supabaseAdmin, {

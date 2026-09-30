@@ -21,11 +21,14 @@ export type NotificationType =
   | "indicacao_convertida"
   | "comissao_liberada"
   | "saque_atualizado"
-  | "elegibilidade_atualizada";
+  | "elegibilidade_atualizada"
+  | "parceiro_aprovado";
 export type UserRole = "admin" | "operator" | "partner";
 export type CpfVerificationStatus = "pending" | "verified" | "failed";
 export type FinancialDataStatus = "pending" | "approved" | "rejected";
 export type AvatarKey = "pig" | "sheep" | "chicken" | "dog" | "horse" | "turtle" | "cat";
+export type RankKey = "filhote" | "companheiro" | "lion_ouro" | "tigre_platina" | "wolf_lenda";
+export type RankLedStyle = "none" | "static" | "pulse_gold" | "neon" | "aura";
 
 export type ProfileRow = {
   id: string;
@@ -110,6 +113,23 @@ export type CommissionRuleRow = {
   updated_by: string | null;
 };
 
+export type RankTierRow = {
+  id: string;
+  key: RankKey;
+  label: string;
+  emoji: string;
+  min_clients: number;
+  base_percentage: number;
+  recurring_percentage: number;
+  bonus_text: string;
+  led_style: RankLedStyle;
+  sort_order: number;
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+  updated_by: string | null;
+};
+
 export type SaleRow = {
   id: string;
   customer_id: string;
@@ -173,6 +193,13 @@ export type AuditLogRow = {
   created_at: string;
 };
 
+export type AppSettingRow = {
+  key: string;
+  value: string;
+  updated_at: string;
+  updated_by: string | null;
+};
+
 type TableDef<Row> = {
   Row: Row;
   Insert: Partial<Row>;
@@ -187,6 +214,8 @@ export type Database = {
       partners: TableDef<PartnerRow>;
       customers: TableDef<CustomerRow>;
       commission_rules: TableDef<CommissionRuleRow>;
+      rank_tiers: TableDef<RankTierRow>;
+      app_settings: TableDef<AppSettingRow>;
       sales: TableDef<SaleRow>;
       commissions: TableDef<CommissionRow>;
       payouts: TableDef<PayoutRow>;

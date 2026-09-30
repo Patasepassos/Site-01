@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getCurrentPartner } from "@/lib/partners/session";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { SERVICE_LABELS, formatCustomerLabel, formatDate, getUnifiedStatus } from "@/lib/partners/labels";
+import ReferralJourney from "@/components/portal/ReferralJourney";
 import type { CommissionRow, CommissionStatus } from "@/lib/supabase/types";
 
 const COMMISSION_PRIORITY: Record<CommissionStatus, number> = { paga: 3, liberada: 2, bloqueada: 1 };
@@ -54,6 +55,9 @@ export default async function IndicacoesPage() {
               paymentStatus: c.status === "fechado" ? (commission ? "confirmado" : "pendente") : undefined,
               commissionStatus: commission?.status,
             });
+            const isCancelled = c.status === "cancelado" || c.status === "nao_convertido";
+            const stage: 1 | 2 | 3 =
+              c.status !== "fechado" ? 1 : commission?.status === "liberada" || commission?.status === "paga" ? 3 : 2;
             return (
               <div className="referral-row" key={c.id}>
                 <div>
@@ -61,6 +65,7 @@ export default async function IndicacoesPage() {
                   <div className="rr-meta">
                     {SERVICE_LABELS[c.service]} · {formatDate(c.created_at)} · cupom {c.coupon_used}
                   </div>
+                  {!isCancelled && <ReferralJourney stage={stage} />}
                 </div>
                 <span className={`status-pill tone-${unified.tone}`}>{unified.emoji} {unified.label}</span>
               </div>

@@ -52,65 +52,84 @@ function LoginForm() {
   }
 
   return (
-    <div className="portal-auth">
-      <Link className="portal-auth-brand" href="/" aria-label="Voltar para o site">
+    <div className="pls-wrap">
+      <div className="pls-visual">
+        <div className="pls-visual-glow" aria-hidden="true" />
+        <Link className="pls-visual-brand" href="/" aria-label="Voltar para o site">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-main.png" alt="Patas & Passos" />
+        </Link>
+        <div className="pls-visual-art">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/mascot/dog-cutout.png" alt="" aria-hidden="true" />
+        </div>
+        <div className="pls-visual-tagline">
+          <h2>Conectando cuidados, recompensando parcerias.</h2>
+        </div>
+      </div>
+
+      <div className="pls-mobile-banner">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo-main.png" alt="Patas & Passos" />
-      </Link>
-      <div className="portal-auth-card">
-        {forgotMode ? (
-          <ForgotPasswordForm onBack={() => setForgotMode(false)} />
-        ) : (
-          <>
-            <h1>🐾 Área do Parceiro</h1>
-            <p className="lead">Acesse seu painel de parceiro Patas &amp; Passos.</p>
+        <span>Conectando cuidados, recompensando parcerias.</span>
+      </div>
 
-            {linkError && (
-              <p className="pf-error">Esse link de recuperação é inválido ou já expirou. Peça um novo abaixo.</p>
-            )}
+      <div className="pls-form-side">
+        <div className="pls-form-card">
+          {forgotMode ? (
+            <ForgotPasswordForm onBack={() => setForgotMode(false)} />
+          ) : (
+            <>
+              <h1>🐾 Área do Parceiro</h1>
+              <p className="lead">Acesse seu painel de parceiro Patas &amp; Passos.</p>
 
-            <form onSubmit={handleLogin}>
-              <label className="pf-label" htmlFor="email">E-mail</label>
-              <input
-                id="email"
-                type="email"
-                className="pf-input"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+              {linkError && (
+                <p className="pf-error">Esse link de recuperação é inválido ou já expirou. Peça um novo abaixo.</p>
+              )}
 
-              <label className="pf-label" htmlFor="password">Senha</label>
-              <input
-                id="password"
-                type="password"
-                className="pf-input"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <form onSubmit={handleLogin}>
+                <label className="pf-label" htmlFor="email">E-mail</label>
+                <input
+                  id="email"
+                  type="email"
+                  className="pf-input"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
 
-              {error && <p className="pf-error">{error}</p>}
+                <label className="pf-label" htmlFor="password">Senha</label>
+                <input
+                  id="password"
+                  type="password"
+                  className="pf-input"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
 
-              <button className="pf-submit" type="submit" disabled={loading}>
-                {loading ? "Entrando…" : "Entrar"}
-              </button>
-            </form>
+                {error && <p className="pf-error">{error}</p>}
 
-            <p className="pf-link">
-              <button
-                type="button"
-                onClick={() => setForgotMode(true)}
-                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--brown-2)", fontWeight: 700, fontFamily: "inherit", fontSize: 14 }}
-              >
-                Esqueci minha senha
-              </button>
-            </p>
-            <p className="pf-link">
-              Ainda não é parceiro? <Link href="/parceiros/cadastro">Quero ser parceiro</Link>
-            </p>
-          </>
-        )}
+                <button className="pf-submit" type="submit" disabled={loading}>
+                  {loading ? "Entrando…" : "Entrar"}
+                </button>
+              </form>
+
+              <p className="pf-link">
+                <button
+                  type="button"
+                  onClick={() => setForgotMode(true)}
+                  style={{ background: "none", border: "none", cursor: "pointer", color: "var(--brown-2)", fontWeight: 700, fontFamily: "inherit", fontSize: 14 }}
+                >
+                  Esqueci minha senha
+                </button>
+              </p>
+              <p className="pf-link">
+                Ainda não é parceiro? <Link href="/parceiros/cadastro">Quero ser parceiro</Link>
+              </p>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

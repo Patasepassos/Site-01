@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { requireStaffUser } from "@/lib/admin/guard";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import LogoutButton from "@/components/portal/LogoutButton";
 import { AdminBottomNav, AdminDesktopNav } from "@/components/admin/AdminNav";
 
@@ -8,6 +9,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!staff) redirect("/admin/login");
 
   const firstName = staff.profile.full_name.split(" ")[0];
+
+  const supabaseAdmin = createSupabaseAdminClient();
+  const { count: pendingPartners } = await supabaseAdmin
+    .from("partners")
+    .select("id", { count: "exact", head: true })
+    .eq("status", "pending");
 
   return (
     <div className="portal-shell">
@@ -22,12 +29,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </div>
           <LogoutButton label="Sair do painel" redirectTo="/admin/login" />
         </div>
-        <AdminDesktopNav isAdmin={staff.profile.role === "admin"} />
+        <AdminDesktopNav isAdmin={staff.profile.role === "admin"} pendingPartners={pendingPartners ?? 0} />
       </header>
 
       <div className="portal-content">{children}</div>
 
-      <AdminBottomNav isAdmin={staff.profile.role === "admin"} />
+      <AdminBottomNav isAdmin={staff.profile.role === "admin"} pendingPartners={pendingPartners ?? 0} />
     </div>
   );
 }
