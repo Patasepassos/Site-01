@@ -18,7 +18,7 @@ export default function RankGrid({
   currentTierId: string | null;
 }) {
   return (
-    <div className="rank-box-grid">
+    <div className="rank-showcase">
       {tiers.map((tier) => {
         const unlocked = activeClients >= tier.min_clients;
         const isCurrent = tier.id === currentTierId;
@@ -26,17 +26,22 @@ export default function RankGrid({
         return (
           <div
             key={tier.id}
-            className={`rank-box${unlocked ? " unlocked" : ""}${isCurrent ? " current" : ""} ${LED_CLASS[tier.led_style] ?? ""}`}
+            className={`rank-tier-card${unlocked ? " unlocked" : ""}${isCurrent ? " current" : ""} ${LED_CLASS[tier.led_style] ?? ""}`}
           >
-            <div className="rank-box-icon">{tier.emoji}</div>
-            <div className="rank-box-title">
-              {tier.label}
-              {isCurrent && <span className="rank-box-you"> (você)</span>}
+            <div className="rank-tier-icon">{tier.emoji}</div>
+            <div className="rank-tier-body">
+              <div className="rank-tier-head">
+                <span className="rank-tier-name">{tier.label}</span>
+                {isCurrent && <span className="rank-tier-tag">SEU NÍVEL ATUAL</span>}
+              </div>
+              <p className="rank-tier-desc">{tier.bonus_text}</p>
+              {!unlocked && (
+                <p className="rank-tier-req">
+                  🐾 Desbloqueie com {tier.min_clients} clientes ativos — faltam {remaining}{" "}
+                  {remaining === 1 ? "cliente" : "clientes"}.
+                </p>
+              )}
             </div>
-            <div className="rank-box-bonus">{tier.bonus_text}</div>
-            {!unlocked && (
-              <div className="rank-box-req">{remaining} {remaining === 1 ? "cliente" : "clientes"} pra desbloquear</div>
-            )}
           </div>
         );
       })}
