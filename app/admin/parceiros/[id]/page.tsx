@@ -6,9 +6,11 @@ import {
   SERVICE_LABELS,
   formatCustomerLabel,
   formatDate,
+  formatDateTime,
   getUnifiedStatus,
 } from "@/lib/partners/labels";
 import { maskSecret } from "@/lib/partners/mask";
+import { onlyDigits } from "@/lib/partners/validation";
 import PartnerStatusActions from "@/components/admin/PartnerStatusActions";
 import AddCustomerForm from "@/components/admin/AddCustomerForm";
 import CustomerActions from "@/components/admin/CustomerActions";
@@ -46,6 +48,7 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
   const email = emailMap.get(partner.profile_id) ?? "e-mail indisponível";
   const emailVerified = Boolean(authUser.user?.email_confirmed_at);
   const checklist = buildEligibilityChecklist(partner, emailVerified);
+  const isCpf = onlyDigits(partner.cpf_cnpj).length === 11;
 
   const customerIds = (customers ?? []).map((c) => c.id);
   const { data: sales } = customerIds.length
@@ -99,6 +102,34 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
           <li>{checklist.financialDataVerified ? "✅" : "⏳"} Dados financeiros aprovados</li>
         </ul>
         <WhatsappVerifyToggle partnerId={partner.id} verified={partner.whatsapp_verified} />
+      </div>
+
+      <div className="portal-card">
+        <h2>Verificação de CPF</h2>
+        {!isCpf ? (
+          <p style={{ fontSize: 14, color: "var(--ink-soft)" }}>
+            Este parceiro é pessoa jurídica (CNPJ) — não há verificação automática contratada para CNPJ. A aprovação
+            de documento acima é manual.
+          </p>
+        ) : (
+          <>
+            <p style={{ marginTop: 6 }}>
+              CPF: <b>{maskSecret(partner.cpf_cnpj)}</b>
+            </p>
+            <p>
+              Status:{" "}
+              <span className={`status-pill tone-${partner.cpf_status === "verified" ? "done" : partner.cpf_status === "failed" ? "cancelled" : "pending"}`}>
+                {partner.cpf_status === "verified" ? "🟢 Verificado" : partner.cpf_status === "failed" ? "🔴 Não verificado" : "🟡 Aguardando verificação"}
+              </span>
+            </p>
+            {partner.cpf_verified_at && <p>Última verificação: {formatDateTime(partner.cpf_verified_at)}</p>}
+            {partner.cpf_verification_reason && (
+              <p style={{ fontSize: 13, color: "var(--ink-soft)" }}>
+                Resultado: {partner.cpf_verification_reason}
+              </p>
+            )}
+          </>
+        )}
       </div>
 
       <div className="portal-card">

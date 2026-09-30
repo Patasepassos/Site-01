@@ -87,6 +87,10 @@ export function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("pt-BR");
 }
 
+export function formatDateTime(iso: string): string {
+  return new Date(iso).toLocaleString("pt-BR");
+}
+
 export function formatBRL(value: number): string {
   return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }

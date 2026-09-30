@@ -23,6 +23,7 @@ export type NotificationType =
   | "saque_atualizado"
   | "elegibilidade_atualizada";
 export type UserRole = "admin" | "operator" | "partner";
+export type CpfVerificationStatus = "pending" | "verified" | "failed";
 
 export type ProfileRow = {
   id: string;
@@ -50,6 +51,11 @@ export type PartnerRow = {
   financial_data_verified: boolean;
   payout_eligible: boolean;
   eligibility_updated_at: string | null;
+  birth_date: string | null;
+  cpf_status: CpfVerificationStatus;
+  cpf_verified_at: string | null;
+  cpf_verification_reason: string | null;
+  cpf_verification_hash: string | null;
   created_at: string;
 };
 

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { onlyDigits } from "@/lib/partners/validation";
 import type { PixKeyType } from "@/lib/supabase/types";
 
 const PIX_LABELS: Record<PixKeyType, string> = {
@@ -17,6 +18,7 @@ export default function CadastroParceiroPage() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [cpfCnpj, setCpfCnpj] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [pixKeyType, setPixKeyType] = useState<PixKeyType>("cpf");
@@ -40,6 +42,7 @@ export default function CadastroParceiroPage() {
           email,
           phone,
           cpfCnpj,
+          birthDate: onlyDigits(cpfCnpj).length === 11 ? birthDate : undefined,
           password,
           confirmPassword,
           pixKey,
@@ -132,6 +135,21 @@ export default function CadastroParceiroPage() {
             onChange={(e) => setCpfCnpj(e.target.value)}
             required
           />
+
+          {onlyDigits(cpfCnpj).length === 11 && (
+            <>
+              <label className="pf-label" htmlFor="birthDate">Data de nascimento</label>
+              <input
+                id="birthDate"
+                type="date"
+                className="pf-input"
+                value={birthDate}
+                onChange={(e) => setBirthDate(e.target.value)}
+                required
+              />
+              <p className="pf-hint">Usamos pra confirmar seu CPF automaticamente antes de liberar pagamentos.</p>
+            </>
+          )}
 
           <div className="pf-row">
             <div>

@@ -4,6 +4,7 @@ import { generateUniqueCoupon } from "@/lib/partners/coupon";
 import { logAudit } from "@/lib/partners/audit";
 import { describeError } from "@/lib/partners/errors";
 import { validatePasswordPolicy } from "@/lib/partners/password-policy";
+import { verifyAndPersistPartnerCpf } from "@/lib/partners/cpf-verification";
 import {
   isValidCpfOrCnpj,
   isValidEmail,
@@ -19,12 +20,21 @@ type CadastroBody = {
   email?: unknown;
   phone?: unknown;
   cpfCnpj?: unknown;
+  birthDate?: unknown;
   password?: unknown;
   confirmPassword?: unknown;
   pixKey?: unknown;
   pixKeyType?: unknown;
   termsAccepted?: unknown;
 };
+
+/** Aceita "YYYY-MM-DD" (input type=date) e confere que é uma data real no passado. */
+function isValidPastDate(value: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) return false;
+  return date.getTime() < Date.now();
+}
 
 function badRequest(message: string) {
   return NextResponse.json({ error: message }, { status: 400 });
@@ -42,6 +52,7 @@ export async function POST(request: Request) {
   const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
   const phone = typeof body.phone === "string" ? body.phone.trim() : "";
   const cpfCnpj = typeof body.cpfCnpj === "string" ? body.cpfCnpj.trim() : "";
+  const birthDate = typeof body.birthDate === "string" ? body.birthDate.trim() : "";
   const password = typeof body.password === "string" ? body.password : "";
   const confirmPassword = typeof body.confirmPassword === "string" ? body.confirmPassword : "";
   const pixKey = typeof body.pixKey === "string" ? body.pixKey.trim() : "";
@@ -52,6 +63,8 @@ export async function POST(request: Request) {
   if (!isValidEmail(email)) return badRequest("E-mail inválido.");
   if (!isValidPhone(phone)) return badRequest("WhatsApp inválido.");
   if (!isValidCpfOrCnpj(cpfCnpj)) return badRequest("CPF ou CNPJ inválido.");
+  const isCpf = onlyDigits(cpfCnpj).length === 11;
+  if (isCpf && !isValidPastDate(birthDate)) return badRequest("Data de nascimento inválida.");
   const passwordError = validatePasswordPolicy(password, { fullName, email, phone });
   if (passwordError) return badRequest(passwordError);
   if (password !== confirmPassword) return badRequest("As senhas não coincidem.");
@@ -96,6 +109,7 @@ export async function POST(request: Request) {
         profile_id: userId,
         status: "pending",
         cpf_cnpj: onlyDigits(cpfCnpj),
+        birth_date: isCpf ? birthDate : null,
         pix_key: pixKey,
         pix_key_type: pixKeyType,
         coupon_code: couponCode,
@@ -111,6 +125,17 @@ export async function POST(request: Request) {
       entityType: "partner",
       entityId: partner.id,
     });
+
+    // A verificação de CPF nunca deve travar o cadastro — se a API estiver
+    // fora do ar nesse instante, o parceiro fica com cpf_status='pending' e
+    // pode tentar de novo depois pelo próprio perfil.
+    if (isCpf) {
+      try {
+        await verifyAndPersistPartnerCpf(supabaseAdmin, partner.id, { id: userId, role: "partner" });
+      } catch (err) {
+        console.error("Falha ao verificar CPF no cadastro:", describeError(err));
+      }
+    }
 
     return NextResponse.json({ success: true, couponCode: partner.coupon_code });
   } catch (err) {

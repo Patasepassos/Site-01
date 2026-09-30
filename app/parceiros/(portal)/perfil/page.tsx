@@ -1,15 +1,26 @@
 import { redirect } from "next/navigation";
 import { getCurrentPartner } from "@/lib/partners/session";
 import { buildEligibilityChecklist } from "@/lib/partners/eligibility";
+import { onlyDigits } from "@/lib/partners/validation";
+import { formatDateTime } from "@/lib/partners/labels";
 import EditProfileForm from "@/components/portal/EditProfileForm";
 import ChangePasswordForm from "@/components/portal/ChangePasswordForm";
 import MfaSetup from "@/components/MfaSetup";
+import CpfVerifyRetryButton from "@/components/portal/CpfVerifyRetryButton";
 
 export default async function PerfilPage() {
   const current = await getCurrentPartner();
   if (!current) redirect("/parceiros/login");
 
   const checklist = buildEligibilityChecklist(current.partner, current.emailVerified);
+  const isCpf = onlyDigits(current.partner.cpf_cnpj).length === 11;
+  const cpfBadge = !isCpf
+    ? { emoji: "✅", label: "CPF/CNPJ validado" }
+    : current.partner.cpf_status === "verified"
+      ? { emoji: "🟢", label: "CPF verificado" }
+      : current.partner.cpf_status === "failed"
+        ? { emoji: "🔴", label: "Não foi possível validar o CPF" }
+        : { emoji: "🟡", label: "Aguardando verificação do CPF" };
 
   return (
     <>
@@ -34,9 +45,17 @@ export default async function PerfilPage() {
         <ul style={{ margin: 0, paddingLeft: 20, fontSize: 14, color: "var(--ink-soft)" }}>
           <li>{checklist.emailVerified ? "✅" : "⏳"} E-mail verificado</li>
           <li>{checklist.whatsappVerified ? "✅" : "⏳"} WhatsApp verificado</li>
-          <li>{checklist.documentVerified ? "✅" : "⏳"} CPF/CNPJ validado</li>
+          <li>
+            {cpfBadge.emoji} {cpfBadge.label}
+            {isCpf && current.partner.cpf_verified_at && (
+              <span style={{ opacity: 0.7 }}> — última verificação em {formatDateTime(current.partner.cpf_verified_at)}</span>
+            )}
+          </li>
           <li>{checklist.financialDataVerified ? "✅" : "⏳"} Dados financeiros aprovados</li>
         </ul>
+        {isCpf && (current.partner.cpf_status === "pending" || current.partner.cpf_status === "failed") && (
+          <CpfVerifyRetryButton />
+        )}
         {!checklist.eligible && (
           <p style={{ marginTop: 10, fontSize: 13 }}>
             Enquanto algum item estiver pendente, você não consegue solicitar saque. A Patas &amp; Passos confirma

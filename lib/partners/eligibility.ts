@@ -1,6 +1,7 @@
 import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database, PartnerRow } from "@/lib/supabase/types";
+import { onlyDigits } from "@/lib/partners/validation";
 import { logAudit } from "./audit";
 
 export type EligibilityChecklist = {
@@ -14,23 +15,26 @@ export type EligibilityChecklist = {
 
 /**
  * "Apto para pagamento" exige TODOS os requisitos ao mesmo tempo. E-mail
- * vem de auth.users.email_confirmed_at (nunca duplicado no nosso banco) —
- * os outros três são colunas em `partners`, cada uma só muda por uma ação
- * explícita (nunca automaticamente "porque sim").
+ * vem de auth.users.email_confirmed_at (nunca duplicado no nosso banco).
+ *
+ * CPF/CNPJ: para pessoa física (11 dígitos), `documentVerified` reflete o
+ * resultado REAL da verificação automática via API CPF Brasil
+ * (`partner.cpf_status === "verified"`) — nunca um placeholder. Para CNPJ
+ * (14 dígitos) não existe verificação automática contratada, então continua
+ * dependendo da aprovação manual do admin (`partner.document_verified`).
  */
 export function buildEligibilityChecklist(partner: PartnerRow, emailVerified: boolean): EligibilityChecklist {
   const partnerActive = partner.status === "active";
+  const isCpf = onlyDigits(partner.cpf_cnpj).length === 11;
+  const documentVerified = isCpf ? partner.cpf_status === "verified" : partner.document_verified;
+
   const eligible =
-    partnerActive &&
-    emailVerified &&
-    partner.whatsapp_verified &&
-    partner.document_verified &&
-    partner.financial_data_verified;
+    partnerActive && emailVerified && partner.whatsapp_verified && documentVerified && partner.financial_data_verified;
 
   return {
     emailVerified,
     whatsappVerified: partner.whatsapp_verified,
-    documentVerified: partner.document_verified,
+    documentVerified,
     financialDataVerified: partner.financial_data_verified,
     partnerActive,
     eligible,
