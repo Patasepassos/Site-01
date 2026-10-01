@@ -6,6 +6,8 @@ import { getBearerToken } from "@/lib/supabase/bearer";
 import { getCurrentPartnerFromBearer } from "@/lib/partners/session";
 import { logAudit } from "@/lib/partners/audit";
 import { getPartnerBalance } from "@/lib/partners/balance";
+import { notifyAdmin } from "@/lib/email/admin-notify";
+import { describeError } from "@/lib/partners/errors";
 import type { Database, PartnerRow } from "@/lib/supabase/types";
 
 const MIN_WITHDRAWAL = 20;
@@ -85,6 +87,18 @@ export async function POST(request: Request) {
     entityId: payout.id,
     metadata: { amount: payout.amount },
   });
+
+  try {
+    await notifyAdmin({
+      subject: "💰 Nova solicitação de saque",
+      html: `<p>Um parceiro solicitou saque.</p>
+<p><strong>Cupom do parceiro:</strong> ${partner.coupon_code}<br/>
+<strong>Valor:</strong> R$ ${Number(payout.amount).toFixed(2).replace(".", ",")}</p>
+<p>Revise e aprove em /admin/saques.</p>`,
+    });
+  } catch (err) {
+    console.error("Falha ao notificar admin sobre solicitação de saque:", describeError(err));
+  }
 
   return NextResponse.json({ success: true });
 }

@@ -6,6 +6,7 @@ import { describeError } from "@/lib/partners/errors";
 import { validatePasswordPolicy } from "@/lib/partners/password-policy";
 import { verifyAndPersistPartnerCpf } from "@/lib/partners/cpf-verification";
 import { sendPartnerEmailOtp } from "@/lib/partners/email-verification";
+import { notifyAdmin } from "@/lib/email/admin-notify";
 import {
   isValidCpfOrCnpj,
   isValidEmail,
@@ -126,6 +127,20 @@ export async function POST(request: Request) {
       entityType: "partner",
       entityId: partner.id,
     });
+
+    try {
+      await notifyAdmin({
+        subject: "🐾 Novo interessado em ser parceiro",
+        html: `<p>Novo cadastro de parceiro aguardando aprovação.</p>
+<p><strong>Nome:</strong> ${fullName}<br/>
+<strong>E-mail:</strong> ${email}<br/>
+<strong>WhatsApp:</strong> ${phone}<br/>
+<strong>Cupom gerado:</strong> ${couponCode}</p>
+<p>Revise e aprove em /admin/parceiros.</p>`,
+      });
+    } catch (err) {
+      console.error("Falha ao notificar admin sobre novo cadastro de parceiro:", describeError(err));
+    }
 
     // Nem a verificação de CPF nem o envio do código de e-mail devem travar
     // o cadastro — se algo falhar aqui, o parceiro tenta de novo pelo perfil.
