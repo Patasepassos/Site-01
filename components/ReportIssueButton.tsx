@@ -74,9 +74,9 @@ export default function ReportIssueButton() {
         onBlur={() => setHovered(false)}
         aria-label="Reportar um problema"
         title="Reportar um problema"
+        className="report-issue-fab"
         style={{
           position: "fixed",
-          bottom: 20,
           left: 20,
           zIndex: 9998,
           background: "#4a3427",
@@ -98,7 +98,7 @@ export default function ReportIssueButton() {
           transition: "padding .18s ease, gap .18s ease",
         }}
       >
-        <span aria-hidden="true" style={{ fontSize: 16, lineHeight: 1 }}>🐞</span>
+        <span aria-hidden="true" style={{ fontSize: 16, lineHeight: 1 }}>🎧</span>
         {hovered && <span>Reportar um problema</span>}
       </button>
 

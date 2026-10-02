@@ -823,6 +823,13 @@ a.ci-val:hover{ color:var(--blue); }
 .pbn-item.active{ color:var(--brown); background:rgba(122,74,58,.10); }
 .pbn-icon{ font-size:19px; line-height:1; }
 
+/* botão flutuante de suporte ("reportar um problema") -- sobe no mobile
+   pra nunca ficar em cima do nav inferior do portal (.portal-bottom-nav) */
+.report-issue-fab{ bottom:calc(20px + env(safe-area-inset-bottom)); }
+@media (max-width:859px){
+  .report-issue-fab{ bottom:calc(76px + env(safe-area-inset-bottom)); }
+}
+
 @media (min-width:860px){
   .portal-bottom-nav{ display:none; }
   .portal-nav-desktop{ display:flex; gap:6px; max-width:640px; margin:14px auto 0; padding:0 16px;
