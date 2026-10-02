@@ -12,7 +12,6 @@ import {
 import { maskSecret } from "@/lib/partners/mask";
 import { onlyDigits } from "@/lib/partners/validation";
 import PartnerStatusActions from "@/components/admin/PartnerStatusActions";
-import AddCustomerForm from "@/components/admin/AddCustomerForm";
 import CustomerActions from "@/components/admin/CustomerActions";
 import CustomerRowMenu from "@/components/admin/CustomerRowMenu";
 import TestFlagToggle from "@/components/admin/TestFlagToggle";
@@ -176,12 +175,6 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
             )}
           </>
         )}
-      </div>
-
-      <div className="portal-card">
-        <h2>Adicionar cliente indicado</h2>
-        <p style={{ marginBottom: 12 }}>Use quando o parceiro indicar alguém por WhatsApp ou pessoalmente.</p>
-        <AddCustomerForm partnerId={partner.id} />
       </div>
 
       <div className="portal-card">

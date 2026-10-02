@@ -10,5 +10,10 @@ import { getSupabaseServiceRoleKey, getSupabaseUrl } from "./env";
 export function createSupabaseAdminClient() {
   return createClient<Database>(getSupabaseUrl(), getSupabaseServiceRoleKey(), {
     auth: { autoRefreshToken: false, persistSession: false },
+    // O supabase-js usa fetch por baixo dos panos -- sem isso, o Next.js pode
+    // cachear a resposta do PostgREST no Data Cache e servir dado velho
+    // mesmo numa rota renderizada dinamicamente (cookies() só evita o cache
+    // de HTML, não o cache por fetch individual).
+    global: { fetch: (url, options) => fetch(url, { ...options, cache: "no-store" }) },
   });
 }

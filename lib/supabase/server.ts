@@ -10,6 +10,11 @@ export function createSupabaseServerClient() {
   const cookieStore = cookies();
 
   return createServerClient<Database>(getSupabaseUrl(), getSupabaseAnonKey(), {
+    // Evita que o Next.js cacheie a resposta do PostgREST no Data Cache --
+    // cookies() só tira a página do cache de HTML, não o cache por fetch
+    // individual, então sem isso uma query podia devolver dado velho mesmo
+    // logo depois de um INSERT/UPDATE confirmado.
+    global: { fetch: (url, options) => fetch(url, { ...options, cache: "no-store" }) },
     cookies: {
       get(name: string) {
         return cookieStore.get(name)?.value;

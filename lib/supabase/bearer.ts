@@ -18,7 +18,10 @@ export function getBearerToken(request: Request): string | null {
  */
 export function createSupabaseBearerClient(accessToken: string) {
   return createClient<Database>(getSupabaseUrl(), getSupabaseAnonKey(), {
-    global: { headers: { Authorization: `Bearer ${accessToken}` } },
+    global: {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      fetch: (url, options) => fetch(url, { ...options, cache: "no-store" }),
+    },
     auth: { persistSession: false, autoRefreshToken: false },
   });
 }
