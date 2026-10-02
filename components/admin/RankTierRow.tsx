@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { RANK_IMAGE } from "@/lib/partners/rankTheme";
 import type { RankTierRow as RankTierRowType } from "@/lib/supabase/types";
 
 export default function RankTierRow({ tier, canEditPhoto }: { tier: RankTierRowType; canEditPhoto: boolean }) {
@@ -71,12 +72,12 @@ export default function RankTierRow({ tier, canEditPhoto }: { tier: RankTierRowT
     <div className="referral-row" style={{ alignItems: "flex-start" }}>
       <div style={{ flex: 1 }}>
         <div className="rr-id" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          {tier.photo_url ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img src={tier.photo_url} alt={tier.label} style={{ width: 28, height: 28, objectFit: "cover", borderRadius: 6 }} />
-          ) : (
-            <span>{tier.emoji}</span>
-          )}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={tier.photo_url || RANK_IMAGE[tier.key]}
+            alt={tier.label}
+            style={{ width: 28, height: 28, objectFit: "cover", borderRadius: 6 }}
+          />
           {tier.label}
         </div>
         {canEditPhoto && (

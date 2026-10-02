@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { RankTierRow } from "@/lib/supabase/types";
-import { RANK_THEME } from "@/lib/partners/rankTheme";
+import { RANK_IMAGE, RANK_THEME } from "@/lib/partners/rankTheme";
 
 type RankRingStyle = CSSProperties & { "--rc1"?: string; "--rc2"?: string; "--rc-glow"?: string };
 
@@ -36,12 +36,12 @@ export default function RankGrid({
               className={`rank-tier-icon rank-ring${unlocked ? " unlocked" : ""}${isCurrent ? " current" : ""}${theme.rainbow ? " rainbow" : ""}`}
               style={ringStyle}
             >
-              {tier.photo_url ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img src={tier.photo_url} alt={tier.label} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }} />
-              ) : (
-                tier.emoji
-              )}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={tier.photo_url || RANK_IMAGE[tier.key]}
+                alt={tier.label}
+                style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }}
+              />
             </div>
             <div className="rank-tier-body">
               <div className="rank-tier-head">

@@ -15,3 +15,18 @@ export const RANK_THEME: Record<RankKey, { c1: string; c2: string; glow: string;
   tigre_platina: { c1: "#e5e4e2", c2: "#a8dede", glow: "rgba(168,222,222,.6)" },
   wolf_lenda: { c1: "#ff3b3b", c2: "#8b5cf6", glow: "rgba(167,139,250,.65)", rainbow: true },
 };
+
+/**
+ * Emblema oficial de cada nível, enviado diretamente pelo cliente e versionado
+ * no repositório (public/ranks) -- não depende do upload "Trocar foto" em
+ * /admin/ranks (que grava em rank_tiers.photo_url via Supabase Storage).
+ * Se o admin subir uma foto própria depois, ela tem prioridade (ver uso em
+ * RankGrid/AvatarMenu); esse arquivo é o padrão confiável de fábrica.
+ */
+export const RANK_IMAGE: Record<RankKey, string> = {
+  filhote: "/ranks/filhote.png",
+  companheiro: "/ranks/companheiro.png",
+  lion_ouro: "/ranks/lion_ouro.png",
+  tigre_platina: "/ranks/tigre_platina.png",
+  wolf_lenda: "/ranks/wolf_lenda.png",
+};
