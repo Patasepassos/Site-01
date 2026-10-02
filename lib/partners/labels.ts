@@ -98,6 +98,7 @@ export const PARTNER_AUDIT_ACTION_LABELS: Record<string, string> = {
   partner_financial_data_reviewed: "💳 Dados financeiros (Pix) revisados",
   partner_test_flag_updated: "🧪 Marcação de teste alterada",
   partner_service_area_updated: "📍 Região de atendimento atualizada",
+  partner_removed_by_admin: "🗑️ Conta removida pelo admin chefe",
 };
 
 export function formatCustomerLabel(sequenceNumber: number): string {
@@ -110,6 +111,10 @@ export function formatDate(iso: string): string {
 
 export function formatDateTime(iso: string): string {
   return new Date(iso).toLocaleString("pt-BR");
+}
+
+export function daysSince(iso: string): number {
+  return Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000);
 }
 
 export function formatBRL(value: number): string {

@@ -14,6 +14,11 @@ export default function RankTierRow({ tier, canEditPhoto }: { tier: RankTierRowT
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  // Desativar um nível some com ele (selo + vitrine) em TODO o portal do
+  // parceiro na hora -- ação de impacto real, igual bloquear um parceiro, só
+  // que esse botão fica logo ao lado de "Trocar foto" e é fácil clicar sem
+  // querer. Exige confirmação igual à do bloqueio.
+  const [confirmingDeactivate, setConfirmingDeactivate] = useState(false);
 
   async function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -175,12 +180,40 @@ export default function RankTierRow({ tier, canEditPhoto }: { tier: RankTierRowT
             type="button"
             className={tier.active ? "btn btn-danger btn-sm" : "btn btn-wa btn-sm"}
             disabled={loading}
-            onClick={() => patchTier({ active: !tier.active })}
+            onClick={() => (tier.active ? setConfirmingDeactivate(true) : patchTier({ active: true }))}
           >
             {tier.active ? "Desativar" : "Ativar"}
           </button>
         </div>
       </div>
+
+      {confirmingDeactivate && (
+        <div className="admin-modal-overlay" onClick={() => !loading && setConfirmingDeactivate(false)}>
+          <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>⚠️ Desativar {tier.label}?</h3>
+            <p>
+              Esse nível some imediatamente da vitrine de ranks e do selo de todo parceiro no Portal — inclusive de
+              quem já alcançou esse nível hoje.
+            </p>
+            <div className="admin-modal-actions">
+              <button type="button" className="btn btn-white btn-sm" disabled={loading} onClick={() => setConfirmingDeactivate(false)}>
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger btn-sm"
+                disabled={loading}
+                onClick={() => {
+                  patchTier({ active: false });
+                  setConfirmingDeactivate(false);
+                }}
+              >
+                {loading ? "Desativando…" : "Desativar"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

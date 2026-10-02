@@ -6,6 +6,7 @@ import {
   PARTNER_AUDIT_ACTION_LABELS,
   PARTNER_STATUS_LABELS,
   SERVICE_LABELS,
+  daysSince,
   formatCustomerLabel,
   formatDate,
   formatDateTime,
@@ -20,6 +21,9 @@ import TestFlagToggle from "@/components/admin/TestFlagToggle";
 import WhatsappVerifyToggle from "@/components/admin/WhatsappVerifyToggle";
 import FinancialDataReviewActions from "@/components/admin/FinancialDataReviewActions";
 import PixKeyReveal from "@/components/admin/PixKeyReveal";
+import RemovePartnerButton from "@/components/admin/RemovePartnerButton";
+
+const INACTIVITY_LIMIT_DAYS = 365;
 import { buildEligibilityChecklist } from "@/lib/partners/eligibility";
 import type { CommissionRow, CommissionStatus } from "@/lib/supabase/types";
 
@@ -52,6 +56,12 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
   const email = emailMap.get(partner.profile_id) ?? "e-mail indisponível";
   const checklist = buildEligibilityChecklist(partner);
   const isCpf = onlyDigits(partner.cpf_cnpj).length === 11;
+
+  // "Atividade" aqui é só indicação registrada -- é o único sinal de uso real
+  // do parceiro que o sistema grava com timestamp próprio. Sem indicação
+  // nenhuma ainda, conta a partir da data de entrada.
+  const lastActivityAt = customers && customers.length > 0 ? customers[0].created_at : partner.created_at;
+  const inactiveDays = daysSince(lastActivityAt);
 
   const customerIds = (customers ?? []).map((c) => c.id);
   const { data: sales } = customerIds.length
@@ -98,12 +108,22 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
         <p>Pix ({partner.pix_key_type}): {maskSecret(partner.pix_key)}</p>
         <p>Cupom: <b>{partner.coupon_code}</b></p>
         <p>Parceiro desde {formatDate(partner.created_at)}</p>
+        {!partner.account_deleted_at && (
+          <p>
+            Última indicação: {customers && customers.length > 0 ? formatDate(lastActivityAt) : "nunca indicou"} ·{" "}
+            <span style={{ color: inactiveDays >= INACTIVITY_LIMIT_DAYS ? "#C0392B" : "inherit", fontWeight: inactiveDays >= INACTIVITY_LIMIT_DAYS ? 700 : 400 }}>
+              {inactiveDays === 0 ? "ativo hoje" : `${inactiveDays} ${inactiveDays === 1 ? "dia" : "dias"} sem indicar`}
+            </span>
+            {inactiveDays >= INACTIVITY_LIMIT_DAYS && " ⚠️ passou de 365 dias — elegível pra remoção por inatividade"}
+          </p>
+        )}
 
         <div style={{ marginTop: 14, display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
           <span className={`status-pill ${partner.status}`}>{PARTNER_STATUS_LABELS[partner.status]}</span>
           {partner.is_test && <span className="admin-badge-test">TESTE</span>}
-          <PartnerStatusActions partnerId={partner.id} status={partner.status} />
+          {!partner.account_deleted_at && <PartnerStatusActions partnerId={partner.id} status={partner.status} />}
           <TestFlagToggle kind="parceiros" id={partner.id} isTest={partner.is_test} />
+          {isOwner && !partner.account_deleted_at && <RemovePartnerButton partnerId={partner.id} />}
         </div>
       </div>
 

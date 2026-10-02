@@ -17,6 +17,15 @@ export default function RankGrid({
   activeClients: number;
   currentTierId: string | null;
 }) {
+  if (tiers.length === 0) {
+    return (
+      <p style={{ fontSize: 13.5, color: "rgba(245,239,230,.6)" }}>
+        Os níveis de Rank estão temporariamente indisponíveis. Isso não afeta suas indicações nem suas comissões —
+        já avisamos a equipe.
+      </p>
+    );
+  }
+
   return (
     <div className="rank-showcase">
       {tiers.map((tier) => {

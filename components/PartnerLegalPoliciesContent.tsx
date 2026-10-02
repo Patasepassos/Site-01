@@ -109,6 +109,13 @@ export default function PartnerLegalPoliciesContent() {
         parceria ainda pendente — em ambos os casos, você é avisado por e-mail. Comissões já
         liberadas antes do encerramento continuam devidas e seguem o fluxo normal de saque.
       </p>
+      <p style={{ fontSize: 14, lineHeight: 1.7 }}>
+        <b>Compromisso de atividade:</b> esperamos que, como parceiro(a), você continue indicando
+        clientes de tempos em tempos. Uma conta que ficar <b>365 dias seguidos sem nenhuma nova
+        indicação registrada</b> é considerada inativa e pode ser removida pela Patas &amp; Passos —
+        mesmo processo de anonimização acima, preservando o que já foi ganho. Basta registrar uma
+        indicação de vez em quando pra manter sua conta ativa.
+      </p>
     </div>
   );
 }
