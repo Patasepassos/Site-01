@@ -2,8 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import LogoutButton from "./LogoutButton";
+import { RANK_THEME } from "@/lib/partners/rankTheme";
+import type { RankKey } from "@/lib/supabase/types";
+
+type RankRingStyle = CSSProperties & { "--rc1"?: string; "--rc2"?: string; "--rc-glow"?: string };
 
 const NAV_ITEMS = [
   { href: "/parceiros/dashboard", label: "Início", icon: "🏠" },
@@ -16,11 +20,13 @@ export default function AvatarMenu({
   avatarSrc,
   avatarAlt,
   rankEmoji,
+  rankKey,
   firstName,
 }: {
   avatarSrc: string;
   avatarAlt: string;
   rankEmoji?: string;
+  rankKey?: RankKey | null;
   firstName: string;
 }) {
   const [open, setOpen] = useState(false);
@@ -40,9 +46,16 @@ export default function AvatarMenu({
   return (
     <div className="avatar-menu" ref={ref}>
       <button type="button" className="avatar-menu-trigger" onClick={() => setOpen((v) => !v)} aria-expanded={open} aria-label="Menu do parceiro">
-        <span style={{ position: "relative" }}>
+        <span
+          className={`rank-ring unlocked current${rankKey && RANK_THEME[rankKey].rainbow ? " rainbow" : ""}`}
+          style={
+            rankKey
+              ? ({ "--rc1": RANK_THEME[rankKey].c1, "--rc2": RANK_THEME[rankKey].c2, "--rc-glow": RANK_THEME[rankKey].glow } as RankRingStyle)
+              : undefined
+          }
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={avatarSrc} alt={avatarAlt} width={40} height={40} style={{ borderRadius: "50%" }} />
+          <img src={avatarSrc} alt={avatarAlt} width={40} height={40} style={{ borderRadius: "50%", display: "block" }} />
           {rankEmoji && <span className="avatar-rank-badge">{rankEmoji}</span>}
         </span>
         <span className="avatar-menu-caret">{open ? "▲" : "▼"}</span>
