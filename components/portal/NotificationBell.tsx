@@ -80,23 +80,23 @@ export default function NotificationBell({
               </button>
             )}
           </div>
-          <div className="notif-bell-list">
-            {notifications.length === 0 ? (
-              <p style={{ fontSize: 13, color: "rgba(245,239,230,.6)", padding: "12px 16px" }}>
-                Nenhuma novidade ainda. Você será avisado aqui assim que houver atualização nas suas indicações.
-              </p>
-            ) : (
-              notifications.map((n) => (
-                <div className="notif-bell-item" key={n.id}>
+          {notifications.length === 0 ? (
+            <p style={{ fontSize: 13, color: "rgba(245,239,230,.6)", padding: "12px 16px" }}>
+              Nenhuma novidade ainda. Você será avisado aqui assim que houver atualização nas suas indicações.
+            </p>
+          ) : (
+            <ul className="notif-bell-list">
+              {notifications.map((n) => (
+                <li className="notif-bell-item" key={n.id}>
                   <div>{n.message}</div>
                   <div className="notif-bell-item-meta">
                     {formatDate(n.created_at)}
                     {!n.read_at && <span className="status-pill tone-pending">Novo</span>}
                   </div>
-                </div>
-              ))
-            )}
-          </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
     </div>

@@ -3,10 +3,8 @@ import { getCurrentPartner } from "@/lib/partners/session";
 import { getPartnerProgress } from "@/lib/partners/commission-engine";
 import { getPartnerRankInfo } from "@/lib/partners/ranks";
 import { getPartnerServiceAreaNote } from "@/lib/partners/settings";
-import { countUnreadNotifications, getPartnerNotifications } from "@/lib/partners/notifications";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import NotificationsCard from "@/components/portal/NotificationsCard";
 import RankGrid from "@/components/portal/RankGrid";
 import RankUpWatcher from "@/components/portal/RankUpWatcher";
 import ServiceShareCards from "@/components/portal/ServiceShareCards";
@@ -25,20 +23,17 @@ export default async function DashboardPage() {
   // e o total liberado (quando já desbloqueado).
   const supabaseAdmin = createSupabaseAdminClient();
 
-  const [{ count: totalIndicados }, { count: totalFechados }, progress, rank, serviceAreaNote, notifications, unreadCount] =
-    await Promise.all([
-      supabase.from("customers").select("id", { count: "exact", head: true }).eq("partner_id", partnerId),
-      supabase
-        .from("customers")
-        .select("id", { count: "exact", head: true })
-        .eq("partner_id", partnerId)
-        .eq("status", "fechado"),
-      getPartnerProgress(supabaseAdmin, partnerId),
-      getPartnerRankInfo(supabaseAdmin, partnerId),
-      getPartnerServiceAreaNote(supabase),
-      getPartnerNotifications(supabase, partnerId),
-      countUnreadNotifications(supabase, partnerId),
-    ]);
+  const [{ count: totalIndicados }, { count: totalFechados }, progress, rank, serviceAreaNote] = await Promise.all([
+    supabase.from("customers").select("id", { count: "exact", head: true }).eq("partner_id", partnerId),
+    supabase
+      .from("customers")
+      .select("id", { count: "exact", head: true })
+      .eq("partner_id", partnerId)
+      .eq("status", "fechado"),
+    getPartnerProgress(supabaseAdmin, partnerId),
+    getPartnerRankInfo(supabaseAdmin, partnerId),
+    getPartnerServiceAreaNote(supabase),
+  ]);
 
   return (
     <>
@@ -51,8 +46,6 @@ export default async function DashboardPage() {
           sortOrder={rank.currentTier.sort_order}
         />
       )}
-
-      <NotificationsCard partnerId={partnerId} notifications={notifications} unreadCount={unreadCount} />
 
       <section className="pp-hero">
         <div className="pp-hero-glow" aria-hidden="true" />
