@@ -7,10 +7,12 @@ export default function CustomerRowMenu({
   customerId,
   isTest,
   isArchived,
+  canDelete,
 }: {
   customerId: string;
   isTest: boolean;
   isArchived: boolean;
+  canDelete: boolean;
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -88,9 +90,11 @@ export default function CustomerRowMenu({
           <button type="button" disabled={loading} onClick={toggleArchive}>
             {isArchived ? "📦 Desarquivar" : "📦 Arquivar"}
           </button>
-          <button type="button" className="danger" disabled={loading} onClick={() => setConfirmDelete(true)}>
-            Excluir
-          </button>
+          {canDelete && (
+            <button type="button" className="danger" disabled={loading} onClick={() => setConfirmDelete(true)}>
+              Excluir
+            </button>
+          )}
         </div>
       )}
 

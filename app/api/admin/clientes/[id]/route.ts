@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireAdminUser } from "@/lib/admin/guard";
+import { requireOwnerUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/partners/audit";
 import { describeError } from "@/lib/partners/errors";
@@ -10,7 +10,9 @@ import { describeError } from "@/lib/partners/errors";
  * financeiro por engano.
  */
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
-  const admin = await requireAdminUser();
+  // Só admin chefe exclui indicação -- ação destrutiva e irreversível
+  // (histórico financeiro some junto quando não há comissão paga).
+  const admin = await requireOwnerUser();
   if (!admin) return NextResponse.json({ error: "Acesso negado." }, { status: 403 });
 
   const force = new URL(request.url).searchParams.get("force") === "true";

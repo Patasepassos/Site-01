@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { requireStaffUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getAuthEmailMap } from "@/lib/admin/auth-emails";
 import {
@@ -35,6 +36,8 @@ function pickBestCommission(commissions: CommissionRow[]): CommissionRow | undef
 }
 
 export default async function AdminPartnerDetailPage({ params }: { params: { id: string } }) {
+  const staff = await requireStaffUser();
+  const isOwner = staff?.profile.is_owner ?? false;
   const supabaseAdmin = createSupabaseAdminClient();
 
   const { data: partner } = await supabaseAdmin.from("partners").select("*").eq("id", params.id).maybeSingle();
@@ -235,7 +238,12 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
                   </div>
                   <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
                     <CustomerActions customerId={c.id} status={c.status} sale={sale} />
-                    <CustomerRowMenu customerId={c.id} isTest={c.is_test} isArchived={Boolean(c.archived_at)} />
+                    <CustomerRowMenu
+                      customerId={c.id}
+                      isTest={c.is_test}
+                      isArchived={Boolean(c.archived_at)}
+                      canDelete={isOwner}
+                    />
                   </div>
                 </div>
               );

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { CommissionRuleRow } from "@/lib/supabase/types";
 
-export default function RuleRow({ rule }: { rule: CommissionRuleRow }) {
+export default function RuleRow({ rule, canEdit }: { rule: CommissionRuleRow; canEdit: boolean }) {
   const router = useRouter();
   const [editing, setEditing] = useState(false);
   const [percentage, setPercentage] = useState(String(rule.percentage));
@@ -89,21 +89,23 @@ export default function RuleRow({ rule }: { rule: CommissionRuleRow }) {
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
         <span className={`status-pill ${rule.active ? "active" : "blocked"}`}>{rule.active ? "Ativa" : "Inativa"}</span>
-        <div className="admin-actions">
-          {!editing && (
-            <button type="button" className="btn btn-white btn-sm" disabled={loading} onClick={() => setEditing(true)}>
-              Editar
+        {canEdit && (
+          <div className="admin-actions">
+            {!editing && (
+              <button type="button" className="btn btn-white btn-sm" disabled={loading} onClick={() => setEditing(true)}>
+                Editar
+              </button>
+            )}
+            <button
+              type="button"
+              className={rule.active ? "btn btn-danger btn-sm" : "btn btn-wa btn-sm"}
+              disabled={loading}
+              onClick={() => patchRule({ active: !rule.active })}
+            >
+              {rule.active ? "Desativar" : "Ativar"}
             </button>
-          )}
-          <button
-            type="button"
-            className={rule.active ? "btn btn-danger btn-sm" : "btn btn-wa btn-sm"}
-            disabled={loading}
-            onClick={() => patchRule({ active: !rule.active })}
-          >
-            {rule.active ? "Desativar" : "Ativar"}
-          </button>
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

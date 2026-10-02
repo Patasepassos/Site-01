@@ -1,11 +1,14 @@
 import { redirect } from "next/navigation";
 import { getCurrentPartner } from "@/lib/partners/session";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getPartnerRankInfo } from "@/lib/partners/ranks";
+import { countUnreadNotifications, getPartnerNotifications } from "@/lib/partners/notifications";
 import LogoutButton from "@/components/portal/LogoutButton";
 import { PortalBottomNav, PortalDesktopNav } from "@/components/portal/PortalNav";
 import ToastProvider from "@/components/portal/ToastProvider";
 import AvatarMenu from "@/components/portal/AvatarMenu";
+import NotificationBell from "@/components/portal/NotificationBell";
 import HoverSoundListener from "@/components/portal/HoverSoundListener";
 import { AVATAR_LABELS, avatarSrc } from "@/lib/partners/avatars";
 
@@ -63,7 +66,12 @@ export default async function PortalLayout({ children }: { children: React.React
     );
   }
 
-  const rank = await getPartnerRankInfo(createSupabaseAdminClient(), current.partner.id);
+  const supabase = createSupabaseServerClient();
+  const [rank, notifications, unreadCount] = await Promise.all([
+    getPartnerRankInfo(createSupabaseAdminClient(), current.partner.id),
+    getPartnerNotifications(supabase, current.partner.id),
+    countUnreadNotifications(supabase, current.partner.id),
+  ]);
 
   return (
     <ToastProvider>
@@ -79,12 +87,19 @@ export default async function PortalLayout({ children }: { children: React.React
                 <h1>Olá, {firstName}!</h1>
                 <p>Vamos juntos levar mais cuidado aos pets.</p>
               </div>
-              <AvatarMenu
-                avatarSrc={avatarSrc(current.profile.avatar_key)}
-                avatarAlt={AVATAR_LABELS[current.profile.avatar_key]}
-                rankEmoji={rank.currentTier?.emoji}
-                firstName={firstName}
-              />
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <NotificationBell
+                  partnerId={current.partner.id}
+                  notifications={notifications}
+                  unreadCount={unreadCount}
+                />
+                <AvatarMenu
+                  avatarSrc={avatarSrc(current.profile.avatar_key)}
+                  avatarAlt={AVATAR_LABELS[current.profile.avatar_key]}
+                  rankEmoji={rank.currentTier?.emoji}
+                  firstName={firstName}
+                />
+              </div>
             </div>
             <PortalDesktopNav />
           </header>

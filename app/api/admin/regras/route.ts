@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireAdminUser } from "@/lib/admin/guard";
+import { requireOwnerUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/partners/audit";
 import { SERVICE_KEYS } from "@/lib/partners/labels";
@@ -8,7 +8,8 @@ import type { CommissionRuleType, ServiceKey } from "@/lib/supabase/types";
 const RULE_TYPES: CommissionRuleType[] = ["meta_clientes", "recorrencia"];
 
 export async function POST(request: Request) {
-  const admin = await requireAdminUser();
+  // Regra de comissão afeta o cálculo de todo mundo -- só admin chefe mexe.
+  const admin = await requireOwnerUser();
   if (!admin) return NextResponse.json({ error: "Acesso negado." }, { status: 403 });
 
   let body: {

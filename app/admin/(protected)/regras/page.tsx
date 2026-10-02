@@ -13,6 +13,7 @@ export default async function AdminRegrasPage() {
     .from("commission_rules")
     .select("*")
     .order("created_at", { ascending: true });
+  const isOwner = admin.profile.is_owner;
 
   return (
     <>
@@ -20,20 +21,23 @@ export default async function AdminRegrasPage() {
         <h2>Regras da parceria</h2>
         <p style={{ marginBottom: 4 }}>
           Percentual e mínimo de clientes são sempre configuráveis aqui — nunca fixos no código.
+          {!isOwner && " Só o admin chefe pode criar ou editar regras."}
         </p>
         <div style={{ marginTop: 14 }}>
           {!rules || rules.length === 0 ? (
             <p>Nenhuma regra cadastrada.</p>
           ) : (
-            rules.map((rule) => <RuleRow key={rule.id} rule={rule} />)
+            rules.map((rule) => <RuleRow key={rule.id} rule={rule} canEdit={isOwner} />)
           )}
         </div>
       </div>
 
-      <div className="portal-card">
-        <h2>Nova regra</h2>
-        <NewRuleForm />
-      </div>
+      {isOwner && (
+        <div className="portal-card">
+          <h2>Nova regra</h2>
+          <NewRuleForm />
+        </div>
+      )}
     </>
   );
 }
