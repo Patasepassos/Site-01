@@ -18,6 +18,16 @@ export const SERVICE_LABELS: Record<ServiceKey, string> = {
 
 export const SERVICE_KEYS = Object.keys(SERVICE_LABELS) as ServiceKey[];
 
+/** Página pública de cada serviço — usada pela landing do cupom (/p/[code]). */
+export const SERVICE_PATHS: Record<ServiceKey, string> = {
+  passeios: "/passeios",
+  socializacao: "/socializacao",
+  pet_sitter: "/pet-sitter",
+  creche: "/creche",
+  hotel: "/hotel",
+  vacinas: "/vacinas",
+};
+
 export const CUSTOMER_STATUS_LABELS: Record<CustomerStatus, string> = {
   indicado: "Indicado",
   em_contato: "Em contato",

@@ -40,7 +40,7 @@ export default function RankGrid({
               <img
                 src={tier.photo_url || RANK_IMAGE[tier.key]}
                 alt={tier.label}
-                style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }}
+                className="rank-emblem-img"
               />
             </div>
             <div className="rank-tier-body">

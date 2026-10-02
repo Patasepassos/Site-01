@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import LogoutButton from "./LogoutButton";
-import { RANK_THEME } from "@/lib/partners/rankTheme";
+import { RANK_IMAGE, RANK_THEME } from "@/lib/partners/rankTheme";
 import type { RankKey } from "@/lib/supabase/types";
 
 type RankRingStyle = CSSProperties & { "--rc1"?: string; "--rc2"?: string; "--rc-glow"?: string };
@@ -19,14 +19,14 @@ const NAV_ITEMS = [
 export default function AvatarMenu({
   avatarSrc,
   avatarAlt,
-  rankEmoji,
   rankKey,
+  rankPhotoUrl,
   firstName,
 }: {
   avatarSrc: string;
   avatarAlt: string;
-  rankEmoji?: string;
   rankKey?: RankKey | null;
+  rankPhotoUrl?: string | null;
   firstName: string;
 }) {
   const [open, setOpen] = useState(false);
@@ -56,7 +56,10 @@ export default function AvatarMenu({
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={avatarSrc} alt={avatarAlt} width={40} height={40} style={{ borderRadius: "50%", display: "block" }} />
-          {rankEmoji && <span className="avatar-rank-badge">{rankEmoji}</span>}
+          {rankKey && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className="avatar-rank-badge" src={rankPhotoUrl || RANK_IMAGE[rankKey]} alt="" />
+          )}
         </span>
         <span className="avatar-menu-caret">{open ? "▲" : "▼"}</span>
       </button>

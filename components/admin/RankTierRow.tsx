@@ -76,7 +76,8 @@ export default function RankTierRow({ tier, canEditPhoto }: { tier: RankTierRowT
           <img
             src={tier.photo_url || RANK_IMAGE[tier.key]}
             alt={tier.label}
-            style={{ width: 28, height: 28, objectFit: "cover", borderRadius: 6 }}
+            className="rank-emblem-img"
+            style={{ width: 34, height: 34 }}
           />
           {tier.label}
         </div>

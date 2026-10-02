@@ -96,8 +96,8 @@ export default async function PortalLayout({ children }: { children: React.React
                 <AvatarMenu
                   avatarSrc={avatarSrc(current.profile.avatar_key)}
                   avatarAlt={AVATAR_LABELS[current.profile.avatar_key]}
-                  rankEmoji={rank.currentTier?.emoji}
                   rankKey={rank.currentTier?.key}
+                  rankPhotoUrl={rank.currentTier?.photo_url}
                   firstName={firstName}
                 />
               </div>
