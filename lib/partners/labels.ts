@@ -83,6 +83,23 @@ export function getUnifiedStatus(params: {
   return { emoji: "🟣", label: "Comissão pendente", tone: "progress" };
 }
 
+// Rótulos pro Histórico de ações (audit_logs) na ficha do parceiro no admin --
+// só as ações que têm entity_type "partner". Qualquer ação nova que a gente
+// esquecer de listar aqui ainda aparece (cai no fallback = o próprio action).
+export const PARTNER_AUDIT_ACTION_LABELS: Record<string, string> = {
+  partner_signup: "📝 Cadastro realizado",
+  partner_status_updated: "🔐 Status alterado",
+  partner_profile_updated: "✏️ Perfil atualizado",
+  partner_name_updated: "✏️ Nome atualizado",
+  partner_avatar_changed: "🖼️ Avatar alterado",
+  partner_account_deleted: "👋 Conta excluída (autoexclusão)",
+  partner_eligibility_changed: "✅ Elegibilidade de pagamento recalculada",
+  partner_whatsapp_verified_updated: "📱 Verificação de WhatsApp alterada",
+  partner_financial_data_reviewed: "💳 Dados financeiros (Pix) revisados",
+  partner_test_flag_updated: "🧪 Marcação de teste alterada",
+  partner_service_area_updated: "📍 Região de atendimento atualizada",
+};
+
 export function formatCustomerLabel(sequenceNumber: number): string {
   return `Cliente #${String(sequenceNumber).padStart(4, "0")}`;
 }

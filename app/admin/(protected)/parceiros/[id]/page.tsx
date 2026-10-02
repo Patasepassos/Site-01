@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getAuthEmailMap } from "@/lib/admin/auth-emails";
 import {
+  PARTNER_AUDIT_ACTION_LABELS,
   PARTNER_STATUS_LABELS,
   SERVICE_LABELS,
   formatCustomerLabel,
@@ -66,6 +67,23 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
     list.push(c);
     commissionsBySaleId.set(c.sale_id, list);
   }
+
+  // Histórico real de ações sobre este parceiro -- existia a tabela
+  // audit_logs desde o início, mas nenhuma tela mostrava o conteúdo dela.
+  // Sem isso, "quem/quando bloqueou essa conta" não tinha como ser
+  // verificado -- só dava pra supor.
+  const { data: auditLogs } = await supabaseAdmin
+    .from("audit_logs")
+    .select("*")
+    .eq("entity_type", "partner")
+    .eq("entity_id", partner.id)
+    .order("created_at", { ascending: false })
+    .limit(30);
+  const actorIds = Array.from(new Set((auditLogs ?? []).map((a) => a.actor_id).filter((id): id is string => Boolean(id))));
+  const { data: actorProfiles } = actorIds.length
+    ? await supabaseAdmin.from("profiles").select("id, full_name, role").in("id", actorIds)
+    : { data: [] };
+  const actorById = new Map((actorProfiles ?? []).map((p) => [p.id, p]));
 
   return (
     <>
@@ -224,6 +242,38 @@ export default async function AdminPartnerDetailPage({ params }: { params: { id:
             })
           )}
         </div>
+      </div>
+
+      <div className="portal-card">
+        <h2>📜 Histórico de ações</h2>
+        <p style={{ fontSize: 13, color: "var(--ink-soft)", marginBottom: 10 }}>
+          Toda ação administrativa ou do próprio parceiro sobre esta conta fica registrada aqui — inclusive
+          quem (ou se foi o próprio sistema) e quando.
+        </p>
+        {!auditLogs || auditLogs.length === 0 ? (
+          <p>Nenhum registro de auditoria para esta conta ainda.</p>
+        ) : (
+          <div>
+            {auditLogs.map((log) => {
+              const actor = log.actor_id ? actorById.get(log.actor_id) : null;
+              const actorLabel = log.actor_id
+                ? (actor?.full_name ?? "Usuário removido") + (actor?.role ? ` (${actor.role})` : "")
+                : "Sistema";
+              const metadata = log.metadata as { status?: string } | null;
+              return (
+                <div className="referral-row" key={log.id}>
+                  <div>
+                    <div className="rr-id">{PARTNER_AUDIT_ACTION_LABELS[log.action] ?? log.action}</div>
+                    <div className="rr-meta">
+                      {actorLabel} · {formatDateTime(log.created_at)}
+                      {metadata?.status ? ` · novo status: ${PARTNER_STATUS_LABELS[metadata.status as keyof typeof PARTNER_STATUS_LABELS] ?? metadata.status}` : ""}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </>
   );
