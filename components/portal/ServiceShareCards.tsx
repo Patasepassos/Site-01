@@ -24,7 +24,7 @@ export default function ServiceShareCards({ couponCode }: { couponCode: string }
     // direto pro WhatsApp oficial com o cupom e o serviço já preenchidos,
     // em vez de abrir uma página do site.
     const shareUrl = `https://www.patasepassos.com.br/p/${couponCode.toLowerCase()}?s=${key}`;
-    const message = `🐾 Conheça a Patas & Passos!\n\nUse meu cupom ${couponCode} em ${label} e ganhe cuidado de verdade pro seu pet.\n\n${shareUrl}`;
+    const message = `Uma parceria que eu precisava compartilhar com vocês. 🐾💛\n\nA *Patas & Passos* cuida dos nossos pets com muito carinho, enquanto eles aproveitam o dia, gastam energia e se divertem.\n\nE tem um presente para vocês: usando meu cupom *${couponCode}* na hora de agendar, você garante uma condição especial. 🐶✨\n\n${shareUrl}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`, "_blank", "noopener");
   }
 
