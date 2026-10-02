@@ -76,6 +76,17 @@ export async function POST(request: Request) {
 
   const supabaseAdmin = createSupabaseAdminClient();
 
+  // cpf_cnpj não tem constraint UNIQUE no banco (achado na auditoria) --
+  // sem essa checagem, a mesma pessoa podia abrir várias contas de parceiro
+  // com o mesmo CPF/CNPJ. Conta excluída tem o campo anonimizado pra
+  // "00000000000", então nunca bate aqui por engano.
+  const { data: existingCpf } = await supabaseAdmin
+    .from("partners")
+    .select("id")
+    .eq("cpf_cnpj", onlyDigits(cpfCnpj))
+    .maybeSingle();
+  if (existingCpf) return badRequest("Este CPF/CNPJ já está cadastrado.");
+
   const { data: created, error: createUserError } = await supabaseAdmin.auth.admin.createUser({
     email,
     password,
