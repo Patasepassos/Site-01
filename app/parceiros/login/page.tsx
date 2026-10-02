@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
-import ForgotPasswordForm from "@/components/auth/ForgotPasswordForm";
+import PartnerPasswordResetFlow from "@/components/auth/PartnerPasswordResetFlow";
 import PasswordInput from "@/components/ui/PasswordInput";
 
 export default function LoginParceiroPage() {
@@ -78,7 +78,7 @@ function LoginForm() {
       <div className="pls-form-side">
         <div className="pls-form-card">
           {forgotMode ? (
-            <ForgotPasswordForm onBack={() => setForgotMode(false)} />
+            <PartnerPasswordResetFlow onBack={() => setForgotMode(false)} />
           ) : (
             <>
               <h1>🐾 Área do Parceiro</h1>

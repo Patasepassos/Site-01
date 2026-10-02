@@ -88,6 +88,24 @@ export type PartnerEmailOtpRow = {
   created_at: string;
 };
 
+export type PartnerPasswordResetRow = {
+  id: string;
+  partner_id: string;
+  profile_id: string;
+  email: string;
+  token_hash: string;
+  email_code_hash: string;
+  email_code_expires_at: string;
+  email_code_attempts: number;
+  email_verified_at: string | null;
+  phone_e164: string | null;
+  phone_verified_at: string | null;
+  phone_skipped: boolean;
+  consumed_at: string | null;
+  expires_at: string;
+  created_at: string;
+};
+
 export type CustomerRow = {
   id: string;
   partner_id: string;
@@ -228,6 +246,7 @@ export type Database = {
       audit_logs: TableDef<AuditLogRow>;
       partner_notifications: TableDef<PartnerNotificationRow>;
       partner_email_otps: TableDef<PartnerEmailOtpRow>;
+      partner_password_resets: TableDef<PartnerPasswordResetRow>;
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

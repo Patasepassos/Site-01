@@ -109,6 +109,14 @@ export const PARTNER_AUDIT_ACTION_LABELS: Record<string, string> = {
   partner_test_flag_updated: "🧪 Marcação de teste alterada",
   partner_service_area_updated: "📍 Região de atendimento atualizada",
   partner_removed_by_admin: "🗑️ Conta removida pelo admin chefe",
+  partner_password_reset_requested: "🔑 Recuperação de senha solicitada",
+  partner_password_reset_email_verified: "📧 Código de e-mail confirmado (recuperação de senha)",
+  partner_password_reset_email_failed_attempt: "⚠️ Código de e-mail incorreto (recuperação de senha)",
+  partner_password_reset_sms_sent: "📲 Código SMS enviado (recuperação de senha)",
+  partner_password_reset_sms_skipped: "⏭️ SMS não enviado — etapa pulada (recuperação de senha)",
+  partner_password_reset_sms_failed_attempt: "⚠️ Código SMS incorreto (recuperação de senha)",
+  partner_password_reset_sms_verified: "✅ Código SMS confirmado (recuperação de senha)",
+  partner_password_reset_completed: "🔓 Senha redefinida com sucesso",
 };
 
 export function formatCustomerLabel(sequenceNumber: number): string {
