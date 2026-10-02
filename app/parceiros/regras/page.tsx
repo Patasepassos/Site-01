@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PartnerTermsContent from "@/components/PartnerTermsContent";
+import PartnerPortalGuideContent from "@/components/PartnerPortalGuideContent";
 
 export const metadata: Metadata = {
   title: "Regras da Parceria · Patas & Passos",
@@ -23,6 +24,18 @@ export default function RegrasParceriaPage() {
 
         <div className="card reveal" style={{ maxWidth: 680, margin: "0 auto" }}>
           <PartnerTermsContent />
+        </div>
+
+        <div className="sec-head center reveal" style={{ marginTop: 40 }}>
+          <span className="eyebrow">📱 Portal do Parceiro</span>
+          <h2 className="h-lg">Como funciona o Portal e o Painel</h2>
+          <p className="lead">
+            Veja como acompanhar suas indicações, comissões, oportunidades, notificações e
+            pagamentos.
+          </p>
+        </div>
+        <div className="card reveal" style={{ maxWidth: 680, margin: "0 auto" }}>
+          <PartnerPortalGuideContent />
         </div>
 
         <div className="cta-row reveal" style={{ display: "flex", gap: 16, justifyContent: "center", marginTop: 32, flexWrap: "wrap" }}>
