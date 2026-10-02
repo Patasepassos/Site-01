@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { onlyDigits } from "@/lib/partners/validation";
+import { waLink } from "@/lib/site";
 import type { PixKeyType } from "@/lib/supabase/types";
 
 const PIX_LABELS: Record<PixKeyType, string> = {
@@ -79,7 +80,18 @@ export default function CadastroParceiroPage() {
             Seu cupom exclusivo é <b>{couponCode}</b>. Sua conta está <b>aguardando aprovação</b>{" "}
             da Patas &amp; Passos — assim que for aprovada, seu painel libera automaticamente.
           </p>
-          <Link className="btn btn-wa btn-lg" href="/parceiros/login" style={{ marginTop: 18 }}>
+          <a
+            className="btn btn-wa btn-lg"
+            style={{ marginTop: 18 }}
+            href={waLink(
+              `Olá! Acabei de me cadastrar como parceiro(a) da Patas & Passos. Meu nome é ${fullName} e meu cupom é ${couponCode}. Só queria avisar que estou interessado(a)! 🐾`
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Avisar no WhatsApp 📲
+          </a>
+          <Link className="btn btn-white btn-lg" href="/parceiros/login" style={{ marginTop: 10 }}>
             Ir para o login
           </Link>
         </div>
