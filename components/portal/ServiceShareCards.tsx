@@ -8,7 +8,6 @@ const CARD_TONES = ["tone-a", "tone-b", "tone-c", "tone-d", "tone-e", "tone-f"];
 
 export default function ServiceShareCards({ couponCode }: { couponCode: string }) {
   const showToast = useToast();
-  const shareUrl = `https://www.patasepassos.com.br/p/${couponCode.toLowerCase()}`;
 
   async function handleCopy(label: string) {
     try {
@@ -20,7 +19,11 @@ export default function ServiceShareCards({ couponCode }: { couponCode: string }
     showToast(`Cupom copiado! Use em ${label}.`);
   }
 
-  function handleShare(label: string) {
+  function handleShare(label: string, key: string) {
+    // O link leva pra /p/{cupom}?s={serviço} -- que redireciona quem clicar
+    // direto pro WhatsApp oficial com o cupom e o serviço já preenchidos,
+    // em vez de abrir uma página do site.
+    const shareUrl = `https://www.patasepassos.com.br/p/${couponCode.toLowerCase()}?s=${key}`;
     const message = `🐾 Conheça a Patas & Passos!\n\nUse meu cupom ${couponCode} em ${label} e ganhe cuidado de verdade pro seu pet.\n\n${shareUrl}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`, "_blank", "noopener");
   }
@@ -37,7 +40,7 @@ export default function ServiceShareCards({ couponCode }: { couponCode: string }
               <button type="button" className="btn-copy" onClick={() => handleCopy(label)}>
                 📋 Copiar cupom
               </button>
-              <button type="button" className="btn-copy btn-copy-ghost" onClick={() => handleShare(label)}>
+              <button type="button" className="btn-copy btn-copy-ghost" onClick={() => handleShare(label, key)}>
                 💬 WhatsApp
               </button>
             </div>
