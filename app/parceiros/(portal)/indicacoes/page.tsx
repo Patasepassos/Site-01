@@ -19,7 +19,7 @@ export default async function IndicacoesPage() {
   // pro admin. E nunca consulta `sales` — o RLS já bloqueia isso pro
   // parceiro; o status de pagamento é inferido via `commissions`, que só
   // existe depois que o admin confirma o pagamento.
-  const [{ data: customers }, { data: commissions }] = await Promise.all([
+  const [{ data: customers, error: customersError }, { data: commissions, error: commissionsError }] = await Promise.all([
     supabase
       .from("customers")
       .select("id, sequence_number, service, status, coupon_used, created_at, updated_at, closed_at, partner_id")
@@ -28,6 +28,22 @@ export default async function IndicacoesPage() {
       .order("created_at", { ascending: false }),
     supabase.from("commissions").select("*").eq("partner_id", partnerId),
   ]);
+
+  // DEBUG temporário: a tela mostrava "nenhum cliente indicado" mesmo com
+  // indicação existente e visível pro admin, e o código nunca checava se
+  // essas duas queries vinham com erro (só assumia lista vazia). Isso
+  // confirma (ou descarta) um erro de RLS/query sendo engolido em silêncio.
+  if (customersError) {
+    console.error("[DEBUG indicacoes-page] erro ao buscar customers", { partnerId, error: customersError });
+  }
+  if (commissionsError) {
+    console.error("[DEBUG indicacoes-page] erro ao buscar commissions", { partnerId, error: commissionsError });
+  }
+  console.log("[DEBUG indicacoes-page] resultado", {
+    partnerId,
+    customersCount: customers?.length ?? null,
+    customersError: customersError?.message ?? null,
+  });
 
   const bestCommissionByCustomerId = new Map<string, CommissionRow>();
   for (const c of commissions ?? []) {
