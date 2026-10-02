@@ -3,6 +3,7 @@ import { getCurrentPartner } from "@/lib/partners/session";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { SERVICE_LABELS, formatCustomerLabel, formatDate, getUnifiedStatus } from "@/lib/partners/labels";
 import ReferralJourney from "@/components/portal/ReferralJourney";
+import AddReferralForm from "@/components/portal/AddReferralForm";
 import type { CommissionRow, CommissionStatus } from "@/lib/supabase/types";
 
 const COMMISSION_PRIORITY: Record<CommissionStatus, number> = { paga: 3, liberada: 2, bloqueada: 1 };
@@ -45,8 +46,9 @@ export default async function IndicacoesPage() {
       </p>
 
       <div style={{ marginTop: 14 }}>
+        <AddReferralForm />
         {!customers || customers.length === 0 ? (
-          <p>Você ainda não tem clientes indicados. Compartilhe seu cupom pra começar!</p>
+          <p>Você ainda não tem clientes indicados. Registre acima ou compartilhe seu cupom pra começar!</p>
         ) : (
           customers.map((c) => {
             const commission = bestCommissionByCustomerId.get(c.id);
