@@ -18,8 +18,6 @@ const CONTRACT_TYPES: { value: ContractType; label: string }[] = [
   { value: "anual", label: "Anual (recorrente)" },
 ];
 
-const PAYMENT_METHODS = ["Pix", "Cartão de crédito", "Cartão de débito", "Dinheiro", "Outro"];
-
 export default function CustomerActions({
   customerId,
   status,
@@ -33,12 +31,8 @@ export default function CustomerActions({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showFechar, setShowFechar] = useState(false);
-  const [customerName, setCustomerName] = useState("");
-  const [customerPhone, setCustomerPhone] = useState("");
   const [amount, setAmount] = useState("");
   const [contractType, setContractType] = useState<ContractType>("avulso");
-  const [paymentMethod, setPaymentMethod] = useState(PAYMENT_METHODS[0]);
-  const [notes, setNotes] = useState("");
 
   async function post(url: string, body?: Record<string, unknown>, method?: "POST" | "PATCH") {
     setError(null);
@@ -100,12 +94,8 @@ export default function CustomerActions({
       return;
     }
     await post(`/api/admin/clientes/${customerId}/fechar`, {
-      customerName,
-      customerPhone,
       amount: numericAmount,
       contractType,
-      paymentMethod,
-      notes,
     });
   }
 
@@ -133,24 +123,6 @@ export default function CustomerActions({
 
       {showFechar && (
         <form onSubmit={handleFecharVenda} style={{ marginTop: 10, width: "100%", maxWidth: 280 }}>
-          <label className="pf-label" htmlFor={`name-${customerId}`}>Nome do cliente</label>
-          <input
-            id={`name-${customerId}`}
-            className="pf-input"
-            value={customerName}
-            onChange={(e) => setCustomerName(e.target.value)}
-            placeholder="Nome completo"
-          />
-
-          <label className="pf-label" htmlFor={`phone-${customerId}`}>WhatsApp do cliente</label>
-          <input
-            id={`phone-${customerId}`}
-            className="pf-input"
-            value={customerPhone}
-            onChange={(e) => setCustomerPhone(e.target.value)}
-            placeholder="(11) 91234-5678"
-          />
-
           <label className="pf-label" htmlFor={`amount-${customerId}`}>Valor da venda (R$)</label>
           <input
             id={`amount-${customerId}`}
@@ -159,6 +131,7 @@ export default function CustomerActions({
             placeholder="0,00"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
+            autoFocus
           />
 
           <label className="pf-label" htmlFor={`contract-${customerId}`}>Tipo de contrato</label>
@@ -172,27 +145,9 @@ export default function CustomerActions({
               <option key={opt.value} value={opt.value}>{opt.label}</option>
             ))}
           </select>
-
-          <label className="pf-label" htmlFor={`payment-${customerId}`}>Forma de pagamento</label>
-          <select
-            id={`payment-${customerId}`}
-            className="pf-select"
-            value={paymentMethod}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          >
-            {PAYMENT_METHODS.map((method) => (
-              <option key={method} value={method}>{method}</option>
-            ))}
-          </select>
-
-          <label className="pf-label" htmlFor={`notes-${customerId}`}>Observações</label>
-          <input
-            id={`notes-${customerId}`}
-            className="pf-input"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Opcional"
-          />
+          <p className="pf-hint">
+            Mensal/Anual libera comissão recorrente pro parceiro a cada novo ciclo pago; Avulso gera só uma vez.
+          </p>
 
           <button type="submit" className="btn btn-wa btn-sm" style={{ marginTop: 10, width: "100%" }} disabled={loading}>
             {loading ? "Salvando…" : "Confirmar venda fechada"}

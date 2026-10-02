@@ -37,8 +37,6 @@ export default function NotificationsCard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [partnerId]);
 
-  if (notifications.length === 0) return null;
-
   async function markAllRead() {
     setLoading(true);
     try {
@@ -61,15 +59,22 @@ export default function NotificationsCard({
       </div>
 
       <div style={{ marginTop: 10 }}>
-        {notifications.map((n) => (
-          <div className="referral-row" key={n.id}>
-            <div>
-              <div className="rr-id">{n.message}</div>
-              <div className="rr-meta">{formatDate(n.created_at)}</div>
+        {notifications.length === 0 ? (
+          <p style={{ fontSize: 13.5, color: "var(--ink-soft)" }}>
+            Nenhuma novidade ainda. Assim que a gente mover uma das suas indicações (em contato, serviço
+            contratado, fechada...) ou liberar uma comissão, o aviso aparece aqui.
+          </p>
+        ) : (
+          notifications.map((n) => (
+            <div className="referral-row" key={n.id}>
+              <div>
+                <div className="rr-id">{n.message}</div>
+                <div className="rr-meta">{formatDate(n.created_at)}</div>
+              </div>
+              {!n.read_at && <span className="status-pill tone-pending">Novo</span>}
             </div>
-            {!n.read_at && <span className="status-pill tone-pending">Novo</span>}
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

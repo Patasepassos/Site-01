@@ -2,8 +2,10 @@ import { redirect } from "next/navigation";
 import { getCurrentPartner } from "@/lib/partners/session";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { SERVICE_LABELS, formatCustomerLabel, formatDate, getUnifiedStatus } from "@/lib/partners/labels";
+import { countUnreadNotifications, getPartnerNotifications } from "@/lib/partners/notifications";
 import ReferralJourney from "@/components/portal/ReferralJourney";
 import AddReferralForm from "@/components/portal/AddReferralForm";
+import NotificationsCard from "@/components/portal/NotificationsCard";
 import type { CommissionRow, CommissionStatus } from "@/lib/supabase/types";
 
 const COMMISSION_PRIORITY: Record<CommissionStatus, number> = { paga: 3, liberada: 2, bloqueada: 1 };
@@ -19,7 +21,7 @@ export default async function IndicacoesPage() {
   // pro admin. E nunca consulta `sales` — o RLS já bloqueia isso pro
   // parceiro; o status de pagamento é inferido via `commissions`, que só
   // existe depois que o admin confirma o pagamento.
-  const [{ data: customers }, { data: commissions }] = await Promise.all([
+  const [{ data: customers }, { data: commissions }, notifications, unreadCount] = await Promise.all([
     supabase
       .from("customers")
       .select("id, sequence_number, service, status, coupon_used, created_at, updated_at, closed_at, partner_id")
@@ -27,6 +29,8 @@ export default async function IndicacoesPage() {
       .is("archived_at", null)
       .order("created_at", { ascending: false }),
     supabase.from("commissions").select("*").eq("partner_id", partnerId),
+    getPartnerNotifications(supabase, partnerId),
+    countUnreadNotifications(supabase, partnerId),
   ]);
 
   const bestCommissionByCustomerId = new Map<string, CommissionRow>();
@@ -39,7 +43,9 @@ export default async function IndicacoesPage() {
   }
 
   return (
-    <div className="portal-card">
+    <>
+      <NotificationsCard partnerId={partnerId} notifications={notifications} unreadCount={unreadCount} />
+      <div className="portal-card">
       <h2>Minhas indicações</h2>
       <p style={{ marginBottom: 4 }}>
         {customers?.length ?? 0} {customers?.length === 1 ? "cliente indicado" : "clientes indicados"}
@@ -75,6 +81,7 @@ export default async function IndicacoesPage() {
           })
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

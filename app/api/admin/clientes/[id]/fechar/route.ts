@@ -22,14 +22,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
   const admin = await requireStaffUser();
   if (!admin) return NextResponse.json({ error: "Acesso negado." }, { status: 403 });
 
-  let body: {
-    amount?: unknown;
-    contractType?: unknown;
-    customerName?: unknown;
-    customerPhone?: unknown;
-    paymentMethod?: unknown;
-    notes?: unknown;
-  };
+  let body: { amount?: unknown; contractType?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -38,10 +31,6 @@ export async function POST(request: Request, { params }: { params: { id: string 
 
   const amount = typeof body.amount === "number" ? body.amount : Number(body.amount);
   const contractType = typeof body.contractType === "string" ? (body.contractType as ContractType) : null;
-  const customerName = typeof body.customerName === "string" ? body.customerName.trim() : "";
-  const customerPhone = typeof body.customerPhone === "string" ? body.customerPhone.trim() : "";
-  const paymentMethod = typeof body.paymentMethod === "string" ? body.paymentMethod.trim() : "";
-  const notes = typeof body.notes === "string" ? body.notes.trim() : "";
 
   if (!Number.isFinite(amount) || amount <= 0) {
     return NextResponse.json({ error: "Valor de venda inválido." }, { status: 400 });
@@ -69,23 +58,18 @@ export async function POST(request: Request, { params }: { params: { id: string 
         service: customer.service,
         contract_type: contractType,
         amount,
-        payment_method: paymentMethod || null,
-        notes: notes || null,
         created_by: admin.userId,
       })
       .select("id")
       .single();
     if (saleError || !sale) throw saleError ?? new Error("Falha ao registrar a venda.");
 
+    // Nunca sobrescreve customer_name/customer_phone aqui -- esses dados já
+    // vieram certos do próprio parceiro no registro da indicação; reescrever
+    // com um valor vazio nessa tela apagava o nome/telefone reais do cliente.
     const { error: customerError } = await supabaseAdmin
       .from("customers")
-      .update({
-        status: "fechado",
-        closed_at: nowIso,
-        updated_at: nowIso,
-        customer_name: customerName || null,
-        customer_phone: customerPhone || null,
-      })
+      .update({ status: "fechado", closed_at: nowIso, updated_at: nowIso })
       .eq("id", customer.id);
     if (customerError) throw customerError;
 
