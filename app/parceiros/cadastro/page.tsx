@@ -7,7 +7,7 @@ import { waLink } from "@/lib/site";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import EmailVerificationCard from "@/components/portal/EmailVerificationCard";
 import PasswordInput from "@/components/ui/PasswordInput";
-import { playCelebrationChime } from "@/lib/sound/celebration";
+import RankUpIntro from "@/components/portal/RankUpIntro";
 import type { PixKeyType } from "@/lib/supabase/types";
 
 const PIX_LABELS: Record<PixKeyType, string> = {
@@ -33,12 +33,14 @@ export default function CadastroParceiroPage() {
   const [error, setError] = useState<string | null>(null);
   const [couponCode, setCouponCode] = useState<string | null>(null);
   const [emailVerified, setEmailVerified] = useState(false);
+  const [showRankUp, setShowRankUp] = useState(false);
 
-  // Toca só na transição pra tela de sucesso (nunca de novo ao atualizar a
-  // página — um F5 aqui volta pro formulário, já que couponCode não é
-  // persistido em lugar nenhum).
+  // Mostra a evolução de Rank só na transição pra tela de sucesso (nunca de
+  // novo ao atualizar a página — um F5 aqui volta pro formulário, já que
+  // couponCode não é persistido em lugar nenhum). Todo cadastro novo começa
+  // no Filhote, por isso o nível é fixo aqui.
   useEffect(() => {
-    if (couponCode) playCelebrationChime();
+    if (couponCode) setShowRankUp(true);
   }, [couponCode]);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -93,6 +95,7 @@ export default function CadastroParceiroPage() {
   if (couponCode) {
     return (
       <div className="portal-auth">
+        {showRankUp && <RankUpIntro rankKey="filhote" onClose={() => setShowRankUp(false)} />}
         <Link className="portal-auth-brand" href="/" aria-label="Voltar para o site">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo-main.png" alt="Patas & Passos" />

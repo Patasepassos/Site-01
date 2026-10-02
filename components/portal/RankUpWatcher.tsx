@@ -1,31 +1,30 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { playRankUpSound } from "@/lib/portal/sound";
-import { useToast } from "./ToastProvider";
+import { useEffect, useRef, useState } from "react";
+import RankUpIntro from "./RankUpIntro";
+import type { RankKey } from "@/lib/supabase/types";
 
 const STORAGE_PREFIX = "pp_last_rank_";
 
 /**
- * Detecta subida REAL de Rank comparando com o último nível visto
- * (guardado no localStorage deste navegador). Só dispara som/toast quando
- * o nível atual é de fato maior que o último registrado -- nunca simula.
+ * Detecta subida REAL de Rank comparando com o último nível visto (guardado
+ * no localStorage deste navegador). Só dispara a tela de evolução
+ * (RankUpIntro -- mesmo componente usado no cadastro) quando o nível atual é
+ * de fato maior que o último registrado -- nunca simula. RankUpIntro já
+ * cuida do som e dos efeitos visuais por nível; esse componente só decide
+ * QUANDO mostrar.
  */
 export default function RankUpWatcher({
   partnerId,
   currentTierKey,
-  currentTierLabel,
-  currentTierEmoji,
   sortOrder,
 }: {
   partnerId: string;
-  currentTierKey: string;
-  currentTierLabel: string;
-  currentTierEmoji: string;
+  currentTierKey: RankKey;
   sortOrder: number;
 }) {
-  const showToast = useToast();
   const fired = useRef(false);
+  const [showIntro, setShowIntro] = useState(false);
 
   useEffect(() => {
     if (fired.current) return;
@@ -41,8 +40,7 @@ export default function RankUpWatcher({
     }
 
     if (lastSortOrder !== null && sortOrder > lastSortOrder) {
-      playRankUpSound();
-      showToast(`🎉 PARABÉNS! Você subiu para o nível ${currentTierEmoji} ${currentTierLabel}!`);
+      setShowIntro(true);
     }
 
     try {
@@ -53,5 +51,6 @@ export default function RankUpWatcher({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [partnerId, currentTierKey, sortOrder]);
 
-  return null;
+  if (!showIntro) return null;
+  return <RankUpIntro rankKey={currentTierKey} onClose={() => setShowIntro(false)} />;
 }

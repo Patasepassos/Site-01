@@ -42,10 +42,3 @@ export function playHoverSound(): void {
   if (!audioCtx) return;
   tone(audioCtx, 660, 0, 0.06, 0.06, "sine");
 }
-
-/** Fanfarra curta — usada só quando o parceiro sobe de Rank de verdade. */
-export function playRankUpSound(): void {
-  const audioCtx = getContext();
-  if (!audioCtx) return;
-  [523, 659, 784, 1046].forEach((freq, i) => tone(audioCtx, freq, i * 0.09, 0.3, 0.2, "triangle"));
-}

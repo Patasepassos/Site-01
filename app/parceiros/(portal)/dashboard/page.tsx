@@ -42,8 +42,6 @@ export default async function DashboardPage() {
         <RankUpWatcher
           partnerId={partnerId}
           currentTierKey={rank.currentTier.key}
-          currentTierLabel={rank.currentTier.label}
-          currentTierEmoji={rank.currentTier.emoji}
           sortOrder={rank.currentTier.sort_order}
         />
       )}
