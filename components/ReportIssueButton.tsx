@@ -79,7 +79,7 @@ export default function ReportIssueButton() {
           position: "fixed",
           left: 20,
           zIndex: 9998,
-          background: "#4a3427",
+          background: hovered ? "#4a3427" : "transparent",
           color: "#fff",
           border: "none",
           borderRadius: 999,
@@ -89,16 +89,16 @@ export default function ReportIssueButton() {
           fontSize: 13,
           fontWeight: 700,
           cursor: "pointer",
-          boxShadow: "0 4px 14px rgba(0,0,0,0.25)",
+          boxShadow: hovered ? "0 4px 14px rgba(0,0,0,0.25)" : "none",
           display: "flex",
           alignItems: "center",
           gap: hovered ? 6 : 0,
           overflow: "hidden",
           whiteSpace: "nowrap",
-          transition: "padding .18s ease, gap .18s ease",
+          transition: "background .18s ease, padding .18s ease, gap .18s ease, box-shadow .18s ease",
         }}
       >
-        <span aria-hidden="true" style={{ fontSize: 16, lineHeight: 1 }}>🎧</span>
+        <span aria-hidden="true" style={{ fontSize: 22, lineHeight: 1 }}>🎧</span>
         {hovered && <span>Reportar um problema</span>}
       </button>
 
