@@ -7,9 +7,7 @@ import { getSupabaseAnonKey, getSupabaseUrl } from "@/lib/supabase/env";
 const PORTAL_PATHS = [
   "/parceiros/dashboard",
   "/parceiros/indicacoes",
-  "/parceiros/comissoes",
-  "/parceiros/saldo",
-  "/parceiros/saques",
+  "/parceiros/financeiro",
   "/parceiros/perfil",
 ];
 

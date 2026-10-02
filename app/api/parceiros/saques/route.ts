@@ -15,7 +15,7 @@ const MIN_WITHDRAWAL = 20;
 /**
  * Solicita o saque do saldo disponível. O valor NUNCA vem do corpo da
  * requisição — é sempre recalculado aqui a partir das comissões liberadas
- * menos saques já em andamento, exatamente como em /parceiros/saldo.
+ * menos saques já em andamento, exatamente como em /parceiros/financeiro.
  *
  * Aceita tanto a sessão via cookie (site web) quanto um token
  * "Authorization: Bearer" (app mobile) — o valor e a elegibilidade são

@@ -8,9 +8,7 @@ import LogoutButton from "./LogoutButton";
 const NAV_ITEMS = [
   { href: "/parceiros/dashboard", label: "Início", icon: "🏠" },
   { href: "/parceiros/indicacoes", label: "Indicações", icon: "🐾" },
-  { href: "/parceiros/comissoes", label: "Comissões", icon: "💰" },
-  { href: "/parceiros/saldo", label: "Saldo", icon: "💳" },
-  { href: "/parceiros/saques", label: "Saques", icon: "💸" },
+  { href: "/parceiros/financeiro", label: "Financeiro", icon: "💰" },
   { href: "/parceiros/perfil", label: "Perfil", icon: "👤" },
 ];
 
