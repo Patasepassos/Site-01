@@ -6,6 +6,7 @@ import { Suspense, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import PartnerPasswordResetFlow from "@/components/auth/PartnerPasswordResetFlow";
 import PasswordInput from "@/components/ui/PasswordInput";
+import { REMEMBER_ME_COOKIE, REMEMBER_ME_MAX_AGE_SECONDS } from "@/lib/partners/rememberMe";
 
 export default function LoginParceiroPage() {
   return (
@@ -22,6 +23,7 @@ function LoginForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [forgotMode, setForgotMode] = useState(false);
@@ -39,6 +41,13 @@ function LoginForm() {
       setLoading(false);
       return;
     }
+
+    // A sessão do Supabase em si já persiste por padrão -- esse cookie à
+    // parte é o que o middleware confere pra decidir se ainda deixa passar.
+    // Marcado: validade de 14 dias. Desmarcado: cookie de sessão (sem
+    // max-age), que o navegador apaga sozinho ao fechar.
+    const maxAge = rememberMe ? `; max-age=${REMEMBER_ME_MAX_AGE_SECONDS}` : "";
+    document.cookie = `${REMEMBER_ME_COOKIE}=1; path=/${maxAge}`;
 
     // A área de parceiro é separada da área do admin: login de parceiro
     // nunca leva a /admin, mesmo com ?redirect=/admin/... deixado de uma
@@ -107,6 +116,15 @@ function LoginForm() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+
+                <label className="pf-remember">
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                  />
+                  Lembrar login por 14 dias
+                </label>
 
                 {error && <p className="pf-error">{error}</p>}
 

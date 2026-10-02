@@ -1,6 +1,7 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseAnonKey, getSupabaseUrl } from "@/lib/supabase/env";
+import { REMEMBER_ME_COOKIE } from "@/lib/partners/rememberMe";
 
 // /parceiros/regras fica fora daqui de propósito: qualquer pessoa (mesmo
 // antes de se cadastrar) precisa poder ler as regras da parceria.
@@ -48,6 +49,26 @@ export async function middleware(request: NextRequest) {
     loginUrl.pathname = isAdminPath ? "/admin/login" : "/parceiros/login";
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
+  }
+
+  // "Lembrar login por 14 dias": a sessão do Supabase em si já persiste por
+  // muito mais tempo que isso por padrão -- esse cookie à parte é o que
+  // decide se ainda deixa passar. Marcado no login, dura 14 dias;
+  // desmarcado, é cookie de sessão e some ao fechar o navegador. Sem ele
+  // aqui (nunca existiu, ou expirou), força logout de verdade em vez de
+  // deixar a sessão antiga do Supabase seguir valendo escondida.
+  if (isPortalPath && user && !request.cookies.get(REMEMBER_ME_COOKIE)) {
+    await supabase.auth.signOut();
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = "/parceiros/login";
+    loginUrl.searchParams.set("redirect", pathname);
+    const redirectResponse = NextResponse.redirect(loginUrl);
+    // signOut() acima já mandou limpar os cookies de sessão através do
+    // adapter (que escreve em `response`, não no redirect) -- repassa pro
+    // response de verdade que vai pro navegador, senão a sessão do Supabase
+    // continua "viva" por trás mesmo depois do logout forçado.
+    response.cookies.getAll().forEach((cookie) => redirectResponse.cookies.set(cookie));
+    return redirectResponse;
   }
 
   if (isAdminPath && user) {
