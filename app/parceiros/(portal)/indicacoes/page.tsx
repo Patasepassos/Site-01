@@ -29,21 +29,18 @@ export default async function IndicacoesPage() {
     supabase.from("commissions").select("*").eq("partner_id", partnerId),
   ]);
 
-  // DEBUG temporário: a tela mostrava "nenhum cliente indicado" mesmo com
-  // indicação existente e visível pro admin, e o código nunca checava se
-  // essas duas queries vinham com erro (só assumia lista vazia). Isso
-  // confirma (ou descarta) um erro de RLS/query sendo engolido em silêncio.
+  // Achado em produção: essa query podia falhar (ex.: coluna ainda não
+  // migrada no banco) e o código assumia lista vazia em silêncio, mostrando
+  // "você ainda não tem clientes indicados" pra quem na verdade tinha --
+  // sem nenhum log nem aviso. Agora qualquer erro aqui fica registrado e a
+  // tela avisa que falhou, em vez de mentir dizendo que está vazia.
   if (customersError) {
-    console.error("[DEBUG indicacoes-page] erro ao buscar customers", { partnerId, error: customersError });
+    console.error("[indicacoes-page] erro ao buscar customers", { partnerId, error: customersError });
   }
   if (commissionsError) {
-    console.error("[DEBUG indicacoes-page] erro ao buscar commissions", { partnerId, error: commissionsError });
+    console.error("[indicacoes-page] erro ao buscar commissions", { partnerId, error: commissionsError });
   }
-  console.log("[DEBUG indicacoes-page] resultado", {
-    partnerId,
-    customersCount: customers?.length ?? null,
-    customersError: customersError?.message ?? null,
-  });
+  const loadFailed = Boolean(customersError);
 
   const bestCommissionByCustomerId = new Map<string, CommissionRow>();
   for (const c of commissions ?? []) {
@@ -57,13 +54,19 @@ export default async function IndicacoesPage() {
   return (
     <div className="portal-card">
       <h2>Minhas indicações</h2>
-      <p style={{ marginBottom: 4 }}>
-        {customers?.length ?? 0} {customers?.length === 1 ? "cliente indicado" : "clientes indicados"}
-      </p>
+      {loadFailed ? (
+        <p style={{ marginBottom: 4, color: "#C0392B" }}>
+          Não conseguimos carregar suas indicações agora. Tente recarregar a página em instantes.
+        </p>
+      ) : (
+        <p style={{ marginBottom: 4 }}>
+          {customers?.length ?? 0} {customers?.length === 1 ? "cliente indicado" : "clientes indicados"}
+        </p>
+      )}
 
       <div style={{ marginTop: 14 }}>
         <AddReferralForm />
-        {!customers || customers.length === 0 ? (
+        {loadFailed ? null : !customers || customers.length === 0 ? (
           <p>Você ainda não tem clientes indicados. Registre acima ou compartilhe seu cupom pra começar!</p>
         ) : (
           customers.map((c) => {
