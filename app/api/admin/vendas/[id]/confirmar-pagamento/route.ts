@@ -3,6 +3,7 @@ import { requireStaffUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/partners/audit";
 import { getPartnerProgress, recalculatePartnerCommissions } from "@/lib/partners/commission-engine";
+import { notifyPartner } from "@/lib/partners/notifications";
 import { describeError } from "@/lib/partners/errors";
 
 /**
@@ -42,9 +43,9 @@ export async function POST(request: Request, { params }: { params: { id: string 
 
     const progressAfter = await getPartnerProgress(supabaseAdmin, customer.partner_id);
     if (progressBefore.locked && !progressAfter.locked) {
-      await supabaseAdmin.from("partner_notifications").insert({
-        partner_id: customer.partner_id,
-        customer_id: sale.customer_id,
+      await notifyPartner(supabaseAdmin, {
+        partnerId: customer.partner_id,
+        customerId: sale.customer_id,
         type: "comissao_liberada",
         message: "🔓 Meta desbloqueada! Sua comissão já pode ser consultada e sacada.",
       });

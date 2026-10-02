@@ -2,6 +2,7 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database, FinancialDataStatus, PartnerRow } from "@/lib/supabase/types";
 import { onlyDigits } from "@/lib/partners/validation";
+import { notifyPartner } from "@/lib/partners/notifications";
 import { logAudit } from "./audit";
 
 export type EligibilityChecklist = {
@@ -91,8 +92,8 @@ export async function recomputePartnerEligibility(
       metadata: { eligible: checklist.eligible, checklist },
     });
 
-    await supabaseAdmin.from("partner_notifications").insert({
-      partner_id: partnerId,
+    await notifyPartner(supabaseAdmin, {
+      partnerId,
       type: "elegibilidade_atualizada",
       message: checklist.eligible
         ? "✅ Seus dados foram aprovados — você está apto a receber pagamentos."

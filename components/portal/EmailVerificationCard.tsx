@@ -3,7 +3,15 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function EmailVerificationCard({ email, verified }: { email: string; verified: boolean }) {
+export default function EmailVerificationCard({
+  email,
+  verified,
+  onVerified,
+}: {
+  email: string;
+  verified: boolean;
+  onVerified?: () => void;
+}) {
   const router = useRouter();
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,6 +36,7 @@ export default function EmailVerificationCard({ email, verified }: { email: stri
         setError(data.error ?? "Não foi possível verificar agora.");
         return;
       }
+      onVerified?.();
       router.refresh();
     } catch {
       setError("Falha de conexão. Tente novamente.");

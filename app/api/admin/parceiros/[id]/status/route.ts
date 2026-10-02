@@ -3,6 +3,7 @@ import { requireStaffUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/partners/audit";
 import { recomputePartnerEligibility } from "@/lib/partners/eligibility";
+import { notifyPartner } from "@/lib/partners/notifications";
 import { describeError } from "@/lib/partners/errors";
 import type { PartnerStatus } from "@/lib/supabase/types";
 
@@ -53,8 +54,8 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   // Só notifica o parceiro na transição real pending -> active (não repete a
   // cada re-salvamento do mesmo status "active").
   if (status === "active" && partner.status === "pending") {
-    await supabaseAdmin.from("partner_notifications").insert({
-      partner_id: params.id,
+    await notifyPartner(supabaseAdmin, {
+      partnerId: params.id,
       type: "parceiro_aprovado",
       message: "🎉 Você foi aprovado! Seu painel de parceiro Patas & Passos já está liberado.",
     });

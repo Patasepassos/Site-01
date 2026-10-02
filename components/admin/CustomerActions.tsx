@@ -39,12 +39,12 @@ export default function CustomerActions({
   const [paymentMethod, setPaymentMethod] = useState(PAYMENT_METHODS[0]);
   const [notes, setNotes] = useState("");
 
-  async function post(url: string, body?: Record<string, unknown>) {
+  async function post(url: string, body?: Record<string, unknown>, method?: "POST" | "PATCH") {
     setError(null);
     setLoading(true);
     try {
       const res = await fetch(url, {
-        method: body ? "POST" : "PATCH",
+        method: method ?? (body ? "POST" : "PATCH"),
         headers: { "Content-Type": "application/json" },
         body: body ? JSON.stringify(body) : undefined,
       });

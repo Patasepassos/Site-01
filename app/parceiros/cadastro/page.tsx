@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { onlyDigits } from "@/lib/partners/validation";
 import { waLink } from "@/lib/site";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import EmailVerificationCard from "@/components/portal/EmailVerificationCard";
 import type { PixKeyType } from "@/lib/supabase/types";
 
 const PIX_LABELS: Record<PixKeyType, string> = {
@@ -28,6 +30,7 @@ export default function CadastroParceiroPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [couponCode, setCouponCode] = useState<string | null>(null);
+  const [emailVerified, setEmailVerified] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -59,6 +62,18 @@ export default function CadastroParceiroPage() {
       }
 
       setCouponCode(data.couponCode);
+
+      // Login automático: o código de verificação de e-mail exige uma sessão
+      // (supabase.auth.getUser()), e a conta ainda "pendente" não tem acesso
+      // ao portal — sem isso o parceiro nunca conseguiria usar o código antes
+      // dele expirar em 10 minutos. Se o login automático falhar por algum
+      // motivo, o cadastro já foi concluído mesmo assim; o parceiro só
+      // precisará verificar o e-mail depois, pelo login normal.
+      try {
+        await createSupabaseBrowserClient().auth.signInWithPassword({ email, password });
+      } catch {
+        // silencioso: cadastro já foi concluído, verificação fica para depois
+      }
     } catch {
       setError("Falha de conexão. Tente novamente.");
     } finally {
@@ -80,6 +95,15 @@ export default function CadastroParceiroPage() {
             Seu cupom exclusivo é <b>{couponCode}</b>. Sua conta está <b>aguardando aprovação</b>{" "}
             da Patas &amp; Passos — assim que for aprovada, seu painel libera automaticamente.
           </p>
+
+          <div style={{ textAlign: "left", marginTop: 16 }}>
+            {emailVerified ? (
+              <p className="pf-success">✅ E-mail verificado! Já pode aguardar a aprovação tranquilo.</p>
+            ) : (
+              <EmailVerificationCard email={email} verified={false} onVerified={() => setEmailVerified(true)} />
+            )}
+          </div>
+
           <a
             className="btn btn-wa btn-lg"
             style={{ marginTop: 18 }}

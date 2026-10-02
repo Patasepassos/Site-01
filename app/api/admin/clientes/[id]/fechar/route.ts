@@ -3,6 +3,7 @@ import { requireStaffUser } from "@/lib/admin/guard";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/partners/audit";
 import { recalculatePartnerCommissions } from "@/lib/partners/commission-engine";
+import { notifyPartner } from "@/lib/partners/notifications";
 import { describeError } from "@/lib/partners/errors";
 import { formatCustomerLabel, SERVICE_LABELS } from "@/lib/partners/labels";
 import type { ContractType } from "@/lib/supabase/types";
@@ -88,9 +89,9 @@ export async function POST(request: Request, { params }: { params: { id: string 
       .eq("id", customer.id);
     if (customerError) throw customerError;
 
-    await supabaseAdmin.from("partner_notifications").insert({
-      partner_id: customer.partner_id,
-      customer_id: customer.id,
+    await notifyPartner(supabaseAdmin, {
+      partnerId: customer.partner_id,
+      customerId: customer.id,
       type: "indicacao_convertida",
       message: `🎉 Venda fechada! Sua indicação (${formatCustomerLabel(customer.sequence_number)} — ${SERVICE_LABELS[customer.service]}) foi convertida em cliente da Patas & Passos.`,
     });

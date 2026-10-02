@@ -4,6 +4,7 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/partners/audit";
 import { markCommissionsAsPaid } from "@/lib/partners/commission-engine";
 import { recomputePartnerEligibility } from "@/lib/partners/eligibility";
+import { notifyPartner } from "@/lib/partners/notifications";
 import { getActivePaymentProvider } from "@/lib/payments/provider";
 import { describeError } from "@/lib/partners/errors";
 import { formatBRL } from "@/lib/partners/labels";
@@ -143,8 +144,8 @@ export async function POST(request: Request, { params }: { params: { id: string 
 
     await markCommissionsAsPaid(supabaseAdmin, payout.partner_id, Number(payout.amount));
 
-    await supabaseAdmin.from("partner_notifications").insert({
-      partner_id: payout.partner_id,
+    await notifyPartner(supabaseAdmin, {
+      partnerId: payout.partner_id,
       type: "saque_atualizado",
       message: `💰 Seu pagamento de ${formatBRL(Number(payout.amount))} foi confirmado.`,
     });
