@@ -7,6 +7,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import RankGrid from "@/components/portal/RankGrid";
 import RankUpWatcher from "@/components/portal/RankUpWatcher";
+import RankMotivationBanner from "@/components/portal/RankMotivationBanner";
 import ServiceShareCards from "@/components/portal/ServiceShareCards";
 import { RANK_IMAGE } from "@/lib/partners/rankTheme";
 
@@ -39,11 +40,14 @@ export default async function DashboardPage() {
   return (
     <>
       {rank.currentTier && (
-        <RankUpWatcher
-          partnerId={partnerId}
-          currentTierKey={rank.currentTier.key}
-          sortOrder={rank.currentTier.sort_order}
-        />
+        <>
+          <RankUpWatcher
+            partnerId={partnerId}
+            currentTierKey={rank.currentTier.key}
+            sortOrder={rank.currentTier.sort_order}
+          />
+          <RankMotivationBanner partnerId={partnerId} rankKey={rank.currentTier.key} />
+        </>
       )}
 
       <section className="pp-hero">
