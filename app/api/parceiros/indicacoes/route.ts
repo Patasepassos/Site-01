@@ -101,6 +101,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Não foi possível registrar a indicação." }, { status: 500 });
   }
 
+  // DEBUG temporário: confirma com uma releitura separada que a linha está
+  // mesmo visível logo depois do insert, com o partner_id/status corretos.
+  const { data: verify, error: verifyError } = await supabaseAdmin
+    .from("customers")
+    .select("id, partner_id, status, archived_at, is_test, created_at")
+    .eq("id", customer.id)
+    .maybeSingle();
+  console.log("[DEBUG indicacoes] insert", {
+    customerId: customer.id,
+    sequenceNumber: customer.sequence_number,
+    partnerId: partner.id,
+    partnerCoupon: partner.coupon_code,
+    partnerStatus: partner.status,
+  });
+  console.log("[DEBUG indicacoes] releitura pós-insert", { verify, verifyError });
+
   await logAudit(supabaseAdmin, {
     actorId: userId,
     actorRole: "partner",
