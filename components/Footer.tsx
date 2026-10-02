@@ -11,8 +11,8 @@ export default function Footer() {
             <img src="/logo-main.png" alt="Patas & Passos" style={{ height: 60, width: "auto", objectFit: "contain" }} />
           </div>
           <p>
-            Mais do que um passeio, uma jornada de bem-estar para o seu melhor amigo. Passeios,
-            pet sitter, hotel e vacinas a domicílio com amor e segurança.
+            Cuidando de quem faz parte da sua família: passeios, pet sitter, creche, hotel e
+            vacinas a domicílio, com amor, atenção e segurança.
           </p>
         </div>
         <div>
@@ -20,16 +20,26 @@ export default function Footer() {
           <Link href="/passeios">Passeios (Dog Walker)</Link>
           <Link href="/socializacao">Socialização</Link>
           <Link href="/pet-sitter">Pet Sitter</Link>
+          <Link href="/creche">Creche</Link>
           <Link href="/hotel">Hotel</Link>
           <Link href="/vacinas">Vacinas a domicílio</Link>
         </div>
         <div>
           <h4>Patas &amp; Passos</h4>
           <Link href="/">Início</Link>
-          <Link href="/parceiros">Parceiros</Link>
+          <Link href="/parceiros">Afiliados</Link>
+          <Link href="/parceiros/login">Área de Afiliado</Link>
           <a href={siteConfig.instagram} target="_blank" rel="noopener">
             Instagram
           </a>
+          <a href={siteConfig.googleReview} target="_blank" rel="noopener">
+            Avalie a gente no Google
+          </a>
+        </div>
+        <div>
+          <h4>Cuidado Responsável</h4>
+          <Link href="/guarda-responsavel">Guarda Responsável</Link>
+          <Link href="/maus-tratos">Maus-Tratos · Como Denunciar</Link>
         </div>
         <div>
           <h4>Fale com a gente</h4>
@@ -41,7 +51,10 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        © 2026 Patas &amp; Passos · Cuidado com amor e segurança
+        <Link href="/admin/login" aria-label="Acesso administrativo" style={{ color: "inherit", textDecoration: "none" }}>
+          ©
+        </Link>{" "}
+        2026 Patas &amp; Passos · Cuidado com amor e segurança
         <span style={{ margin: "0 10px", opacity: 0.4 }}>·</span>
         Desenvolvido por{" "}
         <a href="https://dolvitta.com.br" target="_blank" rel="noopener" style={{ color: "rgba(245,239,230,.65)", textDecoration: "underline" }}>

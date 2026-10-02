@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import MascotAuau from "@/components/mascot/MascotAuau";
-import { waLink, waMessages } from "@/lib/site";
+import AuthHashErrorRedirect from "@/components/AuthHashErrorRedirect";
+import { siteConfig, waLink, waMessages } from "@/lib/site";
 
 const Paw = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
@@ -20,38 +22,41 @@ const WaIcon = () => (
   </svg>
 );
 
-const PLANS = [
-  {
-    id: "dia", label: "Dia", price: "50", promo: "7 primeiros dias por R$30", featured: false,
-    items: ["30 min de passeio", "Com outros pets (preferência do dono)", "5 fotos do seu pet", "Relatório simples"],
-  },
-  {
-    id: "mes", label: "Mês", price: "890", promo: "Primeiro mês por R$790", featured: true,
-    items: ["30 min de passeio", "Com outros pets (preferência do dono)", "5 fotos + 5 gravações", "Relatório completo de atividade"],
-  },
-  {
-    id: "anual", label: "Anual", price: "3.800", promo: "Primeiro ano por R$2.500", featured: false,
-    items: ["Até 8 passeios por mês", "1h de passeio (amigos ou solo)", "10 fotos + 10 gravações", "Relatório completo + preferência de horários"],
-  },
-];
+type HomeProps = { searchParams: { code?: string; error?: string; error_code?: string } };
 
-export default function Home() {
+export default function Home({ searchParams }: HomeProps) {
+  // Rede de segurança: o GoTrue do Supabase às vezes ignora o `redirectTo`
+  // (ex.: se a URL de callback ainda não está na allow-list do projeto) e
+  // manda o link de recuperação/confirmação direto pra Site URL (a raiz).
+  // Sem isso, o código chegaria aqui e seria simplesmente ignorado — a
+  // página inicial não faz nada com ele. Encaminha pro mesmo processamento
+  // de sempre em vez de deixar o parceiro travado numa home sem sentido.
+  if (searchParams.code) {
+    redirect(`/auth/callback?code=${encodeURIComponent(searchParams.code)}`);
+  }
+  if (searchParams.error || searchParams.error_code) {
+    redirect("/parceiros/login?erro=link-invalido");
+  }
+
   const wa = waLink(waMessages.default);
   const waVisita = waLink(waMessages.visita);
 
   return (
     <div className="wrap">
+      <AuthHashErrorRedirect />
 
       {/* ── HERO ─────────────────────────────────────── */}
       <section className="hero">
         <div className="hero-text">
           <span className="eyebrow"><Paw /> São Caetano do Sul · SP</span>
           <h1>
-            Mais do que um passeio. Uma jornada de <span className="hl">bem-estar.</span>
+            Porque pet não é apenas um animal de estimação. <span className="hl">É família.</span>
           </h1>
           <p className="lead">
-            Oferecemos saúde, energia e felicidade para o seu melhor amigo, com passeios seguros e
-            personalizados em São Caetano do Sul.
+            Você ama o seu pet. Mas a rotina nem sempre deixa tempo pra oferecer tudo o que ele
+            precisa — passeio, energia gasta, companhia, atenção. A Patas & Passos existe pra
+            ajudar você a cuidar melhor, com passeios, pet sitter, creche, hotel e vacinas a
+            domicílio.
           </p>
           <div className="cta-row">
             <a className="btn btn-blue btn-lg" href={wa} target="_blank" rel="noopener">
@@ -60,7 +65,7 @@ export default function Home() {
             <Link className="btn btn-white btn-lg" href="/passeios">Conhecer cuidados</Link>
           </div>
           <div className="trust-row">
-            <div className="trust-item"><Paw size={16} /> Atendimento local</div>
+            <div className="trust-item"><Paw size={16} /> Cuidado presente</div>
             <div className="trust-item"><Paw size={16} /> Rotina respeitada</div>
             <div className="trust-item"><Paw size={16} /> Amor &amp; segurança</div>
           </div>
@@ -84,47 +89,84 @@ export default function Home() {
             <path d="M4 22 Q20 4 38 18 T74 18 T110 16" fill="none" stroke="#A36C43" strokeWidth="6" strokeLinecap="round" />
           </svg>
           <div className="gratis">Primeiro<br />passo</div>
+          <a
+            className="rate-badge"
+            href={siteConfig.googleBusiness}
+            target="_blank"
+            rel="noopener"
+            aria-label="Ver avaliações no Google"
+          >
+            <span className="rate-stars">★★★★★</span>
+            Ver<br />avaliações
+          </a>
           <div className="blob" />
           <div className="dog-stage"><MascotAuau /></div>
         </div>
       </section>
 
-      {/* ── PLANOS ───────────────────────────────────── */}
-      <section className="section" id="planos">
+      {/* ── PROPÓSITO ────────────────────────────────── */}
+      <section className="section" id="proposito">
         <div className="sec-head center reveal">
-          <span className="eyebrow">Investimento</span>
-          <h2 className="h-lg">Planos para <span className="hl">cada rotina</span></h2>
-          <p className="lead">Todos incluem busca na sua casa e muito carinho!</p>
+          <span className="eyebrow"><Paw /> Por que existimos</span>
+          <h2 className="h-lg">Não é sobre amar menos. <span className="hl">É sobre cuidar melhor.</span></h2>
+          <p className="lead">
+            Trabalho, estudo, viagens, compromissos que não param. A vida adulta ficou corrida — e
+            o seu pet continua precisando da mesma coisa de sempre: passear, gastar energia,
+            explorar, receber atenção, manter uma rotina. Sabemos que você ama o seu pet. Sabemos
+            também que a rotina nem sempre permite estar presente em todos os momentos. É por isso
+            que existimos.
+          </p>
         </div>
-        <div className="cards c3" style={{ alignItems: "stretch" }}>
-          {PLANS.map(({ id, label, price, promo, items, featured }) => (
-            <div key={id} className="card reveal" style={{ display: "flex", flexDirection: "column", position: "relative" }}>
-              {featured && (
-                <span style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "var(--blue)", color: "#fff", fontSize: 11, fontWeight: 600, padding: "3px 14px", borderRadius: 20, whiteSpace: "nowrap", letterSpacing: ".06em" }}>
-                  MAIS POPULAR
-                </span>
-              )}
-              <p style={{ fontSize: 13, color: "var(--ink-soft)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".06em", margin: "0 0 6px" }}>{label}</p>
-              <p style={{ fontSize: 36, fontWeight: 700, color: "var(--blue)", margin: "0 0 4px", lineHeight: 1 }}>
-                R${price}<span style={{ fontSize: 15, fontWeight: 400, color: "var(--ink-soft)" }}>/{id}</span>
-              </p>
-              <p style={{ fontSize: 12, color: "var(--ink-soft)", margin: "0 0 16px" }}>{promo}</p>
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", flex: 1 }}>
-                {items.map((item, i) => (
-                  <li key={i} style={{ fontSize: 14, padding: "6px 0", borderBottom: "0.5px solid var(--blue-soft)", display: "flex", gap: 8 }}>
-                    <span style={{ color: "#2D8C5F", flexShrink: 0 }}>✓</span> {item}
-                  </li>
-                ))}
-              </ul>
-              <a className={`btn btn-lg${featured ? " btn-blue" : " btn-white"}`} href={waVisita} target="_blank" rel="noopener" style={{ textAlign: "center" }}>
-                Escolher este plano
-              </a>
+        <div className="cards c3">
+          {[
+            ["🐾", "Presença todos os dias", "Passeios, visitas, creche, hospedagem e vacinação — alguém de confiança olhando pelo seu pet quando você não pode."],
+            ["💛", "Uma ponte, não um substituto", "Não queremos ocupar o seu lugar na vida do seu pet. Queremos ajudar você a conseguir oferecer a ele o que a rotina sozinha não dá conta."],
+            ["🏡", "Mais tempo de qualidade juntos", "Quando alguém cuida da parte da rotina que você não alcança, sobra mais tempo — e mais energia — pra viverem o resto do dia juntos."],
+          ].map(([e, t, d]) => (
+            <div key={t as string} className="card reveal" style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 24, marginBottom: 8 }}>{e}</div>
+              <h3 className="h-md">{t as string}</h3>
+              <p style={{ fontSize: 13 }}>{d as string}</p>
             </div>
           ))}
         </div>
-        <p style={{ textAlign: "center", fontSize: 13, color: "var(--ink-soft)", marginTop: 20 }}>
-          WhatsApp: (11) 92171-2012 · Agendando os 7 primeiros dias, você paga valor reduzido!
+        <p className="lead" style={{ maxWidth: 640, margin: "28px auto 0", textAlign: "center" }}>
+          A Patas &amp; Passos nasceu para ser a ponte entre o amor que uma família sente pelo seu
+          pet e os cuidados que ele precisa todos os dias. Acreditamos que isso muda, um pet de
+          cada vez, a forma como o mundo cuida dos animais.
         </p>
+      </section>
+
+      {/* ── SERVIÇOS ─────────────────────────────────── */}
+      <section className="section" id="servicos">
+        <div className="sec-head center reveal">
+          <span className="eyebrow"><Paw /> O que oferecemos</span>
+          <h2 className="h-lg">Mais do que serviços, <span className="hl">cuidado</span></h2>
+          <p className="lead">Um jeito de cuidar pra cada momento da rotina do seu pet.</p>
+        </div>
+        <div className="cards c3">
+          {[
+            ["🐕", "Dog Walker", "Passeios personalizados, com busca em casa, pra gastar energia com segurança.", "/passeios"],
+            ["🏡", "Pet Sitter", "Cuidado no próprio ambiente do seu pet, respeitando a rotina dele.", "/pet-sitter"],
+            ["🧸", "Creche", "Um dia cheio de convivência, brincadeira e supervisão.", "/creche"],
+            ["🛏️", "Hotel Pet", "Hospedagem com conforto e companhia quando você precisa viajar.", "/hotel"],
+            ["💉", "Vacinação a domicílio", "Vacinas aplicadas no conforto e na segurança de casa.", "/vacinas"],
+          ].map(([e, t, d, href]) => (
+            <Link
+              key={t as string}
+              href={href as string}
+              className="card reveal"
+              style={{ textAlign: "center", textDecoration: "none", color: "inherit" }}
+            >
+              <div style={{ fontSize: 28, marginBottom: 8 }}>{e}</div>
+              <h3 className="h-md">{t as string}</h3>
+              <p style={{ fontSize: 13 }}>{d as string}</p>
+              <span style={{ fontSize: 13, color: "var(--brown)", fontWeight: 600, marginTop: 8, display: "block" }}>
+                Saiba mais →
+              </span>
+            </Link>
+          ))}
+        </div>
       </section>
 
       {/* ── SOBRE ────────────────────────────────────── */}
@@ -135,12 +177,18 @@ export default function Home() {
         </div>
         <div className="sobre-grid">
           <div className="card reveal" style={{ textAlign: "center" }}>
-            <div style={{ width: 64, height: 64, borderRadius: "50%", background: "var(--blue)", color: "#fff", fontSize: 26, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}>T</div>
+            <div style={{ width: 64, height: 64, borderRadius: "50%", overflow: "hidden", margin: "0 auto 14px" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/team/thiago.jpg" alt="Thiago" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 28%", display: "block" }} />
+            </div>
             <h3 className="h-md">Thiago</h3>
             <p style={{ fontSize: 14 }}>Apaixonado por animais, encontrou no cuidado com os pets uma forma de transformar isso em propósito. Garante passeios seguros, equilibrados e felizes.</p>
           </div>
           <div className="card reveal" style={{ textAlign: "center" }}>
-            <div style={{ width: 64, height: 64, borderRadius: "50%", background: "var(--green)", color: "#fff", fontSize: 26, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}>M</div>
+            <div style={{ width: 64, height: 64, borderRadius: "50%", overflow: "hidden", margin: "0 auto 14px" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/team/mariana.jpg" alt="Mariana" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "65% 20%", display: "block" }} />
+            </div>
             <h3 className="h-md">Mariana</h3>
             <p style={{ fontSize: 14 }}>Veterinária e esposa do Thiago, traz segurança e confiança para o trabalho. Cuida da saúde e bem-estar de cada pet com conhecimento técnico.</p>
           </div>
@@ -172,8 +220,8 @@ export default function Home() {
             </g>
           </svg>
           <div style={{ position: "relative", zIndex: 2 }}>
-            <h2>Agende o primeiro passo hoje 🐾</h2>
-            <p>Entre em contato pelo WhatsApp. Respondemos em minutos!</p>
+            <h2>Mais cuidado, mais carinho, mais qualidade de vida 🐾</h2>
+            <p>Fale com a gente pelo WhatsApp e comece hoje a dar mais tranquilidade pro seu pet e pra você.</p>
           </div>
           <a className="btn btn-white btn-lg" style={{ position: "relative", zIndex: 2 }} href={waVisita} target="_blank" rel="noopener">
             Agendar agora
