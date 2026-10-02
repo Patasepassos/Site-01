@@ -94,7 +94,7 @@ export async function POST(request: Request) {
       html: `<p>Um parceiro solicitou saque.</p>
 <p><strong>Cupom do parceiro:</strong> ${partner.coupon_code}<br/>
 <strong>Valor:</strong> R$ ${Number(payout.amount).toFixed(2).replace(".", ",")}</p>
-<p>Revise e aprove em /admin/saques.</p>`,
+<p>Revise e aprove em /admin/financeiro.</p>`,
     });
   } catch (err) {
     console.error("Falha ao notificar admin sobre solicitação de saque:", describeError(err));

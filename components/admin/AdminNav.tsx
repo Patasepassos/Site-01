@@ -6,8 +6,7 @@ import { usePathname } from "next/navigation";
 const BASE_ITEMS = [
   { href: "/admin", label: "Início", icon: "📊", adminOnly: false },
   { href: "/admin/parceiros", label: "Parceiros", icon: "🐾", adminOnly: false },
-  { href: "/admin/comissoes", label: "Comissões", icon: "💰", adminOnly: false },
-  { href: "/admin/saques", label: "Saques", icon: "💸", adminOnly: false },
+  { href: "/admin/financeiro", label: "Financeiro", icon: "💰", adminOnly: false },
   { href: "/admin/perfil", label: "Perfil", icon: "👤", adminOnly: false },
   { href: "/admin/regras", label: "Regras", icon: "⚙️", adminOnly: true },
   { href: "/admin/ranks", label: "Ranks", icon: "🏆", adminOnly: true },
