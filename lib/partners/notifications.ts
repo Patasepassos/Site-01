@@ -10,6 +10,7 @@ const NOTIFICATION_TYPE_SUBJECTS: Record<NotificationType, string> = {
   saque_atualizado: "💰 Saque atualizado",
   elegibilidade_atualizada: "✅ Seus dados foram atualizados",
   parceiro_aprovado: "🐾 Você foi aprovado!",
+  parceiro_bloqueado: "⚠️ Atualização da sua conta de parceiro",
   indicacao_status_atualizado: "📞 Atualização da sua indicação",
 };
 

@@ -24,6 +24,7 @@ export type NotificationType =
   | "saque_atualizado"
   | "elegibilidade_atualizada"
   | "parceiro_aprovado"
+  | "parceiro_bloqueado"
   | "indicacao_status_atualizado";
 export type UserRole = "admin" | "operator" | "partner";
 export type CpfVerificationStatus = "pending" | "verified" | "failed";

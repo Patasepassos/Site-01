@@ -51,13 +51,22 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     return NextResponse.json({ error: "Não foi possível atualizar o parceiro." }, { status: 500 });
   }
 
-  // Só notifica o parceiro na transição real pending -> active (não repete a
-  // cada re-salvamento do mesmo status "active").
+  // Só notifica o parceiro em transições reais de status (nunca repete a
+  // cada re-salvamento do mesmo status).
   if (status === "active" && partner.status === "pending") {
     await notifyPartner(supabaseAdmin, {
       partnerId: params.id,
       type: "parceiro_aprovado",
       message: "🎉 Você foi aprovado! Seu painel de parceiro Patas & Passos já está liberado.",
+    });
+  } else if (status === "blocked" && partner.status !== "blocked") {
+    await notifyPartner(supabaseAdmin, {
+      partnerId: params.id,
+      type: "parceiro_bloqueado",
+      message:
+        partner.status === "pending"
+          ? "Sua solicitação para ser parceiro(a) Patas & Passos não foi aprovada neste momento. Fale com a gente pelo WhatsApp se quiser entender melhor."
+          : "Sua conta de parceiro foi bloqueada. Fale com a Patas & Passos pelo WhatsApp se achar que isso é um engano.",
     });
   }
 
