@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { onlyDigits } from "@/lib/partners/validation";
 import { waLink } from "@/lib/site";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import EmailVerificationCard from "@/components/portal/EmailVerificationCard";
 import PasswordInput from "@/components/ui/PasswordInput";
+import { playCelebrationChime } from "@/lib/sound/celebration";
 import type { PixKeyType } from "@/lib/supabase/types";
 
 const PIX_LABELS: Record<PixKeyType, string> = {
@@ -32,6 +33,13 @@ export default function CadastroParceiroPage() {
   const [error, setError] = useState<string | null>(null);
   const [couponCode, setCouponCode] = useState<string | null>(null);
   const [emailVerified, setEmailVerified] = useState(false);
+
+  // Toca só na transição pra tela de sucesso (nunca de novo ao atualizar a
+  // página — um F5 aqui volta pro formulário, já que couponCode não é
+  // persistido em lugar nenhum).
+  useEffect(() => {
+    if (couponCode) playCelebrationChime();
+  }, [couponCode]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -89,10 +97,20 @@ export default function CadastroParceiroPage() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo-main.png" alt="Patas & Passos" />
         </Link>
-        <div className="portal-auth-card" style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 44, marginBottom: 10 }}>🐾</div>
-          <h1>Cadastro enviado!</h1>
+        <div className="portal-auth-card welcome-card" style={{ textAlign: "center" }}>
+          <div className="welcome-icon" style={{ fontSize: 44, marginBottom: 10 }}>🎉🐾</div>
+          <h1>Seja muito bem-vindo à Patas &amp; Passos!</h1>
           <p className="lead">
+            Estamos muito felizes em receber você! Obrigado por escolher fazer parte da nossa rede
+            de parceiros. Seu cadastro foi recebido com muito carinho e agora passará pela nossa
+            análise.
+          </p>
+          <p className="lead">
+            Estamos construindo uma parceria feita para crescer junto, e esperamos ter você com a
+            gente nessa jornada. 💛
+          </p>
+          <p className="lead">Obrigado pela confiança. Será um prazer ter você no nosso time!</p>
+          <p className="lead" style={{ marginTop: 14 }}>
             Seu cupom exclusivo é <b>{couponCode}</b>. Sua conta está <b>aguardando aprovação</b>{" "}
             da Patas &amp; Passos — assim que for aprovada, seu painel libera automaticamente.
           </p>
