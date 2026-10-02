@@ -11,6 +11,7 @@ import { createSupabaseBrowserClient } from "@/lib/supabase/client";
  */
 export default function ReportIssueButton() {
   const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -67,7 +68,12 @@ export default function ReportIssueButton() {
       <button
         type="button"
         onClick={() => setOpen(true)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onFocus={() => setHovered(true)}
+        onBlur={() => setHovered(false)}
         aria-label="Reportar um problema"
+        title="Reportar um problema"
         style={{
           position: "fixed",
           bottom: 20,
@@ -77,14 +83,23 @@ export default function ReportIssueButton() {
           color: "#fff",
           border: "none",
           borderRadius: 999,
-          padding: "10px 16px",
+          height: 44,
+          minWidth: 44,
+          padding: hovered ? "10px 16px" : "10px",
           fontSize: 13,
           fontWeight: 700,
           cursor: "pointer",
           boxShadow: "0 4px 14px rgba(0,0,0,0.25)",
+          display: "flex",
+          alignItems: "center",
+          gap: hovered ? 6 : 0,
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          transition: "padding .18s ease, gap .18s ease",
         }}
       >
-        🐞 Reportar um problema
+        <span aria-hidden="true" style={{ fontSize: 16, lineHeight: 1 }}>🐞</span>
+        {hovered && <span>Reportar um problema</span>}
       </button>
 
       {open && (
