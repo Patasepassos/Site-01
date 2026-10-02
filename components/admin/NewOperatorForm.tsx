@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import PasswordInput from "@/components/ui/PasswordInput";
 
 export default function NewOperatorForm() {
   const router = useRouter();
@@ -59,9 +60,8 @@ export default function NewOperatorForm() {
       </div>
 
       <label className="pf-label" htmlFor="op-password">Senha inicial</label>
-      <input
+      <PasswordInput
         id="op-password"
-        type="password"
         className="pf-input"
         value={password}
         onChange={(e) => setPassword(e.target.value)}

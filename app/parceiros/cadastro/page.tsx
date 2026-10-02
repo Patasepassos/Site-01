@@ -6,6 +6,7 @@ import { onlyDigits } from "@/lib/partners/validation";
 import { waLink } from "@/lib/site";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import EmailVerificationCard from "@/components/portal/EmailVerificationCard";
+import PasswordInput from "@/components/ui/PasswordInput";
 import type { PixKeyType } from "@/lib/supabase/types";
 
 const PIX_LABELS: Record<PixKeyType, string> = {
@@ -190,9 +191,8 @@ export default function CadastroParceiroPage() {
           <div className="pf-row">
             <div>
               <label className="pf-label" htmlFor="password">Senha</label>
-              <input
+              <PasswordInput
                 id="password"
-                type="password"
                 className="pf-input"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -203,9 +203,8 @@ export default function CadastroParceiroPage() {
             </div>
             <div>
               <label className="pf-label" htmlFor="confirmPassword">Confirmar senha</label>
-              <input
+              <PasswordInput
                 id="confirmPassword"
-                type="password"
                 className="pf-input"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}

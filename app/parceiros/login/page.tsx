@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import ForgotPasswordForm from "@/components/auth/ForgotPasswordForm";
+import PasswordInput from "@/components/ui/PasswordInput";
 
 export default function LoginParceiroPage() {
   return (
@@ -99,9 +100,8 @@ function LoginForm() {
                 />
 
                 <label className="pf-label" htmlFor="password">Senha</label>
-                <input
+                <PasswordInput
                   id="password"
-                  type="password"
                   className="pf-input"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

@@ -89,6 +89,23 @@ export default async function PortalLayout({ children }: { children: React.React
             <PortalDesktopNav />
           </header>
 
+          <div
+            style={{
+              background: "#fff3cd",
+              color: "#6b4e00",
+              padding: "10px 16px",
+              fontSize: 13,
+              lineHeight: 1.5,
+              borderBottom: "1px solid #ffe69c",
+            }}
+          >
+            <strong>🚧 Portal de Parceiros — Fase Beta</strong>
+            <br />
+            O Portal de Parceiros está em evolução para oferecer uma experiência segura, simples e
+            completa. Recursos como indicações, comissões, saldo e notificações estão sendo
+            aprimorados e liberados gradualmente.
+          </div>
+
           <div className="portal-content">{children}</div>
 
           <PortalBottomNav />

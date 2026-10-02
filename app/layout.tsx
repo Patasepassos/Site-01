@@ -4,6 +4,7 @@ import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
 import RevealInit from "@/components/RevealInit";
+import ReportIssueButton from "@/components/ReportIssueButton";
 
 const heading = Cormorant_Garamond({
   subsets: ["latin"],
@@ -74,6 +75,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </noscript>
         <SiteChrome>{children}</SiteChrome>
         <RevealInit />
+        <ReportIssueButton />
       </body>
     </html>
   );

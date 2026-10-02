@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { validatePasswordPolicy } from "@/lib/partners/password-policy";
+import PasswordInput from "@/components/ui/PasswordInput";
 
 export default function ChangePasswordForm() {
   const [password, setPassword] = useState("");
@@ -57,9 +58,8 @@ export default function ChangePasswordForm() {
   return (
     <form onSubmit={handleSubmit}>
       <label className="pf-label" htmlFor="newPassword">Nova senha</label>
-      <input
+      <PasswordInput
         id="newPassword"
-        type="password"
         className="pf-input"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
@@ -68,9 +68,8 @@ export default function ChangePasswordForm() {
       />
       <p className="pf-hint">Mínimo 10 caracteres, com maiúscula, minúscula, número e símbolo.</p>
       <label className="pf-label" htmlFor="confirmNewPassword">Confirmar nova senha</label>
-      <input
+      <PasswordInput
         id="confirmNewPassword"
-        type="password"
         className="pf-input"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
