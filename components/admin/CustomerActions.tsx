@@ -117,7 +117,7 @@ export default function CustomerActions({
           value=""
           disabled={loading}
           onChange={(e) => {
-            if (e.target.value) post(`/api/admin/clientes/${customerId}/status`, { status: e.target.value });
+            if (e.target.value) post(`/api/admin/clientes/${customerId}/status`, { status: e.target.value }, "PATCH");
           }}
         >
           <option value="" disabled>Mover para…</option>
