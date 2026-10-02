@@ -53,9 +53,10 @@ export default function Home({ searchParams }: HomeProps) {
             Porque pet não é apenas um animal de estimação. <span className="hl">É família.</span>
           </h1>
           <p className="lead">
-            Ajudamos tutores a proporcionar mais qualidade de vida, carinho e segurança para os
-            seus pets — com passeios, pet sitter, creche, hotel e vacinas a domicílio, mesmo
-            quando a rotina aperta.
+            Você ama o seu pet. Mas a rotina nem sempre deixa tempo pra oferecer tudo o que ele
+            precisa — passeio, energia gasta, companhia, atenção. A Patas & Passos existe pra
+            ajudar você a cuidar melhor, com passeios, pet sitter, creche, hotel e vacinas a
+            domicílio.
           </p>
           <div className="cta-row">
             <a className="btn btn-blue btn-lg" href={wa} target="_blank" rel="noopener">
@@ -107,18 +108,20 @@ export default function Home({ searchParams }: HomeProps) {
       <section className="section" id="proposito">
         <div className="sec-head center reveal">
           <span className="eyebrow"><Paw /> Por que existimos</span>
-          <h2 className="h-lg">Cuidando de quem <span className="hl">faz parte da sua família</span></h2>
+          <h2 className="h-lg">Não é sobre amar menos. <span className="hl">É sobre cuidar melhor.</span></h2>
           <p className="lead">
-            Sabemos como é difícil conciliar trabalho, compromissos e imprevistos com o cuidado
-            que o seu pet merece todos os dias. A Patas & Passos nasceu justamente para preencher
-            essa lacuna — para que a sua ausência nunca signifique menos atenção pra ele.
+            Trabalho, estudo, viagens, compromissos que não param. A vida adulta ficou corrida — e
+            o seu pet continua precisando da mesma coisa de sempre: passear, gastar energia,
+            explorar, receber atenção, manter uma rotina. Sabemos que você ama o seu pet. Sabemos
+            também que a rotina nem sempre permite estar presente em todos os momentos. É por isso
+            que existimos.
           </p>
         </div>
         <div className="cards c3">
           {[
             ["🐾", "Presença todos os dias", "Passeios, visitas, creche, hospedagem e vacinação — alguém de confiança olhando pelo seu pet quando você não pode."],
-            ["💛", "Cuidado, não só serviço", "Atenção, carinho e segurança de verdade, pensados pra saúde e o equilíbrio emocional de cada pet."],
-            ["🏡", "Tranquilidade pra você", "Acreditamos que, quando o tutor encontra apoio para cuidar da rotina do seu pet, aumentam as possibilidades de oferecer uma vida mais saudável, feliz e segura ao animal."],
+            ["💛", "Uma ponte, não um substituto", "Não queremos ocupar o seu lugar na vida do seu pet. Queremos ajudar você a conseguir oferecer a ele o que a rotina sozinha não dá conta."],
+            ["🏡", "Mais tempo de qualidade juntos", "Quando alguém cuida da parte da rotina que você não alcança, sobra mais tempo — e mais energia — pra viverem o resto do dia juntos."],
           ].map(([e, t, d]) => (
             <div key={t as string} className="card reveal" style={{ textAlign: "center" }}>
               <div style={{ fontSize: 24, marginBottom: 8 }}>{e}</div>
@@ -128,8 +131,9 @@ export default function Home({ searchParams }: HomeProps) {
           ))}
         </div>
         <p className="lead" style={{ maxWidth: 640, margin: "28px auto 0", textAlign: "center" }}>
-          Queremos contribuir para que nenhum pet fique para trás só porque sua família está
-          enfrentando dificuldade para conciliar a rotina com os cuidados do dia a dia.
+          A Patas &amp; Passos nasceu para ser a ponte entre o amor que uma família sente pelo seu
+          pet e os cuidados que ele precisa todos os dias. Acreditamos que isso muda, um pet de
+          cada vez, a forma como o mundo cuida dos animais.
         </p>
       </section>
 

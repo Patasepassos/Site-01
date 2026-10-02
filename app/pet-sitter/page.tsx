@@ -54,8 +54,9 @@ export default function PetSitterPage() {
             Cuidado no conforto da <span className="hl">própria casa</span>
           </h1>
           <p className="lead">
-            Quando você precisa se ausentar, a gente vai até o seu pet. Ele fica no ambiente que
-            conhece, com a rotina de sempre — sem o stress de mudar de lugar.
+            Quando você não pode estar, alguém de confiança pode estar. A gente vai até o seu pet,
+            que fica no ambiente que já conhece, com a rotina de sempre — pra você viajar,
+            trabalhar ou resolver a vida sem deixar de cuidar.
           </p>
           <div className="cta-row" style={{ display: "flex", gap: 16, marginTop: 30, flexWrap: "wrap" }}>
             <a className="btn btn-wa btn-lg" href={wa} target="_blank" rel="noopener">

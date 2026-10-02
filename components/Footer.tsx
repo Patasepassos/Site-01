@@ -27,14 +27,19 @@ export default function Footer() {
         <div>
           <h4>Patas &amp; Passos</h4>
           <Link href="/">Início</Link>
-          <Link href="/parceiros">Parceiros</Link>
-          <Link href="/parceiros/login">Área de Parceiro</Link>
+          <Link href="/parceiros">Afiliados</Link>
+          <Link href="/parceiros/login">Área de Afiliado</Link>
           <a href={siteConfig.instagram} target="_blank" rel="noopener">
             Instagram
           </a>
           <a href={siteConfig.googleReview} target="_blank" rel="noopener">
             Avalie a gente no Google
           </a>
+        </div>
+        <div>
+          <h4>Cuidado Responsável</h4>
+          <Link href="/guarda-responsavel">Guarda Responsável</Link>
+          <Link href="/maus-tratos">Maus-Tratos · Como Denunciar</Link>
         </div>
         <div>
           <h4>Fale com a gente</h4>

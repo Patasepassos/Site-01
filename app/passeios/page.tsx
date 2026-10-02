@@ -55,8 +55,9 @@ export default function PasseiosPage() {
             Energia gasta, dog <span className="hl">feliz</span> e equilibrado
           </h1>
           <p className="lead">
-            Cuidado de verdade em cada passeio: seu melhor amigo gasta energia, explora o mundo com
-            segurança e volta para casa tranquilo, no ritmo que combina com ele.
+            Uma caminhada pode parecer pequena. Mas pra um cachorro, ela pode ser parte de uma
+            rotina muito maior — de energia gasta, mundo explorado com segurança e uma casa mais
+            tranquila no fim do dia.
           </p>
           <div className="cta-row" style={{ display: "flex", gap: 16, marginTop: 30, flexWrap: "wrap" }}>
             <a className="btn btn-wa btn-lg" href={wa} target="_blank" rel="noopener">
@@ -137,6 +138,31 @@ export default function PasseiosPage() {
               <p>{p}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* PASSEIO NÃO É SÓ PASSEIO */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="sec-head center reveal">
+          <span className="eyebrow">Mais do que lazer</span>
+          <h2 className="h-lg">
+            O passeio não é <span className="hl">só passeio</span>
+          </h2>
+          <p className="lead" style={{ maxWidth: 700, margin: "0 auto" }}>
+            Cachorro precisa se movimentar, farejar e explorar — isso faz parte da espécie, não é
+            capricho. Quando essa necessidade fica represada por muito tempo, pode contribuir para
+            excesso de energia acumulada, tédio, estresse, ansiedade, latidos em excesso e até
+            comportamento destrutivo em casa. Em alguns casos, também pode estar relacionado a
+            sedentarismo e ganho de peso. Isso não é diagnóstico — é importante observar cada
+            cachorro e, se notar mudanças de comportamento, conversar com um médico-veterinário.
+          </p>
+          <p className="lead" style={{ maxWidth: 700, margin: "14px auto 0" }}>
+            O que a ciência do comportamento animal mostra é simples: passear permite ao cão
+            explorar, farejar, gastar energia, receber estímulos, conhecer ambientes novos e
+            desenvolver mais confiança no mundo ao redor — uma rotina mais saudável, todos os dias.
+            Quando o tutor não consegue garantir isso sozinho, com a correria do dia a dia, a
+            Patas &amp; Passos pode ajudar a manter essa rotina em pé.
+          </p>
         </div>
       </section>
 

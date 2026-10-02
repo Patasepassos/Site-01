@@ -82,10 +82,10 @@ export default async function PortalLayout({ children }: { children: React.React
             <div className="portal-topbar-in">
               <div>
                 <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: ".04em", opacity: 0.75, margin: 0 }}>
-                  🐾 ÁREA DO PARCEIRO
+                  🐾 PORTAL DE QUEM QUER FAZER A DIFERENÇA
                 </p>
                 <h1>Olá, {firstName}!</h1>
-                <p>Vamos juntos levar mais cuidado aos pets.</p>
+                <p>Cada indicação sua ajuda uma família a cuidar melhor do próprio pet.</p>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <NotificationBell

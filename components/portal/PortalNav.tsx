@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { href: "/parceiros/dashboard", label: "Início", icon: "🏠" },
   { href: "/parceiros/indicacoes", label: "Indicações", icon: "🐾" },
   { href: "/parceiros/financeiro", label: "Financeiro", icon: "💰" },
+  { href: "/parceiros/calculadora", label: "Calculadora", icon: "🧮" },
   { href: "/parceiros/perfil", label: "Perfil", icon: "👤" },
 ];
 

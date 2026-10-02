@@ -136,6 +136,16 @@ export default async function DashboardPage() {
             <p>Parabéns! Você atingiu sua meta de {progress.goal} clientes.</p>
           </>
         )}
+        {progress.goal > 0 && (
+          <div className="meta-dots" aria-label={`${progress.progress} de ${progress.goal} clientes`}>
+            {Array.from({ length: progress.goal }).map((_, i) => (
+              <span key={i} className={`meta-dot${i < progress.progress ? " done" : ""}`}>
+                {i < progress.progress ? "🔓" : "🔒"}
+                <small>{i + 1}/{progress.goal}</small>
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="portal-card">

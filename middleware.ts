@@ -9,6 +9,7 @@ const PORTAL_PATHS = [
   "/parceiros/dashboard",
   "/parceiros/indicacoes",
   "/parceiros/financeiro",
+  "/parceiros/calculadora",
   "/parceiros/perfil",
 ];
 

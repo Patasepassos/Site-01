@@ -74,14 +74,14 @@ function LoginForm() {
           <img src="/mascot/dog-cutout.png" alt="" aria-hidden="true" />
         </div>
         <div className="pls-visual-tagline">
-          <h2>Conectando cuidados, recompensando parcerias.</h2>
+          <h2>Quem indica, ajuda a cuidar. Quem cuida, recompensa.</h2>
         </div>
       </div>
 
       <div className="pls-mobile-banner">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo-main.png" alt="Patas & Passos" />
-        <span>Conectando cuidados, recompensando parcerias.</span>
+        <span>Quem indica, ajuda a cuidar. Quem cuida, recompensa.</span>
       </div>
 
       <div className="pls-form-side">
@@ -90,8 +90,8 @@ function LoginForm() {
             <PartnerPasswordResetFlow onBack={() => setForgotMode(false)} />
           ) : (
             <>
-              <h1>🐾 Área do Parceiro</h1>
-              <p className="lead">Acesse seu painel de parceiro Patas &amp; Passos.</p>
+              <h1>🐾 Portal de Quem Quer Fazer a Diferença</h1>
+              <p className="lead">Acesse sua conta de afiliado Patas &amp; Passos.</p>
 
               {linkError && (
                 <p className="pf-error">Esse link de recuperação é inválido ou já expirou. Peça um novo abaixo.</p>
@@ -143,7 +143,7 @@ function LoginForm() {
                 </button>
               </p>
               <p className="pf-link">
-                Ainda não é parceiro? <Link href="/parceiros/cadastro">Quero ser parceiro</Link>
+                Ainda não faz parte? <Link href="/parceiros/cadastro">Quero fazer a diferença</Link>
               </p>
             </>
           )}

@@ -54,8 +54,10 @@ export default function VacinasPage() {
             Vacinação sem stress, no <span className="hl">conforto de casa</span>
           </h1>
           <p className="lead">
-            A gente vai até você. Seu pet é vacinado no ambiente que conhece, sem a tensão da sala de
-            espera nem o risco de contato com animais doentes. Tudo com responsabilidade e segurança.
+            Mais praticidade para cuidar da saúde do seu pet: a gente vai até você, e ele é vacinado
+            no ambiente que conhece, sem a tensão da sala de espera nem o risco de contato com
+            animais doentes. Tudo com responsabilidade e segurança — como mais uma opção de
+            conveniência, sempre que o serviço estiver disponível na sua região.
           </p>
           <div className="cta-row" style={{ display: "flex", gap: 16, marginTop: 30, flexWrap: "wrap" }}>
             <a className="btn btn-wa btn-lg" href={wa} target="_blank" rel="noopener">

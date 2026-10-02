@@ -79,10 +79,10 @@ export default function ParceirosPage() {
           </p>
           <div className="cta-row" style={{ display: "flex", gap: 16, marginTop: 30, flexWrap: "wrap" }}>
             <Link className="btn btn-wa btn-lg" href="/parceiros/cadastro">
-              Quero ser parceiro
+              Quero fazer a diferença
             </Link>
             <Link className="btn btn-white btn-lg" href="/parceiros/login">
-              Já sou parceiro
+              Já faço parte
             </Link>
             <a className="btn btn-white btn-lg" href="#parceiros">
               Ver parceiros
@@ -140,20 +140,22 @@ export default function ParceirosPage() {
       {/* BECOME A PARTNER */}
       <section className="section" id="seja-parceiro">
         <div className="sec-head center reveal">
-          <span className="eyebrow">Faça parte da rede</span>
+          <span className="eyebrow">Portal de Quem Quer Fazer a Diferença</span>
           <h2 className="h-lg">
-            Seja um <span className="hl">parceiro</span>
+            Você não precisa ser <span className="hl">especialista em vendas</span>
           </h2>
           <p className="lead">
-            Tem um pet shop, clínica, escola de adestramento ou qualquer negócio voltado ao cuidado
-            animal? Vamos conversar sobre como crescer juntos.
+            Precisa acreditar naquilo que está indicando. Se você ama animais, conhece tutores,
+            frequenta comunidades do mundo pet ou tem um negócio relacionado — pet shop, clínica,
+            escola de adestramento — você pode ajudar a levar mais cuidado pra mais famílias, e ser
+            recompensado por cada indicação que vira cuidado de verdade.
           </p>
         </div>
         <div className="cards c3" style={{ maxWidth: 860, margin: "0 auto" }}>
           {[
-            ["🎯", "Indicação mútua", "Indicamos os nossos tutores para você e você indica os seus clientes para a gente. Todo mundo ganha."],
-            ["📣", "Visibilidade", "Seu negócio aparece no nosso site e nas nossas redes. Alcance diretamente quem já cuida do pet."],
-            ["🤝", "Confiança", "Ser parceiro Patas & Passos é um selo de qualidade e cuidado reconhecido pelos tutores da região."],
+            ["🐾", "Você indica", "Compartilha seu cupom com quem você já conhece e confia."],
+            ["💛", "A gente cuida", "A família recebe atenção de verdade, e o pet ganha uma rotina melhor."],
+            ["🎯", "Você é recompensado", "Cada indicação convertida vira comissão pra você, de forma transparente."],
           ].map(([e, t, d], i) => (
             <div className="card reveal" key={i}>
               <div className="ico ico-green" style={{ fontSize: 28 }}>{e}</div>
@@ -182,15 +184,15 @@ export default function ParceirosPage() {
             </g>
           </svg>
           <div style={{ position: "relative", zIndex: 2 }}>
-            <h2>Vamos construir algo juntos? 🤝</h2>
-            <p>Cadastre-se em poucos minutos e comece a indicar clientes pra Patas &amp; Passos.</p>
+            <h2>Comece a fazer a diferença hoje 🐾</h2>
+            <p>Cadastre-se em poucos minutos e comece a indicar quem você já conhece e confia.</p>
           </div>
           <div style={{ position: "relative", zIndex: 2, display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
             <Link className="btn btn-white btn-lg" href="/parceiros/cadastro">
-              Quero ser parceiro
+              Quero fazer a diferença
             </Link>
             <Link className="btn btn-white btn-lg" href="/parceiros/login">
-              Já sou parceiro
+              Já faço parte
             </Link>
           </div>
         </div>

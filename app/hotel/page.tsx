@@ -54,8 +54,9 @@ export default function HotelPage() {
             Viaje tranquilo. Ele fica em <span className="hl">boas patas</span>
           </h1>
           <p className="lead">
-            Hospedagem com a sensação de casa: rotina, conforto e companhia o tempo todo. Seu melhor
-            amigo dorme em paz e você recebe notícias dele.
+            Hospedar não é simplesmente deixar seu pet em algum lugar. É rotina, conforto, atenção e
+            acompanhamento o tempo todo — com a sensação de casa. Seu melhor amigo dorme em paz e
+            você recebe notícias dele.
           </p>
           <div className="cta-row" style={{ display: "flex", gap: 16, marginTop: 30, flexWrap: "wrap" }}>
             <a className="btn btn-wa btn-lg" href={wa} target="_blank" rel="noopener">

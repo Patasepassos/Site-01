@@ -54,9 +54,9 @@ export default function SocializacaoPage() {
             Novos amigos, <span className="hl">mais equilíbrio</span>
           </h1>
           <p className="lead">
-            Passeios em grupo cuidadosamente planejados para promover a socialização do seu pet com
-            outros cães, de forma segura e supervisionada. Grupos pequenos, muito estímulo e ainda
-            mais alegria.
+            Socializar não é só colocar o seu pet perto de outros cães. É ajudá-lo a ter
+            experiências positivas e graduais com outros animais, pessoas, sons e ambientes
+            diferentes — em grupos pequenos, com avaliação e supervisão o tempo todo.
           </p>
           <div className="cta-row" style={{ display: "flex", gap: 16, marginTop: 30, flexWrap: "wrap" }}>
             <a className="btn btn-wa btn-lg" href={wa} target="_blank" rel="noopener">

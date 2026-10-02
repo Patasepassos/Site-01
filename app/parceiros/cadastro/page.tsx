@@ -104,12 +104,15 @@ export default function CadastroParceiroPage() {
           <img src="/logo-main.png" alt="Patas & Passos" />
         </Link>
         <div className="portal-auth-card" style={{ textAlign: "center" }}>
-          <h1>Como você quer participar? 🐾</h1>
-          <p className="lead">Escolha a opção que combina com você.</p>
+          <h1>Você chegou ao lugar de quem quer fazer a diferença 🐾</h1>
+          <p className="lead">
+            Cada indicação pode representar um passeio, uma rotina melhor, uma família mais
+            tranquila. Escolha como você quer participar.
+          </p>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 20 }}>
             <button type="button" className="btn btn-wa btn-lg" onClick={() => setIntent("affiliate")}>
-              Se tornar Afiliado
+              Quero fazer a diferença
             </button>
             <a
               className="btn btn-white btn-lg"
@@ -122,7 +125,7 @@ export default function CadastroParceiroPage() {
           </div>
 
           <p className="pf-link">
-            Já é parceiro? <Link href="/parceiros/login">Entrar</Link>
+            Já faz parte? <Link href="/parceiros/login">Entrar</Link>
           </p>
         </div>
       </div>
@@ -189,8 +192,8 @@ export default function CadastroParceiroPage() {
         <img src="/logo-main.png" alt="Patas & Passos" />
       </Link>
       <div className="portal-auth-card">
-        <h1>Seja nosso parceiro 🐾</h1>
-        <p className="lead">Indique, conecte e ganhe com a Patas &amp; Passos.</p>
+        <h1>Quero fazer a diferença 🐾</h1>
+        <p className="lead">Você indica. A gente cuida. E você também é recompensado por isso.</p>
 
         <form onSubmit={handleSubmit}>
           <label className="pf-label" htmlFor="fullName">Nome completo</label>
@@ -321,7 +324,7 @@ export default function CadastroParceiroPage() {
         </form>
 
         <p className="pf-link">
-          Já é parceiro? <Link href="/parceiros/login">Entrar</Link>
+          Já faz parte? <Link href="/parceiros/login">Entrar</Link>
         </p>
       </div>
     </div>

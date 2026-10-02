@@ -116,6 +116,23 @@ export default function CrechePage() {
         </div>
       </section>
 
+      {/* AVALIAÇÃO E SEGURANÇA */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="sec-head center reveal">
+          <span className="eyebrow">Com responsabilidade</span>
+          <h2 className="h-lg">
+            Convívio em grupo, mas <span className="hl">nunca no improviso</span>
+          </h2>
+          <p className="lead" style={{ maxWidth: 700, margin: "0 auto" }}>
+            Nenhum cão é simplesmente colocado junto de outros sem avaliação. Antes do primeiro
+            dia, observamos o jeitinho e o nível de sociabilidade de cada um, conferimos a
+            carteirinha de vacinação em dia e seguimos protocolos de segurança durante toda a
+            adaptação. O objetivo é formar grupos compatíveis — não forçar uma convivência que o
+            cão não está pronto pra ter.
+          </p>
+        </div>
+      </section>
+
       {/* HOW IT WORKS */}
       <section className="section" id="como-funciona">
         <div className="sec-head center reveal">
