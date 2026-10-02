@@ -897,6 +897,10 @@ a.ci-val:hover{ color:var(--blue); }
   border-left:3px solid var(--amber); }
 .pp-hero-progress-top{ display:flex; justify-content:space-between; font-size:12.5px; color:rgba(245,239,230,.85); }
 
+/* Emblema de rank usado inline junto de texto (tag "Nível atual" e a label
+   de progresso no dashboard) -- mesma arte real do nível, nunca o emoji. */
+.rank-tag-emblem{ width:18px; height:18px; object-fit:contain; display:inline-block; vertical-align:-4px; }
+
 /* ---------- rank: vitrine vertical, chamativa, com espaço pro texto completo ---------- */
 .rank-showcase{ display:flex; flex-direction:column; gap:14px; margin:16px 0 4px; }
 .rank-tier-card{ display:flex; gap:16px; align-items:flex-start; background:rgba(245,239,230,.03);

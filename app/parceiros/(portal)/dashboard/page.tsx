@@ -8,6 +8,7 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import RankGrid from "@/components/portal/RankGrid";
 import RankUpWatcher from "@/components/portal/RankUpWatcher";
 import ServiceShareCards from "@/components/portal/ServiceShareCards";
+import { RANK_IMAGE } from "@/lib/partners/rankTheme";
 
 export default async function DashboardPage() {
   const current = await getCurrentPartner();
@@ -50,7 +51,19 @@ export default async function DashboardPage() {
       <section className="pp-hero">
         <div className="pp-hero-glow" aria-hidden="true" />
         <div className="pp-hero-tag">
-          {rank.currentTier ? `${rank.currentTier.emoji} Nível atual: ${rank.currentTier.label}` : "🐾 Bem-vindo"}
+          {rank.currentTier ? (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={rank.currentTier.photo_url || RANK_IMAGE[rank.currentTier.key]}
+                alt=""
+                className="rank-tag-emblem"
+              />
+              Nível atual: {rank.currentTier.label}
+            </>
+          ) : (
+            "🐾 Bem-vindo"
+          )}
         </div>
         <h1 className="pp-hero-title">Continue assim, {firstName}!</h1>
         <p className="pp-hero-desc">
@@ -63,7 +76,16 @@ export default async function DashboardPage() {
           <div className="pp-hero-progress">
             <div className="pp-hero-progress-top">
               <span>
-                Progresso para <b>{rank.nextTier.emoji} {rank.nextTier.label}</b>
+                Progresso para{" "}
+                <b>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={rank.nextTier.photo_url || RANK_IMAGE[rank.nextTier.key]}
+                    alt=""
+                    className="rank-tag-emblem"
+                  />{" "}
+                  {rank.nextTier.label}
+                </b>
               </span>
               <span>
                 <b>{rank.activeClients}</b> de {rank.nextTier.min_clients}
