@@ -22,6 +22,7 @@ export const CUSTOMER_STATUS_LABELS: Record<CustomerStatus, string> = {
   indicado: "Indicado",
   em_contato: "Em contato",
   em_negociacao: "Em negociação",
+  servico_contratado: "Serviço contratado",
   fechado: "Fechado",
   cancelado: "Cancelado",
   nao_convertido: "Não convertido",
@@ -66,6 +67,9 @@ export function getUnifiedStatus(params: {
   if (customerStatus === "indicado") return { emoji: "🟡", label: "Indicação recebida", tone: "pending" };
   if (customerStatus === "em_contato" || customerStatus === "em_negociacao") {
     return { emoji: "🔵", label: "Em negociação", tone: "progress" };
+  }
+  if (customerStatus === "servico_contratado") {
+    return { emoji: "✅", label: "Serviço contratado", tone: "progress" };
   }
 
   // customerStatus === "fechado"

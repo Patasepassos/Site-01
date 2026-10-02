@@ -9,11 +9,19 @@ import type { CustomerStatus } from "@/lib/supabase/types";
 // "fechado" nunca passa por aqui — precisa dos dados da venda (valor,
 // contrato), então tem sua própria rota (/fechar) que grava a venda e
 // recalcula as comissões no mesmo passo.
-const ALLOWED_STATUSES: CustomerStatus[] = ["indicado", "em_contato", "em_negociacao", "cancelado", "nao_convertido"];
+const ALLOWED_STATUSES: CustomerStatus[] = [
+  "indicado",
+  "em_contato",
+  "em_negociacao",
+  "servico_contratado",
+  "cancelado",
+  "nao_convertido",
+];
 
 const STATUS_MESSAGES: Partial<Record<CustomerStatus, string>> = {
   em_contato: "📞 Já entramos em contato com o cliente que você indicou.",
   em_negociacao: "🤝 Sua indicação está em negociação com a equipe.",
+  servico_contratado: "✅ O cliente que você indicou contratou o serviço! Em breve fechamos a venda.",
   cancelado: "❌ A negociação com o cliente que você indicou foi cancelada.",
   nao_convertido: "❌ O cliente que você indicou não foi convertido.",
 };

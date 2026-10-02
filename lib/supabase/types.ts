@@ -9,6 +9,7 @@ export type CustomerStatus =
   | "indicado"
   | "em_contato"
   | "em_negociacao"
+  | "servico_contratado"
   | "fechado"
   | "cancelado"
   | "nao_convertido";
@@ -38,6 +39,8 @@ export type ProfileRow = {
   phone: string;
   active: boolean;
   avatar_key: AvatarKey;
+  /** Nível extra sobre role='admin' — hoje só libera trocar a foto dos níveis de Rank. */
+  is_owner: boolean;
   created_at: string;
 };
 
@@ -124,6 +127,7 @@ export type RankTierRow = {
   recurring_percentage: number;
   bonus_text: string;
   led_style: RankLedStyle;
+  photo_url: string | null;
   sort_order: number;
   active: boolean;
   created_at: string;

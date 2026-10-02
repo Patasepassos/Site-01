@@ -28,7 +28,14 @@ export default function RankGrid({
             key={tier.id}
             className={`rank-tier-card${unlocked ? " unlocked" : ""}${isCurrent ? " current" : ""} ${LED_CLASS[tier.led_style] ?? ""}`}
           >
-            <div className="rank-tier-icon">{tier.emoji}</div>
+            <div className="rank-tier-icon">
+              {tier.photo_url ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img src={tier.photo_url} alt={tier.label} style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }} />
+              ) : (
+                tier.emoji
+              )}
+            </div>
             <div className="rank-tier-body">
               <div className="rank-tier-head">
                 <span className="rank-tier-name">{tier.label}</span>

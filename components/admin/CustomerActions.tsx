@@ -7,6 +7,7 @@ import type { ContractType, CustomerStatus, SaleRow } from "@/lib/supabase/types
 const QUICK_STATUSES: { value: CustomerStatus; label: string }[] = [
   { value: "em_contato", label: "Em contato" },
   { value: "em_negociacao", label: "Em negociação" },
+  { value: "servico_contratado", label: "Serviço contratado" },
   { value: "cancelado", label: "Cancelado" },
   { value: "nao_convertido", label: "Não convertido" },
 ];

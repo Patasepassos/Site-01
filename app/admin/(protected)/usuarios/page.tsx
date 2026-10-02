@@ -5,12 +5,14 @@ import { getAuthUserInfoMap } from "@/lib/admin/auth-emails";
 import { formatDate } from "@/lib/partners/labels";
 import NewOperatorForm from "@/components/admin/NewOperatorForm";
 import UserStatusToggle from "@/components/admin/UserStatusToggle";
+import OwnerToggle from "@/components/admin/OwnerToggle";
 
 const ROLE_LABELS: Record<string, string> = { admin: "Administrador", operator: "Operador" };
 
 export default async function AdminUsuariosPage() {
   const admin = await requireAdminUser();
   if (!admin) redirect("/admin/parceiros");
+  const viewerIsOwner = admin.profile.is_owner;
 
   const supabaseAdmin = createSupabaseAdminClient();
   const { data: staff } = await supabaseAdmin
@@ -42,13 +44,19 @@ export default async function AdminUsuariosPage() {
                     <div className="rr-id">
                       {profile.full_name}
                       {!profile.active && <span className="admin-badge-test">INATIVO</span>}
+                      {profile.is_owner && <span className="admin-badge-test">ADMIN CHEFE</span>}
                     </div>
                     <div className="rr-meta">
                       {info?.email ?? "e-mail indisponível"} · {ROLE_LABELS[profile.role] ?? profile.role} · último
                       acesso: {info?.lastSignInAt ? formatDate(info.lastSignInAt) : "nunca"}
                     </div>
                   </div>
-                  <UserStatusToggle userId={profile.id} active={profile.active} />
+                  <div style={{ display: "flex", flexDirection: "column", gap: 8, alignItems: "flex-end" }}>
+                    <UserStatusToggle userId={profile.id} active={profile.active} />
+                    {viewerIsOwner && profile.role === "admin" && (
+                      <OwnerToggle userId={profile.id} isOwner={profile.is_owner} />
+                    )}
+                  </div>
                 </div>
               );
             })

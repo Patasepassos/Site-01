@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { RankTierRow as RankTierRowType } from "@/lib/supabase/types";
 
-export default function RankTierRow({ tier }: { tier: RankTierRowType }) {
+export default function RankTierRow({ tier, canEditPhoto }: { tier: RankTierRowType; canEditPhoto: boolean }) {
   const router = useRouter();
   const [editing, setEditing] = useState(false);
   const [minClients, setMinClients] = useState(String(tier.min_clients));
@@ -13,6 +13,31 @@ export default function RankTierRow({ tier }: { tier: RankTierRowType }) {
   const [bonusText, setBonusText] = useState(tier.bonus_text);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+
+  async function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+
+    setError(null);
+    setUploadingPhoto(true);
+    try {
+      const form = new FormData();
+      form.append("photo", file);
+      const res = await fetch(`/api/admin/ranks/${tier.id}/foto`, { method: "POST", body: form });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Não foi possível salvar a foto.");
+        return;
+      }
+      router.refresh();
+    } catch {
+      setError("Falha de conexão. Tente novamente.");
+    } finally {
+      setUploadingPhoto(false);
+    }
+  }
 
   async function patchTier(payload: Record<string, unknown>) {
     setError(null);
@@ -40,7 +65,27 @@ export default function RankTierRow({ tier }: { tier: RankTierRowType }) {
   return (
     <div className="referral-row" style={{ alignItems: "flex-start" }}>
       <div style={{ flex: 1 }}>
-        <div className="rr-id">{tier.emoji} {tier.label}</div>
+        <div className="rr-id" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {tier.photo_url ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img src={tier.photo_url} alt={tier.label} style={{ width: 28, height: 28, objectFit: "cover", borderRadius: 6 }} />
+          ) : (
+            <span>{tier.emoji}</span>
+          )}
+          {tier.label}
+        </div>
+        {canEditPhoto && (
+          <label className="btn btn-white btn-sm" style={{ marginTop: 6, display: "inline-block", cursor: "pointer" }}>
+            {uploadingPhoto ? "Enviando…" : "Trocar foto"}
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              style={{ display: "none" }}
+              disabled={uploadingPhoto}
+              onChange={handlePhotoChange}
+            />
+          </label>
+        )}
 
         {editing ? (
           <div style={{ marginTop: 10, maxWidth: 320 }}>
