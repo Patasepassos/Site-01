@@ -34,6 +34,8 @@ export const waMessages = {
     "Olá! 🐾 Vi o presente da Patas & Passos no site e quero garantir o Dog Walker por R$10, 2x na semana, durante o mês todo — antes que acabe em 10/10!",
   parceriaAceita:
     "Olá! 🐾 Li e aceito os termos de parceria da Patas & Passos antes de entrar em contato, e aceito essa parceria. Gostaria de conversar sobre como participar!",
+  parceriaEmpresa:
+    "Olá! 🏢 Tenho interesse em conversar sobre uma parceria de empresa com a Patas & Passos.",
 } as const;
 
 export function waLink(message: string): string {

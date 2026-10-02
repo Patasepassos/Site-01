@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { onlyDigits } from "@/lib/partners/validation";
-import { waLink } from "@/lib/site";
+import { waLink, waMessages } from "@/lib/site";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import EmailVerificationCard from "@/components/portal/EmailVerificationCard";
 import PasswordInput from "@/components/ui/PasswordInput";
@@ -34,6 +34,10 @@ export default function CadastroParceiroPage() {
   const [couponCode, setCouponCode] = useState<string | null>(null);
   const [emailVerified, setEmailVerified] = useState(false);
   const [showRankUp, setShowRankUp] = useState(false);
+  // "Quero ser parceiro" sempre cai aqui primeiro -- escolhe entre o
+  // cadastro de afiliado (autosservico, abaixo) ou parceria de empresa
+  // (negociação manual, vai direto pro WhatsApp em vez de formulário).
+  const [intent, setIntent] = useState<"choice" | "affiliate">("choice");
 
   // Mostra a evolução de Rank só na transição pra tela de sucesso (nunca de
   // novo ao atualizar a página — um F5 aqui volta pro formulário, já que
@@ -90,6 +94,39 @@ export default function CadastroParceiroPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (intent === "choice") {
+    return (
+      <div className="portal-auth">
+        <Link className="portal-auth-brand" href="/" aria-label="Voltar para o site">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-main.png" alt="Patas & Passos" />
+        </Link>
+        <div className="portal-auth-card" style={{ textAlign: "center" }}>
+          <h1>Como você quer participar? 🐾</h1>
+          <p className="lead">Escolha a opção que combina com você.</p>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 20 }}>
+            <button type="button" className="btn btn-wa btn-lg" onClick={() => setIntent("affiliate")}>
+              Se tornar Afiliado
+            </button>
+            <a
+              className="btn btn-white btn-lg"
+              href={waLink(waMessages.parceriaEmpresa)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Parceria de Empresa
+            </a>
+          </div>
+
+          <p className="pf-link">
+            Já é parceiro? <Link href="/parceiros/login">Entrar</Link>
+          </p>
+        </div>
+      </div>
+    );
   }
 
   if (couponCode) {
