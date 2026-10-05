@@ -161,9 +161,9 @@ export default function Home({ searchParams }: HomeProps) {
               {href === "/creche" ? (
                 <div
                   style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: "50%",
+                    width: 64,
+                    aspectRatio: "442 / 700",
+                    borderRadius: 14,
                     overflow: "hidden",
                     margin: "0 auto 8px",
                     border: "3px solid var(--amber)",
@@ -174,7 +174,7 @@ export default function Home({ searchParams }: HomeProps) {
                   <img
                     src="/photos/creche-card.jpg"
                     alt="Cão feliz brincando na creche"
-                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                    style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
                   />
                 </div>
               ) : (
