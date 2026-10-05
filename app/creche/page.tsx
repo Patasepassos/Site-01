@@ -215,7 +215,10 @@ export default function CrechePage() {
           </h2>
           <p className="lead">Descanso em casa, brincadeira e socialização no parque — tudo registrado.</p>
         </div>
-        <div className="gallery reveal">
+        <div
+          className="reveal"
+          style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 18 }}
+        >
           <video
             src="/videos/creche-panqueca.mp4"
             poster="/photos/creche/creche-panqueca-sorriso.jpg"
@@ -223,13 +226,11 @@ export default function CrechePage() {
             playsInline
             style={{
               width: "100%",
-              height: "100%",
+              maxWidth: 420,
+              height: "auto",
               borderRadius: 16,
-              objectFit: "cover",
               display: "block",
               boxShadow: "var(--shadow-md)",
-              gridRow: "span 2",
-              gridColumn: "span 2",
             }}
             aria-label="Vídeo da Panqueca durante um dia na creche"
           />
@@ -237,31 +238,31 @@ export default function CrechePage() {
             className="photo"
             src="/photos/creche/creche-panqueca-descanso.jpg"
             alt="Panqueca descansando no sofá durante a creche residencial"
-            style={{ height: "100%" }}
+            style={{ width: "clamp(160px, 30vw, 280px)", height: "auto", objectFit: "contain" }}
           />
           <img
             className="photo"
             src="/photos/creche/creche-panqueca-sorriso.jpg"
             alt="Panqueca sorrindo, bem à vontade na creche"
-            style={{ height: "100%" }}
+            style={{ width: "clamp(160px, 30vw, 280px)", height: "auto", objectFit: "contain" }}
           />
           <img
             className="photo"
             src="/photos/creche/creche-panqueca-perfil.jpg"
             alt="Panqueca de perfil, tranquila na creche"
-            style={{ height: "100%" }}
+            style={{ width: "clamp(160px, 30vw, 280px)", height: "auto", objectFit: "contain" }}
           />
           <img
             className="photo"
             src="/photos/creche/creche-panqueca-parque-1.jpg"
             alt="Panqueca socializando com outra cadela no parque de cachorros"
-            style={{ height: "100%", objectPosition: "50% 30%", gridColumn: "span 2" }}
+            style={{ width: "clamp(160px, 30vw, 280px)", height: "auto", objectFit: "contain" }}
           />
           <img
             className="photo"
             src="/photos/creche/creche-panqueca-parque-2.jpg"
             alt="Panqueca explorando o parque de cachorros"
-            style={{ height: "100%" }}
+            style={{ width: "clamp(160px, 30vw, 280px)", height: "auto", objectFit: "contain" }}
           />
         </div>
       </section>
