@@ -234,6 +234,21 @@ export default function CrechePage() {
             }}
             aria-label="Vídeo da Panqueca durante um dia na creche"
           />
+          <video
+            src="/videos/creche-panqueca-2.mp4"
+            poster="/photos/creche/creche-panqueca-perfil.jpg"
+            controls
+            playsInline
+            style={{
+              width: "100%",
+              maxWidth: 420,
+              height: "auto",
+              borderRadius: 16,
+              display: "block",
+              boxShadow: "var(--shadow-md)",
+            }}
+            aria-label="Vídeo da Panqueca durante um dia na creche"
+          />
           <img
             className="photo"
             src="/photos/creche/creche-panqueca-descanso.jpg"
