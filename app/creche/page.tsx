@@ -84,6 +84,23 @@ export default function CrechePage() {
         </div>
       </section>
 
+      {/* CRECHE RESIDENCIAL */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="sec-head center reveal">
+          <span className="eyebrow">Como é a nossa creche</span>
+          <h2 className="h-lg">
+            Uma creche <span className="hl">residencial</span>, do jeitinho dele
+          </h2>
+          <p className="lead" style={{ maxWidth: 700, margin: "0 auto" }}>
+            Nossa creche funciona de um jeito personalizado, dentro da nossa própria casa — é ali
+            que o seu pet tem a área de descanso dele e também entra em algumas brincadeiras com a
+            gente. A socialização acontece à parte: levamos os cães para parques de cachorro e,
+            às vezes, para um shopping aqui perto. Sempre que é um ambiente fechado como esse, só
+            vamos com autorização prévia do tutor.
+          </p>
+        </div>
+      </section>
+
       {/* BENEFITS */}
       <section className="section" id="beneficios">
         <div className="sec-head center reveal">
@@ -186,6 +203,66 @@ export default function CrechePage() {
               interagindo entre eles e se divertindo sob supervisão o tempo todo.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* GALERIA REAL — PANQUECA */}
+      <section className="section">
+        <div className="sec-head center reveal">
+          <span className="eyebrow">Conheça nossa cliente Panqueca</span>
+          <h2 className="h-lg">
+            Um dia de creche <span className="hl">de verdade</span>
+          </h2>
+          <p className="lead">Descanso em casa, brincadeira e socialização no parque — tudo registrado.</p>
+        </div>
+        <div className="gallery reveal">
+          <video
+            src="/videos/creche-panqueca.mp4"
+            poster="/photos/creche/creche-panqueca-sorriso.jpg"
+            controls
+            playsInline
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: 16,
+              objectFit: "cover",
+              display: "block",
+              boxShadow: "var(--shadow-md)",
+              gridRow: "span 2",
+              gridColumn: "span 2",
+            }}
+            aria-label="Vídeo da Panqueca durante um dia na creche"
+          />
+          <img
+            className="photo"
+            src="/photos/creche/creche-panqueca-descanso.jpg"
+            alt="Panqueca descansando no sofá durante a creche residencial"
+            style={{ height: "100%" }}
+          />
+          <img
+            className="photo"
+            src="/photos/creche/creche-panqueca-sorriso.jpg"
+            alt="Panqueca sorrindo, bem à vontade na creche"
+            style={{ height: "100%" }}
+          />
+          <img
+            className="photo"
+            src="/photos/creche/creche-panqueca-perfil.jpg"
+            alt="Panqueca de perfil, tranquila na creche"
+            style={{ height: "100%" }}
+          />
+          <img
+            className="photo"
+            src="/photos/creche/creche-panqueca-parque-1.jpg"
+            alt="Panqueca socializando com outra cadela no parque de cachorros"
+            style={{ height: "100%", objectPosition: "50% 30%", gridColumn: "span 2" }}
+          />
+          <img
+            className="photo"
+            src="/photos/creche/creche-panqueca-parque-2.jpg"
+            alt="Panqueca explorando o parque de cachorros"
+            style={{ height: "100%" }}
+          />
         </div>
       </section>
 
