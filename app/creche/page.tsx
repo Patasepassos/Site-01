@@ -69,17 +69,18 @@ export default function CrechePage() {
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2, display: "flex", justifyContent: "center", alignItems: "center" }}>
           <div style={{
-            width: "clamp(200px, 28vw, 380px)",
-            aspectRatio: "1",
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, var(--cream) 0%, var(--sand) 100%)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "clamp(80px, 12vw, 140px)",
+            width: "clamp(200px, 28vw, 320px)",
+            aspectRatio: "442 / 700",
+            borderRadius: 24,
+            overflow: "hidden",
             boxShadow: "0 24px 64px rgba(61,31,21,.15)",
           }}>
-            🧸
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/photos/creche-card.jpg"
+              alt="Panqueca, cliente da nossa creche"
+              style={{ width: "100%", height: "100%", objectFit: "contain", display: "block", background: "linear-gradient(135deg, var(--cream) 0%, var(--sand) 100%)" }}
+            />
           </div>
         </div>
       </section>
