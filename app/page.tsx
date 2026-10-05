@@ -158,7 +158,28 @@ export default function Home({ searchParams }: HomeProps) {
               className="card reveal"
               style={{ textAlign: "center", textDecoration: "none", color: "inherit" }}
             >
-              <div style={{ fontSize: 28, marginBottom: 8 }}>{e}</div>
+              {href === "/creche" ? (
+                <div
+                  style={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: "50%",
+                    overflow: "hidden",
+                    margin: "0 auto 8px",
+                    border: "3px solid var(--amber)",
+                    boxShadow: "0 4px 14px rgba(61,31,21,.18)",
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/photos/creche-card.jpg"
+                    alt="Cão feliz brincando na creche"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />
+                </div>
+              ) : (
+                <div style={{ fontSize: 28, marginBottom: 8 }}>{e}</div>
+              )}
               <h3 className="h-md">{t as string}</h3>
               <p style={{ fontSize: 13 }}>{d as string}</p>
               <span style={{ fontSize: 13, color: "var(--brown)", fontWeight: 600, marginTop: 8, display: "block" }}>
