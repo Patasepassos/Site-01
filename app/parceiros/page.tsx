@@ -1,32 +1,57 @@
 import type { Metadata } from "next";
-import { waLink } from "@/lib/site";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Parceiros · Patas & Passos",
+  title: "Parceiros em São Caetano do Sul e Santo André · Patas & Passos",
   description:
-    "Conheça os parceiros da Patas & Passos: pet shops, clínicas veterinárias e marcas que compartilham o amor pelos animais em São Caetano e Santo André.",
+    "Conheça os parceiros da Patas & Passos: pet shops, clínicas veterinárias e marcas que compartilham o amor pelos animais em São Caetano do Sul e Santo André — SP.",
+  keywords: [
+    "parceiros pet São Caetano do Sul",
+    "pet shop Santo André",
+    "clínica veterinária parceira",
+    "Patas & Passos",
+  ],
+  openGraph: {
+    title: "Parceiros · Patas & Passos",
+    description:
+      "Pet shops, clínicas veterinárias e marcas parceiras em São Caetano do Sul e Santo André.",
+    locale: "pt_BR",
+    type: "website",
+  },
 };
-
-const waPartner = waLink(
-  "Olá! 🐾 Vim pelo site da Patas & Passos e gostaria de me tornar um parceiro. Podemos conversar?"
-);
 
 const PARTNERS = [
   {
     logo: "/parceiros/prestipet.png",
     name: "Presti Pet",
-    category: "Pet Shop",
-    desc: "Pet shop completo com rações, acessórios, produtos de higiene e muito carinho para o seu melhor amigo.",
+    category: "Empresa de produtos para animais de estimação",
+    desc: "A Presti Pet é uma marca brasileira de produtos premium para pets, com foco em higiene, bem-estar e automação. Destacam-se suas areias de tofu para gatos e tapetes higiênicos de alta absorção.",
     color: "blue",
     link: "https://www.prestipet.com.br/",
   },
   {
-    logo: "/parceiros/dogshower.png",
+    logo: "/parceiros/dogshower.jpg",
     name: "Pet Shop Dog Shower",
     category: "Banho & Tosa",
     desc: "Banho e tosa profissional com atendimento cuidadoso e produtos de qualidade para deixar seu pet sempre lindo.",
     color: "coral",
     link: "https://www.instagram.com/petshopdogshower",
+  },
+  {
+    logo: "/parceiros/buddydog.png",
+    name: "Buddy Dog",
+    category: "Acessórios para pets",
+    desc: "Especialista em acessórios para passeio com conforto, estilo e segurança: peitorais antipuxão, guias reguláveis, cintos de segurança e coleiras feitas para durar. Alta qualidade, design moderno e preço justo. Use o cupom PATAS&PASSOS no site para desconto exclusivo.",
+    color: "green",
+    link: "https://buddydog.com.br/",
+  },
+  {
+    logo: "/parceiros/caoacaospa.jpg",
+    name: "Cão a Cão Spa",
+    category: "Estética canina e bem-estar",
+    desc: "Centro de estética canina e bem-estar animal em São Caetano do Sul, sem gaiolas. Um espaço pensado para oferecer banho e tosa em uma experiência relaxante, segura e livre de estresse para o seu pet. Indique a Patas & Passos e ganhe 10% de desconto.",
+    color: "amber",
+    link: "https://www.instagram.com/caoacaospa/",
   },
 ];
 
@@ -43,7 +68,6 @@ export default function ParceirosPage() {
     <div className="wrap">
       {/* HERO */}
       <section className="phero">
-        <div className="page-hero-blob" />
         <div className="reveal in" style={{ position: "relative", zIndex: 2 }}>
           <span className="eyebrow">🤝 Parceiros</span>
           <h1 className="h-xl">
@@ -54,28 +78,31 @@ export default function ParceirosPage() {
             compromisso: oferecer o melhor cuidado para os animais da nossa região.
           </p>
           <div className="cta-row" style={{ display: "flex", gap: 16, marginTop: 30, flexWrap: "wrap" }}>
-            <a className="btn btn-wa btn-lg" href={waPartner} target="_blank" rel="noopener">
-              Quero ser parceiro
-            </a>
+            <Link className="btn btn-wa btn-lg" href="/parceiros/cadastro">
+              Quero fazer a diferença
+            </Link>
+            <Link className="btn btn-white btn-lg" href="/parceiros/login">
+              Já faço parte
+            </Link>
             <a className="btn btn-white btn-lg" href="#parceiros">
               Ver parceiros
             </a>
           </div>
         </div>
         <div className="reveal in" style={{ position: "relative", zIndex: 2, display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <div style={{
-            width: "clamp(200px, 28vw, 380px)",
-            aspectRatio: "1",
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, var(--cream) 0%, var(--sand) 100%)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "clamp(80px, 12vw, 140px)",
-            boxShadow: "0 24px 64px rgba(61,31,21,.15)",
-          }}>
-            🤝
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/parceiros/parceiros-badge.jpg"
+            alt="Selo de parceria Patas & Passos"
+            style={{
+              width: "clamp(200px, 28vw, 380px)",
+              aspectRatio: "1",
+              borderRadius: "50%",
+              objectFit: "cover",
+              display: "block",
+              boxShadow: "0 24px 64px rgba(61,31,21,.15)",
+            }}
+          />
         </div>
       </section>
 
@@ -113,20 +140,22 @@ export default function ParceirosPage() {
       {/* BECOME A PARTNER */}
       <section className="section" id="seja-parceiro">
         <div className="sec-head center reveal">
-          <span className="eyebrow">Faça parte da rede</span>
+          <span className="eyebrow">Portal de Quem Quer Fazer a Diferença</span>
           <h2 className="h-lg">
-            Seja um <span className="hl">parceiro</span>
+            Você não precisa ser <span className="hl">especialista em vendas</span>
           </h2>
           <p className="lead">
-            Tem um pet shop, clínica, escola de adestramento ou qualquer negócio voltado ao cuidado
-            animal? Vamos conversar sobre como crescer juntos.
+            Precisa acreditar naquilo que está indicando. Se você ama animais, conhece tutores,
+            frequenta comunidades do mundo pet ou tem um negócio relacionado — pet shop, clínica,
+            escola de adestramento — você pode ajudar a levar mais cuidado pra mais famílias, e ser
+            recompensado por cada indicação que vira cuidado de verdade.
           </p>
         </div>
         <div className="cards c3" style={{ maxWidth: 860, margin: "0 auto" }}>
           {[
-            ["🎯", "Indicação mútua", "Indicamos os nossos tutores para você e você indica os seus clientes para a gente. Todo mundo ganha."],
-            ["📣", "Visibilidade", "Seu negócio aparece no nosso site e nas nossas redes. Alcance diretamente quem já cuida do pet."],
-            ["🤝", "Confiança", "Ser parceiro Patas & Passos é um selo de qualidade e cuidado reconhecido pelos tutores da região."],
+            ["🐾", "Você indica", "Compartilha seu cupom com quem você já conhece e confia."],
+            ["💛", "A gente cuida", "A família recebe atenção de verdade, e o pet ganha uma rotina melhor."],
+            ["🎯", "Você é recompensado", "Cada indicação convertida vira comissão pra você, de forma transparente."],
           ].map(([e, t, d], i) => (
             <div className="card reveal" key={i}>
               <div className="ico ico-green" style={{ fontSize: 28 }}>{e}</div>
@@ -155,12 +184,17 @@ export default function ParceirosPage() {
             </g>
           </svg>
           <div style={{ position: "relative", zIndex: 2 }}>
-            <h2>Vamos construir algo juntos? 🤝</h2>
-            <p>Entre em contato pelo WhatsApp e descubra como se tornar um parceiro oficial da Patas &amp; Passos.</p>
+            <h2>Comece a fazer a diferença hoje 🐾</h2>
+            <p>Cadastre-se em poucos minutos e comece a indicar quem você já conhece e confia.</p>
           </div>
-          <a className="btn btn-white btn-lg" style={{ position: "relative", zIndex: 2 }} href={waPartner} target="_blank" rel="noopener">
-            Quero ser parceiro
-          </a>
+          <div style={{ position: "relative", zIndex: 2, display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            <Link className="btn btn-white btn-lg" href="/parceiros/cadastro">
+              Quero fazer a diferença
+            </Link>
+            <Link className="btn btn-white btn-lg" href="/parceiros/login">
+              Já faço parte
+            </Link>
+          </div>
         </div>
       </section>
     </div>
